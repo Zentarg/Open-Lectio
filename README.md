@@ -11,3 +11,6 @@
 |Login/Logout                         |Lav            |Ikke påbegyndt         |Ingen                 |
 |Visning og download af opgaver       |Lav            |Ikke påbegyndt         |Ingen                 |
 |Fravær                               |Lav            |Ikke påbegyndt         |Ingen                 |
+|Afleveringer                         |Lav            |Ikke påbegyndt         |Ingen                 |
+|Lektier                              |Lav            |Ikke påbegyndt         |Ingen                 |
+|                                     |Lav            |Ikke påbegyndt         |Ingen                 |
