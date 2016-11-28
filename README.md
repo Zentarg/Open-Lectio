@@ -3,6 +3,7 @@
 ### Denne app giver mulighed for de følgende funktionaliteter:
 |Funktioner                           |Prioritet      |Tilstand               |Contributer           |
 |-------------------------------------|---------------|-----------------------|----------------------|
+|Logo                                 |Høj            |Ikke påbegyndt         |Ingen                 |
 |Hentning af skema                    |Høj            |Ikke påbegyndt         |Ingen                 |
 |Skema                                |Høj            |Ikke påbegyndt         |Ingen                 |
 |Aflyste/Ændrede moduler              |Høj            |Ikke påbegyndt         |Ingen                 |
