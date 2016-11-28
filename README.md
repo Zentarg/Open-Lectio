@@ -1,7 +1,6 @@
-# Lectio App Til Elever
-## Denne app giver mulighed for de følgende funktionaliteter:
+# *Lectio App Til Elever*
 
-###Planlagte Funktionaliteter:
+### Denne app giver mulighed for de følgende funktionaliteter:
 |Funktioner                           |Prioritet      |Tilstand               |Contributer           |
 |-------------------------------------|---------------|-----------------------|----------------------|
 |Hentning af skema                    |Høj            |Ikke påbegyndt         |Ingen                 |
