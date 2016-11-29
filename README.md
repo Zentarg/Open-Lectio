@@ -9,7 +9,7 @@
 |Aflyste/Ændrede moduler              |Høj            |Ikke påbegyndt         |Ingen                 ||:x:|
 |Indstillinger                        |Mellem/Høj     |Ikke påbegyndt         |Ingen                 ||:x:|
 |Notifikationer                       |Mellem         |Ikke påbegyndt         |Ingen                 ||:x:|
-|Login/Logout                         |Mellem         |Ikke påbegyndt         |Ingen                 ||:x:|
+|Login/Logout                         |Mellem         |Påbegyndt              |Andreas Giehm         ||:heavy_check_mark:|
 |Visning og download af opgaver       |Lav            |Ikke påbegyndt         |Ingen                 ||:x:|
 |Fravær                               |Lav            |Ikke påbegyndt         |Ingen                 ||:x:|
 |Afleveringer                         |Lav            |Ikke påbegyndt         |Ingen                 ||:x:|
