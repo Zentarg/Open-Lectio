@@ -10,10 +10,10 @@ import org.jsoup.select.Elements;
 
 public class JSoup {
 	public static Map<String, String> Map(String[] args) throws MalformedURLException, IOException {
-			String url = "http://www.dichmann.one/lectio/logingym.php";
+			String url = "http://www.enelleranden.dk/lectio/logingym.html";
 	        Document doc = Jsoup.connect(url).get();	        
 	        Map<String, String> values = new HashMap<String, String>();
-        
+	        
 	        Elements links = doc.select("a");
 	        for (Element link : links) {
 	        	values.put(link.attr("href").replace("/lectio/", "").replace("/default.aspx", ""), link.text());
