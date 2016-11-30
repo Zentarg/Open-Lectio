@@ -1,3 +1,4 @@
+package downloadLectio;
 import java.util.regex.*;
 
 public class parseLesson {
@@ -12,7 +13,7 @@ public class parseLesson {
 	
 	public static String getHomework(String lessonData) {
 		// Gets the homework section of a lesson from Lectio.
-		Pattern homeworkRegex = Pattern.compile("(?<=Lektier:)(?s)(.*?)(?=Note:|Øvrigt indhold:|$)");
+		Pattern homeworkRegex = Pattern.compile("(?<=Lektier:)(?s)(.*?)(?=Note:|ﾃ�vrigt indhold:|$)");
 		Matcher homeworkMatcher = homeworkRegex.matcher(lessonData);
 		
 		return homeworkMatcher.group();
@@ -20,7 +21,7 @@ public class parseLesson {
 	
 	public static String getNote(String lessonData) {
 		// Gets the note section of a lesson from Lectio.
-		Pattern noteRegex = Pattern.compile("(?<=Note:)(?s)(.*?)(?=Øvrigt indhold:|$)");
+		Pattern noteRegex = Pattern.compile("(?<=Note:)(?s)(.*?)(?=ﾃ�vrigt indhold:|$)");
 		Matcher noteMatcher = noteRegex.matcher(lessonData);
 		
 		return noteMatcher.group();
@@ -36,7 +37,7 @@ public class parseLesson {
 	
 	public static String getTeacher(String lessonData) {
 		// Gets the teacher of a lesson from Lectio.
-		Pattern teacherRegex = Pattern.compile("(?<=Lærer: )(?s)(.*?)(?=\n)");
+		Pattern teacherRegex = Pattern.compile("(?<=Lﾃｦrer: )(?s)(.*?)(?=\n)");
 		Matcher teacherMatcher = teacherRegex.matcher(lessonData);
 		
 		return teacherMatcher.group();
