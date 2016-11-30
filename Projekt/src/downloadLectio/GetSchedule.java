@@ -12,7 +12,8 @@ import org.jsoup.select.Elements;
 
 public class GetSchedule {
 	public static Map<String, String> Map(String[] args) throws MalformedURLException, IOException {
-			String url = "https://www.lectio.dk/lectio/523/SkemaNy.aspx?type=elev&elevid=12698866068";
+			String[] ID = (GetID.ID()).split("-");
+			String url = "http://www.lectio.dk/lectio/"+ID[0]+"/SkemaNy.aspx?type=elev&elevid="+ID[1];
 	        Document doc = Jsoup.connect(url).get();	        
 	        Map<String, String> values = new HashMap<String, String>();
 	        
