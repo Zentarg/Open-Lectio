@@ -3,7 +3,9 @@ package downloadLectio;
 public class GetID {
 
 	public static String ID() {
-		String ID = "523-12698866068";
+		String Gym = new String (GetGyms.GymID());
+		String Student = new String(GetStudents.StudentID());
+		String ID = Gym+"-"+Student;
 		return ID;	
 	}
 	public static void main(String[] args) {

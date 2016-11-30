@@ -1,0 +1,16 @@
+package downloadLectio;
+
+public class GetStudentID {
+
+	public static String StudentID() {
+		
+		return ID;
+		
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(GetStudentID.StudentID());
+	}
+
+}
+

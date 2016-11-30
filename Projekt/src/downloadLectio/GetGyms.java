@@ -23,7 +23,12 @@ public class GetGyms {
 			return values;
 	}
 
-public static void main(String[] args) throws MalformedURLException, IOException {
-	System.out.println(GetGyms.Map(args));
+	public static String GymID() {
+		
+		return null;
 	}
+	
+	public static void main(String[] args) throws MalformedURLException, IOException {
+		System.out.println(GetGyms.Map(args));
+		}
 }

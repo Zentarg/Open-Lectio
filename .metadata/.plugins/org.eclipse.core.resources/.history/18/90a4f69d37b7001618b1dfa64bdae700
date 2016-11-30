@@ -1,0 +1,12 @@
+package downloadLectio;
+
+public class GetID {
+
+	public static String ID() {
+		Student
+		String ID = "523-12698866068";
+		return ID;	
+	}
+	public static void main(String[] args) {
+	}
+}
