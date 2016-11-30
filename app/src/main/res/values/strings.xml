@@ -4,4 +4,5 @@
     <string name="login_Password">Password</string>
     <string name="login_Button">Login</string>
     <string name="login_Next">Næste</string>
+    <string name="login_Tilbage">Tilbage</string>
 </resources>
