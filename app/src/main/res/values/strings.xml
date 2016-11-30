@@ -5,4 +5,8 @@
     <string name="login_Button">Login</string>
     <string name="login_Next">Næste</string>
     <string name="login_Tilbage">Tilbage</string>
+    <string name="login_Search_Hint">Skriv skolens navn eller ID</string>
+    <string name="loginTwo_IdButton">Brug ElevID</string>
+    <string name="loginTwo_LoginButton">Brug Lectio Login</string>
+    <string name="login_Hint_ElevID">Elev ID</string>
 </resources>

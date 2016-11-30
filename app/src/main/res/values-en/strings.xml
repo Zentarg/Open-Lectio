@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Open Lectio</string>
+    <string name="login_Brugernavn">Username</string>
+    <string name="login_Password">Password</string>
+    <string name="login_Button">Login</string>
+    <string name="login_Next">Next</string>
+    <string name="login_Tilbage">Previous</string>
+    <string name="login_Search_Hint">Enter the school name or ID</string>
+    <string name="login_Hint_ElevID">Elev ID</string>
+</resources>

@@ -22,6 +22,7 @@ public class JSoupGetGyms {
         for (Element link : links) {
             values.put(link.attr("href").replace("/lectio/", "").replace("/default.aspx", ""), link.text());
         }
+
         return values;
     }
 }

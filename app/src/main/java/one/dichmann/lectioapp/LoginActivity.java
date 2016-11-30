@@ -32,15 +32,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
-    public void loginOneNext(View view, String[] args) throws IOException, MalformedURLException {
+    public void loginOneNext(View view) {
         Intent intent = new Intent(this, LoginTwoActivity.class);
         SearchView login_Search = (SearchView) findViewById(R.id.login_Search);
         String id = login_Search.getQuery().toString();
-        Map<String, String> ids = JSoupGetGyms.Map(args);
-        intent.putExtra(SKOLE_ID, String.valueOf(ids));
+        intent.putExtra(SKOLE_ID, id);
         startActivity(intent);
     }
+
+
+
  }
 
 
