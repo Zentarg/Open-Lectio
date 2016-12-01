@@ -6,7 +6,8 @@
     <string name="login_Next">Næste</string>
     <string name="login_Tilbage">Tilbage</string>
     <string name="login_Search_Hint">Skriv skolens navn eller ID</string>
-    <string name="loginTwo_IdButton">Brug ElevID</string>
+    <string name="loginTwo_IdButton">Brug Navn</string>
     <string name="loginTwo_LoginButton">Brug Lectio Login</string>
-    <string name="login_Hint_ElevID">Elev ID</string>
+    <string name="login_Hint_ElevNavn">Navn</string>
+    <string name="notAvailable">Denne feature er desværre ikke tilgængelig i øjeblikket.</string>
 </resources>

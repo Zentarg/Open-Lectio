@@ -15,7 +15,9 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:hint="@string/loginTwo_IdButton"
-        android:onClick="login_type_ElevID"/>
+        android:onClick="login_type_ElevID"
+        android:layout_marginStart="10dp"
+        android:textColorHint="@color/chosenTab"/>
 
     <Button
         android:layout_width="150dp"
@@ -24,7 +26,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:id="@+id/button"
-        android:onClick="login_Type_Lectiologin"/>
+        android:onClick="login_Type_Lectiologin"
+        android:layout_marginEnd="10dp"/>
 
     <EditText
         android:id="@+id/login_Brugernavn"
@@ -48,7 +51,16 @@
         android:layout_alignParentStart="true"
         android:visibility="invisible"/>
 
-<!--
+    <EditText
+        android:id="@+id/login_ElevID"
+        android:hint="@string/login_Hint_ElevNavn"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="175dp" />
+
+
     <Button
         android:id="@+id/login_Button"
         android:layout_width="match_parent"
@@ -59,8 +71,8 @@
         android:layout_centerVertical="true"
         android:layout_below="@id/login_Password"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="15dp"/>
-        -->
+        android:layout_marginTop="15dp"
+        android:visibility="invisible"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -70,7 +82,7 @@
         android:layout_marginBottom="77dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="30dp"
         android:id="@+id/nextButtonLoginTwo" />
 
     <Button
@@ -82,16 +94,8 @@
         android:layout_alignBaseline="@+id/nextButtonLoginTwo"
         android:layout_alignBottom="@+id/nextButtonLoginTwo"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="40dp" />
+        android:layout_marginStart="30dp" />
 
-    <EditText
-        android:id="@+id/login_ElevID"
-        android:hint="@string/login_Hint_ElevID"
-        android:gravity="center_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="175dp" />
 
 
 </RelativeLayout>

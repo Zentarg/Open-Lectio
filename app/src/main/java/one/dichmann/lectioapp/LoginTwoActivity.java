@@ -19,7 +19,7 @@ public class LoginTwoActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String id = intent.getStringExtra(LoginActivity.SKOLE_ID);
         TextView textView = new TextView(this);
-        textView.setTextSize(40);
+        textView.setTextSize(10);
         textView.setText(id);
 
         ViewGroup layout = (ViewGroup) findViewById(R.id.activity_login_two);
@@ -38,11 +38,11 @@ public class LoginTwoActivity extends AppCompatActivity {
 
         login_elev_ID.setVisibility(View.INVISIBLE);*/
 
-        Toast.makeText(getApplicationContext(), "This Feature Is Currently Not Available.", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), R.string.notAvailable, Toast.LENGTH_SHORT).show();
 
     }
 
-    public void login_type_ElevID(View view) {
+    public void login_type_ElevNavn(View view) {
         EditText login_lectio_Brugernavn = (EditText) findViewById(R.id.login_Brugernavn);
         EditText login_lectio_Password = (EditText) findViewById(R.id.login_Password);
         EditText login_elev_ID = (EditText) findViewById(R.id.login_ElevID);
@@ -51,5 +51,19 @@ public class LoginTwoActivity extends AppCompatActivity {
 
         login_lectio_Brugernavn.setVisibility(View.INVISIBLE);
         login_lectio_Password.setVisibility(View.INVISIBLE);
+    }
+
+    public void loginTwoNext(View view) {
+    }
+
+    public void loginTwoPrev(View view) {
+        /*Intent intent = new Intent(this, LoginTwoActivity.class);
+        SearchView login_Search = (SearchView) findViewById(R.id.login_Search);
+        String id = login_Search.getQuery().toString();
+        intent.putExtra(SKOLE_ID, id);
+        startActivity(intent);
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        */
     }
 }
