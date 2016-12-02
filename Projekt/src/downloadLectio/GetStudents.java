@@ -3,7 +3,7 @@ package downloadLectio;
 public class GetStudents {
 
 	public static String StudentID() {
-		String IDs = "hey";
+		String IDs = "12698866068";
 		return IDs;	
 	}
 	

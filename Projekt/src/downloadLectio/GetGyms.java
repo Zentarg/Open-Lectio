@@ -25,7 +25,7 @@ public class GetGyms {
 
 	public static String GymID() {
 		
-		return null;
+		return "523";
 	}
 	
 	public static void main(String[] args) throws MalformedURLException, IOException {

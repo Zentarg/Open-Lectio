@@ -1,4 +1,6 @@
 package downloadLectio;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.regex.*;
 
 public class parseLesson {
@@ -66,5 +68,7 @@ public class parseLesson {
 		
 		return titleMatcher.group();
 	}
+	public static void main(String[] args) throws MalformedURLException, IOException {
+		}
 }
 
