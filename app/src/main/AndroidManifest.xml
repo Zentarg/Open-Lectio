@@ -21,9 +21,9 @@
         </activity>
         <activity
             android:name=".LoginTwoActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
+
+    git commit -m "Changed some stuff in the search class for Emilios."

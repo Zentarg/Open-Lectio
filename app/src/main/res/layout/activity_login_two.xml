@@ -12,22 +12,23 @@
 
 
     <Button
-        android:layout_width="150dp"
+        android:id="@+id/login_Type_ElevNavn"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/loginTwo_IdButton"
-        android:onClick="login_type_ElevID"
-        android:layout_marginStart="10dp"
+        android:onClick="login_type_ElevNavn"
+        android:visibility="gone"
         android:textColorHint="@color/chosenTab"/>
 
     <Button
-        android:layout_width="150dp"
+        android:id="@+id/login_Type_LectioLogin"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/loginTwo_LoginButton"
+        android:onClick="login_Type_LectioLogin"
+        android:visibility="visible"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/button"
-        android:onClick="login_Type_Lectiologin"
-        android:layout_marginEnd="10dp"/>
+        android:layout_alignParentEnd="true"/>
 
     <EditText
         android:id="@+id/login_Brugernavn"
@@ -46,6 +47,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:hint="@string/login_Password"
+        android:inputType="textPassword"
         android:layout_marginTop="13dp"
         android:layout_below="@+id/login_Brugernavn"
         android:layout_alignParentStart="true"
@@ -72,29 +74,7 @@
         android:layout_below="@id/login_Password"
         android:layout_alignParentStart="true"
         android:layout_marginTop="15dp"
-        android:visibility="invisible"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/login_Next"
-        android:onClick="loginOneNext"
-        android:layout_marginBottom="77dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="30dp"
-        android:id="@+id/nextButtonLoginTwo" />
-
-    <Button
-        android:hint="@string/login_Tilbage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/backButtonLoginOne"
-        android:visibility="visible"
-        android:layout_alignBaseline="@+id/nextButtonLoginTwo"
-        android:layout_alignBottom="@+id/nextButtonLoginTwo"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="30dp" />
+        android:visibility="gone"/>
 
 
 
