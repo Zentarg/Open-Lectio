@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -11,14 +13,14 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class GetGyms {
-	public static Map<String, String> Map(String[] args) throws MalformedURLException, IOException {
-			String url = "http://www.enelleranden.dk/lectio/logingym.html";
+	public static <V> SortedMap<String, V> Map(String[] args) throws MalformedURLException, IOException {
+			String url = "http://www.lectio.dk/lectio/login_list.aspx";
 	        Document doc = Jsoup.connect(url).get();	        
-	        Map<String, String> values = new HashMap<String, String>();
+	        SortedMap<String, V> values = new TreeMap<String, V>();
 	        
 	        Elements links = doc.select("a");
 	        for (Element link : links) {
-	        	values.put(link.attr("href").replace("/lectio/", "").replace("/default.aspx", ""), link.text());
+	        	values.put(link.text(),(V) link.attr("href").replace("/lectio/", "").replace("/default.aspx", ""));
 	        }
 			return values;
 	}
