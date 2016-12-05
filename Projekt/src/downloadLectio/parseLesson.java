@@ -10,7 +10,8 @@ public class parseLesson {
 		Pattern dateRegex = Pattern.compile("([1-9]|1[0-9]|2[0-9]|3[0-1])/([1-9]|1[0-2])-[0-9][0-9][0-9][0-9]");
 		Matcher dateMatcher = dateRegex.matcher(lessonData);
 		
-		return dateMatcher.group();
+		String result = dateMatcher.group();
+		return result;
 	}
 	
 	public static String getHomework(String lessonData) {
@@ -18,7 +19,8 @@ public class parseLesson {
 		Pattern homeworkRegex = Pattern.compile("(?<=Lektier:)(?s)(.*?)(?=Note:|ﾃ�vrigt indhold:|$)");
 		Matcher homeworkMatcher = homeworkRegex.matcher(lessonData);
 		
-		return homeworkMatcher.group();
+		String result = homeworkMatcher.group();
+		return result;
 	}
 	
 	public static String getNote(String lessonData) {
@@ -26,7 +28,8 @@ public class parseLesson {
 		Pattern noteRegex = Pattern.compile("(?<=Note:)(?s)(.*?)(?=ﾃ�vrigt indhold:|$)");
 		Matcher noteMatcher = noteRegex.matcher(lessonData);
 		
-		return noteMatcher.group();
+		String result = noteMatcher.group();
+		return result;
 	}
 	
 	public static String getRoom(String lessonData) {
@@ -34,7 +37,8 @@ public class parseLesson {
 		Pattern roomRegex = Pattern.compile("(?<=Lokale: )(?s)(.*?)(?=\n|,|=)");
 		Matcher roomMatcher = roomRegex.matcher(lessonData);
 		
-		return roomMatcher.group();
+		String result = roomMatcher.group();
+		return result;
 	}
 	
 	public static String getTeacher(String lessonData) {
@@ -42,7 +46,8 @@ public class parseLesson {
 		Pattern teacherRegex = Pattern.compile("(?<=Lﾃｦrer: )(?s)(.*?)(?=\n)");
 		Matcher teacherMatcher = teacherRegex.matcher(lessonData);
 		
-		return teacherMatcher.group();
+		String result = teacherMatcher.group();
+		return result;
 	}
 
 	public static String getTeam(String lessonData) {
@@ -50,7 +55,8 @@ public class parseLesson {
 		Pattern teamRegex = Pattern.compile("(?<=Hold: )(?s)(.*?)(?=\n)"); // Won't separate the teams if there are more than one, but I won't waste devtime unless it becomes a problem.
 		Matcher teamMatcher = teamRegex.matcher(lessonData);
 		
-		return teamMatcher.group();
+		String result = teamMatcher.group();
+		return result;
 	}
 
 	public static String getTime(String lessonData) {
@@ -58,7 +64,8 @@ public class parseLesson {
 		Pattern timeRegex = Pattern.compile("[0-9][0-9]:[0-9][0-9] til [0-9][0-9]:[0-9][0-9]"); // Won't separate the teams if there are more than one, but I won't waste devtime unless it becomes a problem.
 		Matcher timeMatcher = timeRegex.matcher(lessonData);
 		
-		return timeMatcher.group();
+		String result = timeMatcher.group();
+		return result;
 	}
 
 	public static String getTitle(String lessonData) {
@@ -66,9 +73,8 @@ public class parseLesson {
 		Pattern titleRegex = Pattern.compile("(?<=\n)(.*?)(?=(\n[1-9]|1[0-9]|2[0-9]|3[0-1])/([1-9]|1[0-2])-[0-9][0-9][0-9][0-9])"); 
 		Matcher titleMatcher = titleRegex.matcher(lessonData);
 		
-		return titleMatcher.group();
+		String result = titleMatcher.group();
+		return result;
 	}
-	public static void main(String[] args) throws MalformedURLException, IOException {
-		}
 }
 
