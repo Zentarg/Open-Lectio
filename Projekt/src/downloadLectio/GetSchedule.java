@@ -11,7 +11,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class GetSchedule {
-	public static List<String> schedule(String[] args) throws MalformedURLException, IOException {
+	public static List<String> schedule(int args) throws MalformedURLException, IOException {
 			String[] ID = (GetID.ID()).split("-");
 			String url = "http://www.lectio.dk/lectio/"+ID[0]+"/SkemaNy.aspx?type=elev&elevid="+ID[1];
 	        Document doc = Jsoup.connect(url).get();	        
@@ -28,7 +28,7 @@ public class GetSchedule {
 			return values;
 	}
 
-	public static void main(String[] args) throws MalformedURLException, IOException {
+	public static void main(int args) throws MalformedURLException, IOException {
 		List<String> values = schedule(args);
 		System.out.println(values);
 	}

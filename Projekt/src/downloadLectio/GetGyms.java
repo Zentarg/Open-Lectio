@@ -2,8 +2,6 @@ package downloadLectio;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -13,8 +11,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class GetGyms {
+	@SuppressWarnings("unchecked")
 	public static <V> SortedMap<String, V> Map(String[] args) throws MalformedURLException, IOException {
-			String url = "http://www.lectio.dk/lectio/login_list.aspx";
+			String url = "http://www.lectio.dk/lectio/login_list.aspx?showall=1";
 	        Document doc = Jsoup.connect(url).get();	        
 	        SortedMap<String, V> values = new TreeMap<String, V>();
 	        
