@@ -21,8 +21,8 @@ public class GetSchedule {
 	        for (Element link : links) {
 	        	String scheme = link.attr("title");
 	        	if (scheme.contains("\n") || scheme.contains("\r")) 
-	        		scheme = scheme.replaceAll("\n", " ");
-	        		scheme = scheme.replaceAll("\r", "");
+	        		scheme = scheme.replaceAll("\n", "§-§");
+	        		scheme = scheme.replaceAll("\r", "§-§");
 	        	if (!scheme.isEmpty() && scheme.contains("Hold:"))
 	        		values.add(scheme);
 	        }

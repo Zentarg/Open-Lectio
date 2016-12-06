@@ -5,33 +5,32 @@ import java.net.MalformedURLException;
 import java.util.List;
 
 import downloadLectio.GetSchedule;
-import downloadLectio.parseLesson;
+import downloadLectio.ParseLesson;
 
 public class Schedule {
 	
 	public static String[] module(int module) throws MalformedURLException, IOException {
 		List<String> modules = GetSchedule.schedule(module);
-		String length = ""+modules.size();
 		String[] lesson = new String[modules.size()];
-		lesson[0] = length;
 		for (int i=0;i<modules.size();i++) {
 			String lessonData = modules.get(i);
-			String date = parseLesson.getDate(lessonData);
-			String room = parseLesson.getRoom(lessonData);
-			String teacher = parseLesson.getTeacher(lessonData);
-			String time = parseLesson.getTime(lessonData);
-			String team = parseLesson.getTeam(lessonData);
-			String note = parseLesson.getNote(lessonData);
-			String homework = parseLesson.getHomework(lessonData);
-			String title = parseLesson.getTitle(lessonData);
-			lesson[i+1] = date+"---"+time+"---"+team+"---"+room+"---"+teacher+"---"+note+"---"+homework+"---"+title;
+			String additionalContent = ParseLesson.getAdditionalContent(lessonData);
+			String date = ParseLesson.getDate(lessonData);
+			String room = ParseLesson.getRoom(lessonData);
+			String teacher = ParseLesson.getTeacher(lessonData);
+			String time = ParseLesson.getTime(lessonData);
+			String team = ParseLesson.getTeam(lessonData);
+			String note = ParseLesson.getNote(lessonData);
+			String homework = ParseLesson.getHomework(lessonData);
+			String title = ParseLesson.getTitle(lessonData);
+			lesson[i] = time+"---"+team+"---"+room+"---"+teacher+"---"+note+"---"+additionalContent+"---"+homework+"---"+title;
 		}
 		return lesson;
 	}
 
 	public static void main(String[] args) throws MalformedURLException, IOException {
-		System.out.println(module(0));
-
+		System.out.println(module(0)[0]);
+		
 	}
 
 }
