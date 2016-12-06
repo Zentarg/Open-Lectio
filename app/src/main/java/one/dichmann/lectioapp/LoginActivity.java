@@ -5,16 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 public class LoginActivity extends AppCompatActivity {
     public final static String SKOLE_ID = "one.dichmann.LectioApp.SKOLEID";
@@ -24,6 +20,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
+        //TODO: Check if logged in.
+        //TODO: If actually logged in, check who is logged in. Thereafter make sure to go directly to the logged in activity as user.
+        //TODO: If not logged in, display as normally.
 
     }
 

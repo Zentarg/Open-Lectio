@@ -10,9 +10,6 @@ import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
-/**
- * Created by apgch on 02-12-2016.
- */
 
 public class Search extends AppCompatActivity{
 

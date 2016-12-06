@@ -17,19 +17,19 @@ public class LoginTwoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_two);
 
-        Intent intent = getIntent();
+        /*Intent intent = getIntent();
         String id = intent.getStringExtra(LoginActivity.SKOLE_ID);
         TextView textView = new TextView(this);
         textView.setTextSize(10);
         textView.setText(id);
 
         ViewGroup layout = (ViewGroup) findViewById(R.id.activity_login_two);
-        layout.addView(textView);
+        layout.addView(textView);*/
 
     }
 
     public void login_Type_LectioLogin(View view) {
-        Button login_Type_ElevNavn = (Button) findViewById(R.id.login_Type_ElevNavn);
+        /*Button login_Type_ElevNavn = (Button) findViewById(R.id.login_Type_ElevNavn);
         Button login_Type_LectioLogin = (Button) findViewById(R.id.login_Type_LectioLogin);
         Button login_Login = (Button) findViewById(R.id.login_Button);
         EditText login_lectio_Brugernavn = (EditText) findViewById(R.id.login_Brugernavn);
@@ -43,7 +43,7 @@ public class LoginTwoActivity extends AppCompatActivity {
         login_lectio_Password.setVisibility(View.VISIBLE);
         login_Login.setVisibility(View.VISIBLE);
 
-        login_elev_ID.setVisibility(View.INVISIBLE);
+        login_elev_ID.setVisibility(View.INVISIBLE);*/
 
         Toast.makeText(getApplicationContext(), R.string.notAvailable, Toast.LENGTH_SHORT).show();
 
