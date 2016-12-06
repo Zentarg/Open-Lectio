@@ -12,23 +12,25 @@ public class Schedule {
 	public static String[] module(int module) throws MalformedURLException, IOException {
 		List<String> modules = GetSchedule.schedule(module);
 		String length = ""+modules.size();
-		length = length.toString();
 		String[] lesson = new String[modules.size()];
 		lesson[0] = length;
-		for (int i=1;i<modules.size();i++) {
+		for (int i=0;i<modules.size();i++) {
 			String lessonData = modules.get(i);
 			String date = parseLesson.getDate(lessonData);
 			String room = parseLesson.getRoom(lessonData);
 			String teacher = parseLesson.getTeacher(lessonData);
 			String time = parseLesson.getTime(lessonData);
 			String team = parseLesson.getTeam(lessonData);
-			lesson[i] = date+"---"+time+"---"+team+"---"+room+"---"+teacher;
+			String note = parseLesson.getNote(lessonData);
+			String homework = parseLesson.getHomework(lessonData);
+			String title = parseLesson.getTitle(lessonData);
+			lesson[i+1] = date+"---"+time+"---"+team+"---"+room+"---"+teacher+"---"+note+"---"+homework+"---"+title;
 		}
 		return lesson;
 	}
 
 	public static void main(String[] args) throws MalformedURLException, IOException {
-		System.out.println(module(1));
+		System.out.println(module(0));
 
 	}
 

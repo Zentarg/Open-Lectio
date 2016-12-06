@@ -6,6 +6,7 @@ import java.util.regex.*;
 public class parseLesson {
 	
 	public static String getDate(String lessonData) {
+		System.out.println(lessonData);
 		// Gets the date from the data it's fed, only matches dates with Lectio or Lectio-like date syntax.
 		Pattern dateRegex = Pattern.compile("([1-9]|1[0-9]|2[0-9]|3[0-1])/([1-9]|1[0-2])-[0-9][0-9][0-9][0-9]");
 		Matcher dateMatcher = dateRegex.matcher(lessonData);
