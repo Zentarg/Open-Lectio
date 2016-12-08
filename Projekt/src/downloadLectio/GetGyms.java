@@ -12,7 +12,7 @@ import org.jsoup.select.Elements;
 
 public class GetGyms {
 	@SuppressWarnings("unchecked")
-	public static <V> SortedMap<String, V> Map(String[] args) throws MalformedURLException, IOException {
+	public static <V> SortedMap<String, V> Map(String args) throws MalformedURLException, IOException {
 			String url = "http://www.lectio.dk/lectio/login_list.aspx?showall=1";
 	        Document doc = Jsoup.connect(url).get();	        
 	        SortedMap<String, V> values = new TreeMap<String, V>();
@@ -29,7 +29,7 @@ public class GetGyms {
 		return "523";
 	}
 	
-	public static void main(String[] args) throws MalformedURLException, IOException {
+	public static void main(String args) throws MalformedURLException, IOException {
 		System.out.println(GetGyms.Map(args));
 		}
 }

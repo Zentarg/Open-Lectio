@@ -10,8 +10,8 @@ import downloadLectio.GetGyms;
 
 public class Search /*extends AppCompatActivity*/{
 
-    public static String[] Gym(String[] args) throws MalformedURLException, IOException {
-        String input = new String (Search.Input());
+    public static String[] Gym(String args) throws MalformedURLException, IOException {
+        String input = args;
         TreeMap<String, String> gyms = new TreeMap<String, String> (GetGyms.Map(args)); 
         String[] length = input.split("");
         length[0] = length[0].toUpperCase();
@@ -49,13 +49,7 @@ public class Search /*extends AppCompatActivity*/{
     return hello;
     }
 
-    private static String Input() {
-        //SearchView login_Search = (SearchView) findViewById(R.id.login_Search);
-        //String id = login_Search.getQuery().toString();
-        return "a";
-    }
-
-    public static void main(String[] args) throws MalformedURLException, IOException {
+    public static void main(String args) throws MalformedURLException, IOException {
         System.out.println(Search.Gym(args)[0]);
         System.out.println(Search.Gym(args)[1]);
         System.out.println(Search.Gym(args)[2]);

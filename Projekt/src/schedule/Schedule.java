@@ -5,7 +5,7 @@ import java.net.MalformedURLException;
 import java.util.List;
 
 import downloadLectio.GetSchedule;
-import downloadLectio.ParseLesson;
+import downloadLectio.parseLesson;
 
 public class Schedule {
 	
@@ -14,15 +14,14 @@ public class Schedule {
 		String[] lesson = new String[modules.size()];
 		for (int i=0;i<modules.size();i++) {
 			String lessonData = modules.get(i);
-			String additionalContent = ParseLesson.getAdditionalContent(lessonData);
-			String date = ParseLesson.getDate(lessonData);
-			String room = ParseLesson.getRoom(lessonData);
-			String teacher = ParseLesson.getTeacher(lessonData);
-			String time = ParseLesson.getTime(lessonData);
-			String team = ParseLesson.getTeam(lessonData);
-			String note = ParseLesson.getNote(lessonData);
-			String homework = ParseLesson.getHomework(lessonData);
-			String title = ParseLesson.getTitle(lessonData);
+			String additionalContent = parseLesson.getAdditionalContent(lessonData);
+			String room = parseLesson.getRoom(lessonData);
+			String teacher = parseLesson.getTeacher(lessonData);
+			String time = parseLesson.getTime(lessonData);
+			String team = parseLesson.getTeam(lessonData);
+			String note = parseLesson.getNote(lessonData);
+			String homework = parseLesson.getHomework(lessonData);
+			String title = parseLesson.getTitle(lessonData);
 			lesson[i] = time+"---"+team+"---"+room+"---"+teacher+"---"+note+"---"+additionalContent+"---"+homework+"---"+title;
 		}
 		return lesson;

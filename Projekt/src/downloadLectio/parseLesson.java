@@ -1,9 +1,10 @@
 package downloadLectio;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.regex.*;
 
-public class ParseLesson {
+public class parseLesson {
 
 	public static String getAdditionalContent(String lessonData) {
 		// Gets the additional content from a lesson.
