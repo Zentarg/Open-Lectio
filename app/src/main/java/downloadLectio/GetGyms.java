@@ -37,4 +37,9 @@ public class GetGyms {
         }
         return null;
     }
+
+
+    public static GymID(){
+    	return "523"    
+	}
 }
