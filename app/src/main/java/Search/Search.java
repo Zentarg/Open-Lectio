@@ -12,7 +12,7 @@ public class Search /*extends AppCompatActivity*/{
 
     public static String[] Gym(String[] args) throws MalformedURLException, IOException {
         String input = new String (Search.Input());
-        TreeMap<String, String> gyms = new TreeMap<String, String> (GetGyms.Map(args)); 
+        TreeMap<String, String> gyms = new TreeMap<String, String> (GetGyms.<String>Map(args));
         String[] length = input.split("");
         length[0] = length[0].toUpperCase();
         
