@@ -49,17 +49,7 @@ public class Search /*extends AppCompatActivity*/{
     return hello;
     }
 
-    public static void main(String args) throws MalformedURLException, IOException {
-        System.out.println(Search.Gym(args)[0]);
-        System.out.println(Search.Gym(args)[1]);
-        System.out.println(Search.Gym(args)[2]);
-        System.out.println(Search.Gym(args)[3]);
-        System.out.println(Search.Gym(args)[4]);
-        System.out.println(Search.Gym(args)[5]);
-        System.out.println(Search.Gym(args)[6]);
-        System.out.println(Search.Gym(args)[7]);
-        System.out.println(Search.Gym(args)[8]);
-        System.out.println(Search.Gym(args)[9]);
-        
+    public static void main(String[] args) throws MalformedURLException, IOException {
+        System.out.println(Search.Gym("a")[0]);
     }
 }
