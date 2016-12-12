@@ -1,71 +1,89 @@
 package Search;
 
+import android.content.SyncStatusObserver;
+import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 import downloadLectio.GetGyms;
+import one.dichmann.lectioapp.R;
 
-public class Search /*extends AppCompatActivity*/{
+public class Search extends AsyncTask<String, Void, String[]> {
 
-    public static String[] Gym(String[] args) throws MalformedURLException, IOException {
-        String input = new String (Search.Input());
-        TreeMap<String, String> gyms = new TreeMap<String, String> (GetGyms.<String>Map(args));
-        String[] length = input.split("");
-        length[0] = length[0].toUpperCase();
-        
-        Iterator<Entry<String, String>> keys = gyms.entrySet().iterator();
-        int q = 0;
-        int res = 10;
-        String[] hello = new String[res];
-        while (keys.hasNext()) {
-        	Entry<String, String> entry = keys.next();
-        	String[] compare = entry.getKey().split("");
-        	int k = 0;
-        	if (length.length<=compare.length) {
-        		for (int i=0;i<length.length;i++) {
-        			if (compare[i].equals(length[i])) {
-        				k++;
-        				if (k == length.length) {
-        					hello[q] = entry.getKey();
-        					q++;
-        					if (q==res) {
-        						return hello;
-        						}
-        					}
-        				}
-        			}
-        		}
-        	}
-    while (q<res) {
-    	hello[q] = null;
-    	q++;
-    	if (q==res) {
+	private final TextView textView;
+
+	public Search(TextView textView) {
+		this.textView = textView;
+	}
+
+	@Override
+    public String[] doInBackground(String... args) {
+		try {
+			String input = args[0];
+			SortedMap<String, String> gyms = GetGyms.Map(args[0]);
+			if (gyms == null)
+				return null;
+			String[] length = input.split("");
+			length[0] = length[0].toUpperCase();
+
+			Iterator<Entry<String, String>> keys = gyms.entrySet().iterator();
+			int q = 0;
+			int res = 4;
+			String[] hello = new String[res];
+			loop:
+			while (keys.hasNext()) {
+				Entry<String, String> entry = keys.next();
+				String[] compare = entry.getKey().split("");
+				int k = 0;
+				if (length.length <= compare.length) {
+					for (int i = 0; i < length.length; i++) {
+						if (compare[i].equals(length[i])) {
+							k++;
+							if (k == length.length) {
+								hello[q] = entry.getKey();
+								q++;
+								if (q == res) {
+									break loop;
+								}
+							}
+						}
+					}
+				}
+			}
+			/*
+			while (q<res) {
+				hello[q] = null;
+				q++;
+				if (q==res) {
+					return hello;
+				}
+			}*/
 			return hello;
-    		}
-    	}
-    return hello;
-    }
+		} catch (Exception e) {
+			System.out.println("Error while loading gym " + args);
+			e.printStackTrace();
+			return null;
+		}
+	}
 
-    private static String Input() {
-        //SearchView login_Search = (SearchView) findViewById(R.id.login_Search);
-        //String id = login_Search.getQuery().toString();
-        return "a";
-    }
+	@Override
+	public void onPostExecute(String[] result) {
+		if (result != null) {
+			textView.setText(result[0]);
+		}
+	}
 
-    public static void main(String[] args) throws MalformedURLException, IOException {
-        System.out.println(Search.Gym(args)[0]);
-        System.out.println(Search.Gym(args)[1]);
-        System.out.println(Search.Gym(args)[2]);
-        System.out.println(Search.Gym(args)[3]);
-        System.out.println(Search.Gym(args)[4]);
-        System.out.println(Search.Gym(args)[5]);
-        System.out.println(Search.Gym(args)[6]);
-        System.out.println(Search.Gym(args)[7]);
-        System.out.println(Search.Gym(args)[8]);
-        System.out.println(Search.Gym(args)[9]);
-        
-    }
+	@Override
+	public void onPreExecute() { }
+
+	@Override
+	public void onProgressUpdate(Void... values) { }
 }
