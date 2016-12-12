@@ -5,4 +5,10 @@
     <color name="colorAccent">#7e9eff</color>
     <color name="background_blue">#965ea0e2</color>
     <color name="chosenTab">#3c3c3c</color>
+    <color name="schedule_Background">#cdc9c9</color>
+    <color name="schedule_Regular">#c6e2ff</color>
+    <color name="schedule_Changed">#64ffa0</color>
+    <color name="schedule_Cancelled">#fc4646</color>
+    <color name="schedule_Empty">#ece6e6</color>
+    <color name="schedule_TextColor">#000000</color>
 </resources>
