@@ -11,25 +11,88 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="one.dichmann.lectioapp.LoginActivity">
 
-    <SearchView
-        android:id="@+id/login_Search"
-        android:queryHint="@string/login_Search_Hint"
+    <EditText
+        android:id="@+id/loginOne_Search_Search"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginTop="38dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
-    </SearchView>
-
-    <Button
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/login_Next"
-        android:onClick="loginOneNext"
-        android:layout_marginBottom="77dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="40dp"
-        android:id="@+id/nextButtonLoginOne" />
+        android:hint="Søg efter et gymnasie"
+        android:gravity="center"
+        android:inputType="textPersonName"
+        android:layout_marginTop="49dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/logineOne_Search_Result_One"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:onClick="newTextView"
+        android:layout_below="@+id/loginOne_Search_Search"
+        android:layout_alignParentStart="true"
+        android:textSize="25sp"/>
+
+    <ImageView
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/logineOne_Search_Result_One"/>
+
+    <TextView
+        android:id="@+id/logineOne_Search_Result_Two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:onClick="newTextView"
+        android:layout_below="@+id/logineOne_Search_Result_One"
+        android:layout_alignParentStart="true"
+        android:textSize="25sp"/>
+
+    <ImageView
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/logineOne_Search_Result_Two"/>
+
+    <TextView
+        android:id="@+id/logineOne_Search_Result_Three"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:onClick="newTextView"
+        android:layout_below="@+id/logineOne_Search_Result_Two"
+        android:layout_alignParentStart="true"
+        android:textSize="25sp"/>
+
+    <ImageView
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/logineOne_Search_Result_Three"/>
+
+    <TextView
+        android:id="@+id/logineOne_Search_Result_Four"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:onClick="newTextView"
+        android:layout_below="@+id/logineOne_Search_Result_Three"
+        android:layout_alignParentStart="true"
+        android:textSize="25sp"/>
+
+    <ImageView
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/logineOne_Search_Result_Four"/>
 
 </RelativeLayout>
