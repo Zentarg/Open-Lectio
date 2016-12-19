@@ -1,10 +1,13 @@
 package one.dichmann.lectioapp;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -32,13 +35,55 @@ public class LoginActivity extends Activity {
     private TextView textView4;
     private String Value;
 
+    // Storage Permissions variables
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+    //persmission method.
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have read or write permission
+        int writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int readPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        System.out.println("writePerm : "+writePermission + "   readPerm : "+readPermission);
+
+        if (writePermission != PackageManager.PERMISSION_GRANTED || readPermission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+            System.out.println("Asked user for permission");
+        }
+
+        int writePermission2 = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int readPermission2 = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        System.out.println("writePerm2 : "+writePermission2 + "   readPerm2 : "+readPermission2);
+
+        //Check if we have permission now. If so, then execute GetGyms.
+        if (writePermission2 != PackageManager.PERMISSION_DENIED && readPermission2 != PackageManager.PERMISSION_DENIED) {
+            new GetGyms().execute();
+            System.out.println("GetGyms executing & permission granted.");
+        } else {
+            System.out.println("We couldn't execute GetGyms");
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        new GetGyms().execute();
+        //Calling the permission method.
+        verifyStoragePermissions(this);
+
+
 
         // Define Content View before any other variables of the content.
         setContentView(R.layout.activity_login);

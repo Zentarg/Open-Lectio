@@ -17,9 +17,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import android.Manifest;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import one.dichmann.lectioapp.LoginActivity;
@@ -49,6 +51,7 @@ public class GetGyms extends AsyncTask<String, Void, SortedMap<String, String>> 
                 return values;
             }
 
+
     @Override
     public void onPostExecute(SortedMap<String, String> result) {
         try{
@@ -56,13 +59,17 @@ public class GetGyms extends AsyncTask<String, Void, SortedMap<String, String>> 
             if (!root.exists()) {
                 root.mkdirs();
             }
+
+
             String sFileName = "temp.txt";
             File gpxfile = new File(root, sFileName);
             FileWriter writer = new FileWriter(gpxfile);
             writer.append((CharSequence) result);
             writer.flush();
             writer.close();
-            Toast.makeText(activity_login, "Saved", Toast.LENGTH_SHORT).show();
+
+            System.out.println("Saved");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
