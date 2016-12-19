@@ -3,6 +3,7 @@
     package="one.dichmann.lectioapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE.EXTERNAL.STORAGE" />
 
     <application
         android:allowBackup="true"

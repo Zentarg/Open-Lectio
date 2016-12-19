@@ -20,7 +20,7 @@ public class Search extends AppCompatActivity{
         //String[] gyms = CompareResult;
         return null;
     }
-
+/*
     private String Input() {
         SearchView login_Search = (SearchView) findViewById(R.id.login_Search);
         String id = login_Search.getQuery().toString();
@@ -31,5 +31,5 @@ public class Search extends AppCompatActivity{
         // TODO Auto-generated method stub
 
     }
-
+*/
 }

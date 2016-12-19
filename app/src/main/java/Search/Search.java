@@ -3,6 +3,7 @@ package Search;
 import android.content.Context;
 import android.content.SyncStatusObserver;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
@@ -49,15 +50,23 @@ public class Search extends AsyncTask<String, Void, String[]> {
 		String[] result = new String[0];
 		try {
 			String input = args[0];
-			File file = new File("temp");
-			FileInputStream f = new FileInputStream(file);
+			File root = new File(Environment.getExternalStorageDirectory(), "temp");
+			if (!root.exists()) {
+				root.mkdirs();
+			}
+			System.out.println(Environment.getExternalStorageState());
+			System.out.println("trying to get file!");
+			FileInputStream f = new FileInputStream(root);
 			ObjectInputStream s = new ObjectInputStream(f);
 			SortedMap<String, String> fileObj2 = (SortedMap<String, String>) s.readObject();
 			s.close();
 
+			System.out.println("file loaded");
 			Assert.assertEquals(fileObj2.hashCode(), fileObj2.hashCode());
 			Assert.assertEquals(fileObj2.toString(), fileObj2.toString());
 			Assert.assertTrue(fileObj2.equals(fileObj2));
+
+			System.out.println("Map constructed");
 
 			SortedMap<String, String> gyms = fileObj2;
 			if (gyms == null)

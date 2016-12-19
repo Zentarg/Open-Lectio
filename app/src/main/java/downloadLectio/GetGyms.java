@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
@@ -18,8 +19,14 @@ import org.jsoup.select.Elements;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Environment;
+import android.widget.Toast;
+
+import one.dichmann.lectioapp.LoginActivity;
+import one.dichmann.lectioapp.R;
 
 import static android.R.attr.data;
+import static one.dichmann.lectioapp.R.layout.activity_login;
 
 public class GetGyms extends AsyncTask<String, Void, SortedMap<String, String>> {
     @Override
@@ -45,13 +52,19 @@ public class GetGyms extends AsyncTask<String, Void, SortedMap<String, String>> 
     @Override
     public void onPostExecute(SortedMap<String, String> result) {
         try{
-            File file = new File("temp");
-            FileOutputStream f = new FileOutputStream(file);
-            ObjectOutputStream s = new ObjectOutputStream(f);
-            s.writeObject(result);
-            s.close();
-        } catch (IOException e1) {
-            e1.printStackTrace();
+            File root = new File(Environment.getExternalStorageDirectory(), "temp");
+            if (!root.exists()) {
+                root.mkdirs();
+            }
+            String sFileName = "temp.txt";
+            File gpxfile = new File(root, sFileName);
+            FileWriter writer = new FileWriter(gpxfile);
+            writer.append((CharSequence) result);
+            writer.flush();
+            writer.close();
+            Toast.makeText(activity_login, "Saved", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
