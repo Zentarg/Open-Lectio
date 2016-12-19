@@ -34,9 +34,7 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        Search.saveGymList("gymList.txt", this);
-
+        
         // Define Content View before any other variables of the content.
         setContentView(R.layout.activity_login);
 
