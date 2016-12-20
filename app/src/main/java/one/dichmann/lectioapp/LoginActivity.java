@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -34,6 +35,7 @@ public class LoginActivity extends Activity {
     private TextView textView3;
     private TextView textView4;
     private String Value;
+    private int PERMISSION_STORAGE = 0;
 
     // Storage Permissions variables
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -81,15 +83,53 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
 
         //Calling the permission method.
-        verifyStoragePermissions(this);
+        //verifyStoragePermissions(this);
 
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                System.out.println("Have requested permission once or more times before");
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                System.out.println("Requesting Permission");
+
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        PERMISSION_STORAGE);
+
+
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+
+                int writePermission2 = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                int readPermission2 = ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+                System.out.println("writePerm2 : "+writePermission2 + "   readPerm2 : "+readPermission2);
+            }
+        } else {
+            System.out.println("Permission has been granted before we try to get it");
+            new GetGyms().execute();
+        }
 
 
         // Define Content View before any other variables of the content.
         setContentView(R.layout.activity_login);
 
         // Define the contents by using findViewById
-        editText = (EditText) findViewById(R.id.loginOne_Search_Search);
+        editText  = (EditText) findViewById(R.id.loginOne_Search_Search);
         textView1 = (TextView) findViewById(R.id.logineOne_Search_Result_One);
         textView2 = (TextView) findViewById(R.id.logineOne_Search_Result_Two);
         textView3 = (TextView) findViewById(R.id.logineOne_Search_Result_Three);
