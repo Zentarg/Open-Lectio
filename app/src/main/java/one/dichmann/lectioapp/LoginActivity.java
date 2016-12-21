@@ -24,6 +24,8 @@ import java.util.SortedMap;
 
 import Search.Search;
 import downloadLectio.GetGyms;
+import permissions.checkStoragePermission;
+
 
 public class LoginActivity extends Activity {
     public final static String SKOLE_ID = "one.dichmann.LectioApp.SKOLEID";
@@ -118,11 +120,14 @@ public class LoginActivity extends Activity {
                 int writePermission2 = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 int readPermission2 = ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
                 System.out.println("writePerm2 : "+writePermission2 + "   readPerm2 : "+readPermission2);
+                int[] permissions = {writePermission2, readPermission2};
+                new checkStoragePermission().onRequestPermissionsResult(0,permissions);
             }
         } else {
             System.out.println("Permission has been granted before we try to get it");
             new GetGyms().execute();
         }
+
 
 
         // Define Content View before any other variables of the content.

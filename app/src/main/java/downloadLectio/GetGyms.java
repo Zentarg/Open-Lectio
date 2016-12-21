@@ -59,8 +59,7 @@ public class GetGyms extends AsyncTask<String, Void, SortedMap<String, String>> 
             if (!root.exists()) {
                 root.mkdirs();
             }
-
-
+            System.out.println(root);
             String sFileName = "temp.txt";
             File gpxfile = new File(root, sFileName);
             FileWriter writer = new FileWriter(gpxfile);

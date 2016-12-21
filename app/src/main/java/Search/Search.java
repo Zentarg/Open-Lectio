@@ -50,7 +50,7 @@ public class Search extends AsyncTask<String, Void, String[]> {
 		String[] result = new String[0];
 		try {
 			String input = args[0];
-			File root = new File(Environment.getExternalStorageDirectory(), "temp");
+			File root = new File(Environment.getExternalStorageDirectory(), "temp.txt");
 			if (!root.exists()) {
 				root.mkdirs();
 			}
