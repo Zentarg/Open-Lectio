@@ -33,6 +33,8 @@ import java.util.Map.Entry;
 import java.util.Scanner;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import downloadLectio.AsyncResponse;
 import downloadLectio.GetGyms;
@@ -42,36 +44,24 @@ import static android.R.attr.data;
 
 public class Search {
 	private String mResult;
-
+	private int q = 0;
 	private TextView textView = null;
 
 	public void Search(TextView[] textView, String result, String args) {
 		mResult = result;
-		String[] product;
-		String input = args;
 
-		String[] length = input.split("");
 		String[] key = mResult.split("£");
 
-		int q = 0;
-		int res = 4;
 		loop:
-		for (int entry = 0; entry < key.length; entry++) {
-			String[] getgym = key[entry].split("==");
-			String[] compare = getgym[0].split("");
-			int k = 0;
-			if (length.length <= compare.length) {
-				for (int i = 0; i < length.length; i++) {
-					if (compare[i].equals(length[i])) {
-						k++;
-						if (k == length.length) {
-							textView[q].setText(getgym[0]);
-							q++;
-							if (q == res) {
-								break loop;
-							}
-						}
-					}
+		for (int i = 0; i < key.length; i++) {
+			String[] list = key[i].split("==");
+			Pattern noteRegex = Pattern.compile("^.?" + args + ".*?");
+			Matcher noteMatcher = noteRegex.matcher(list[0].toLowerCase());
+			if(noteMatcher.find()){
+				textView[q].setText(list[0]);
+				q++;
+				if (q==4) {
+					break loop;
 				}
 			}
 		}

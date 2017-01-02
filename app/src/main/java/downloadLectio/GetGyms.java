@@ -33,11 +33,11 @@ import static one.dichmann.lectioapp.R.layout.activity_login;
 
 public class GetGyms extends AsyncTask<String, Void, String> {
     public AsyncResponse delegate = null;
+    private String compact;
 
     @Override
     public String doInBackground(String... Strings) {
         String url = "http://www.enelleranden.dk/lectio/logingym.html";
-        String compact = "gym==key\n";
         Document doc = null;
         try {
             doc = Jsoup.connect(url).get();
