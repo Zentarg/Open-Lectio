@@ -40,68 +40,40 @@ import one.dichmann.lectioapp.R;
 
 import static android.R.attr.data;
 
-public class Search extends AsyncTask<String, Void, String[]> {
+public class Search {
 	private String mResult;
 
 	private TextView textView = null;
 
-	public Search(TextView textView, String result) {
-		this.textView = textView;
+	public void Search(TextView[] textView, String result, String args) {
 		mResult = result;
-	}
-
-	@Override
-	public String[] doInBackground(String... args) {
-		String[] result;
-		String input = args[0];
-
-
-
+		String[] product;
+		String input = args;
 
 		String[] length = input.split("");
-		length[0] = length[0].toUpperCase();
 		String[] key = mResult.split("£");
 
 		int q = 0;
-		int entry = 0;
 		int res = 4;
-		result = new String[res];
 		loop:
-        while (entry<key.length) {
-            String[] getgym = key[q].split("==");
-            String[] compare = getgym[0].split("");
-            int k = 0;
-            if (length.length <= compare.length) {
-                for (int i = 0; i < length.length; i++) {
-                    if (compare[i].equals(length[i])) {
-                        k++;
-                        if (k == length.length) {
-                            result[q] = length[entry];
-                            q++;
-                            if (q == res) {
-                                break loop;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-		return result;
-	}
-
-	@Override
-	public void onPostExecute(String[] result) {
-		System.out.println(result);
-		if (result != null) {
-			textView.setText(result[0]);
+		for (int entry = 0; entry < key.length; entry++) {
+			String[] getgym = key[entry].split("==");
+			String[] compare = getgym[0].split("");
+			int k = 0;
+			if (length.length <= compare.length) {
+				for (int i = 0; i < length.length; i++) {
+					if (compare[i].equals(length[i])) {
+						k++;
+						if (k == length.length) {
+							textView[q].setText(getgym[0]);
+							q++;
+							if (q == res) {
+								break loop;
+							}
+						}
+					}
+				}
+			}
 		}
-	}
-
-	@Override
-	public void onPreExecute() {
-	}
-
-	@Override
-	public void onProgressUpdate(Void... values) {
 	}
 }

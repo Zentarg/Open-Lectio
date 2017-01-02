@@ -32,6 +32,7 @@ public class LoginActivity extends Activity implements AsyncResponse {
     private String Value;
     private int PERMISSION_STORAGE = 0;
     private String gymList;
+    private TextView[] Textviews;
     // Storage Permissions variables
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
@@ -201,10 +202,8 @@ public class LoginActivity extends Activity implements AsyncResponse {
                 // Make whatever is in the EditText a string of lower case words every time you change the EditText.
                 System.out.println("i do");
                 Value = editText.getText().toString().toLowerCase();
-
-                new Search(textView1, gymList).execute(Value);
-                new Search(textView2, gymList).execute(Value);
-
+                TextView[] textviews = new TextView[]{textView1, textView2, textView3, textView4};
+                new Search().Search(textviews , gymList , Value);
 
                 if (Value.length() >= 1) {
                     textView1.setVisibility(View.VISIBLE);
@@ -219,7 +218,6 @@ public class LoginActivity extends Activity implements AsyncResponse {
                 }
 
             }
-
             // We don't use this either. Still required for the TextWatcher to work.
             @Override
             public void afterTextChanged(Editable editable) {
