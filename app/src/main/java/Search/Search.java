@@ -6,12 +6,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import downloadLectio.IDs;
+import one.dichmann.lectioapp.LoginActivity;
 
 
 public class Search {
 	private String mResult;
-	private String[] IDs;
-	public String delegate = null;
+	public String[] IDs;
 	private int q = 0;
 	private TextView textView = null;
 	private ImageView imageView = null;
@@ -63,7 +63,5 @@ public class Search {
 				q++;
 			}
 		}
-		delegate = IDs[0]+"£"+IDs[1]+"£"+IDs[2]+"£"+IDs[3];
 	}
 }
-
