@@ -11,14 +11,13 @@ import one.dichmann.lectioapp.LoginActivity;
 
 public class Search {
 	private String mResult;
-	public String[] IDs;
+	private String[] IDs = new String[4];
 	private int q = 0;
 	private TextView textView = null;
 	private ImageView imageView = null;
 
-	public void Search(ImageView[] imageView, TextView[] textView, String result, String args) {
+	public String[] Search(ImageView[] imageView, TextView[] textView, String result, String args) {
 		mResult = result;
-
 		String[] key = mResult.split("£");
 
 		loop:
@@ -63,5 +62,12 @@ public class Search {
 				q++;
 			}
 		}
+        if (args.isEmpty()){
+            for (int i=0; i<textView.length; i++){
+                textView[i].setVisibility(View.GONE);
+                imageView[i].setVisibility(View.GONE);
+            }
+        }
+		return IDs;
 	}
 }

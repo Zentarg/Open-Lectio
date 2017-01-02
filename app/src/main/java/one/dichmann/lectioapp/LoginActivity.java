@@ -30,16 +30,10 @@ public class LoginActivity extends Activity implements AsyncResponse {
     private ImageView imageView1, imageView2, imageView3, imageView4, imageView5, imageView6, imageView7, imageView8;
     private int[] textValueGym = new int[4];
     private int[] textValueNames = new int[4];
-    private String valueGyms, valueNames, gymList, nameList;
+    private String valueGyms, valueNames, gymList, nameList, gymID;
+    private String[] gymIDs;
     // Storage Permissions variables
     private int PERMISSION_STORAGE = 0;
-
-    //Defines arrays of the TextViews and ImageViews we need for the first part of the login (1-4)
-    TextView[] textViewsGym = new TextView[]{textView1, textView2, textView3, textView4};
-    ImageView[] imageViewsGym = new ImageView[]{imageView1, imageView2, imageView3, imageView4};
-    //Defines arrays of the TextViews and ImageViews we need for the second part of the login (5-8)
-    TextView[] textViewsNames = new TextView[]{textView5, textView6, textView7, textView8};
-    ImageView[] imageViewsNames = new ImageView[]{imageView5, imageView6, imageView7, imageView8};
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
@@ -209,6 +203,9 @@ public class LoginActivity extends Activity implements AsyncResponse {
 
         // A function that does something whenever you change the text in the specific EditText
         editTextGyms.addTextChangedListener(new TextWatcher() {
+            //Defines arrays of the TextViews and ImageViews we need for the first part of the login (1-4)
+            TextView[] textViewsGym = new TextView[]{textView1, textView2, textView3, textView4};
+            ImageView[] imageViewsGym = new ImageView[]{imageView1, imageView2, imageView3, imageView4};
 
             // We don't use this, however it is required to have it for the TextWatcher to work.
             @Override
@@ -221,7 +218,7 @@ public class LoginActivity extends Activity implements AsyncResponse {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 // Make whatever is in the EditText a string of lower case words every time you change the EditText.
                 valueGyms = editTextGyms.getText().toString().toLowerCase();
-                new Search().Search(imageViewsGym, textViewsGym, gymList, valueGyms);
+                gymIDs = new Search().Search(imageViewsGym, textViewsGym, gymList, valueGyms);
             }
 
             // We don't use this either. Still required for the TextWatcher to work.
@@ -259,12 +256,18 @@ public class LoginActivity extends Activity implements AsyncResponse {
 
 
     public void newTextView(View view) {
+        //textView is defined here for the sake of retrieving the ID for the gym pressed
+        TextView[] textViewsGym = new TextView[]{textView1, textView2, textView3, textView4};
+        //Defines arrays of the TextViews and ImageViews we need for the second part of the login (5-8)
+        TextView[] textViewsNames = new TextView[]{textView5, textView6, textView7, textView8};
+        ImageView[] imageViewsNames = new ImageView[]{imageView5, imageView6, imageView7, imageView8};
         //Defines the TextView that was clicked.
         TextView selectedGym = (TextView) view;
         int id = selectedGym.getId();
         for (int i=0;i<4;i++){
             if (id == textViewsGym[i].getId()){
-
+                gymID = gymIDs[i];
+                System.out.println(gymID);
             }
         }
         //Get the string of the TextView that was clicked.
@@ -276,23 +279,16 @@ public class LoginActivity extends Activity implements AsyncResponse {
         //Sets the text of the gymText TextView to the selectedGym string.
         gymText.setText(selectedGym.getText().toString());
 
-
-        //Makes arrays for each type of TextViews and ImageViews(TextViews and ImageViews for first part, aswell as the second).
-        TextView[] textViewsGym = new TextView[]{textView1, textView2, textView3, textView4};
-        ImageView[] textImagesGym = new ImageView[]{imageView1, imageView2, imageView3, imageView4};
-        TextView[] textViewsNames = new TextView[]{textView5, textView6, textView7, textView8};
-        ImageView[] textImageNames = new ImageView[]{imageView5, imageView6, imageView7, imageView8};
-
         //Defines i to be 0
         int i = 0;
         //For too that sets the appropriate TextViews and ImageViews to either GONE or VISIBLE
         for (i=0; i < 4; i++) {
             //Sets the Text and ImageViews Visibility to GONE
             textViewsGym[i].setVisibility(View.GONE);
-            textImagesGym[i].setVisibility(View.GONE);
+            imageViewsNames[i].setVisibility(View.GONE);
             //Sets the Text and ImageViews Visibility to VISIBLE
             textViewsNames[i].setVisibility(View.VISIBLE);
-            textImageNames[i].setVisibility(View.VISIBLE);
+            imageViewsNames[i].setVisibility(View.VISIBLE);
         }
         //Set the EditText of the first part of the login to GONE
         editTextGyms.setVisibility(View.GONE);
@@ -301,7 +297,7 @@ public class LoginActivity extends Activity implements AsyncResponse {
         gymText.setVisibility(View.VISIBLE);
     }
 
-    //TODO: Check if logged in.
+        //TODO: Check if logged in.
         //TODO: If actually logged in, check who is logged in. Thereafter make sure to go directly to the logged in activity as user.
         //TODO: If not logged in, display as normally.
 /*

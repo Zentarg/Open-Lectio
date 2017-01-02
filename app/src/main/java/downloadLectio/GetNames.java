@@ -1,13 +1,13 @@
 package downloadLectio;
 
-import java.io.IOException;
+import android.os.AsyncTask;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import android.os.AsyncTask;
+import java.io.IOException;
 
 public class GetNames extends AsyncTask<String, Void, String> {
     public AsyncResponse delegate = null;
@@ -15,7 +15,7 @@ public class GetNames extends AsyncTask<String, Void, String> {
 
     @Override
     public String doInBackground(String... Strings) {
-        String url = "http://www.enelleranden.dk/lectio/logingym.html";
+        String url = "http://www.enelleranden.dk/lectio/loginnamestest.html";
         Document doc = null;
         try {
             doc = Jsoup.connect(url).get();

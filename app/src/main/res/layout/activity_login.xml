@@ -220,8 +220,7 @@
         android:layout_alignParentStart="true"
         android:textSize="25sp"
         android:layout_alignParentLeft="true"
-        android:minHeight="30dp"
-        Dichmann_CustomAttributes:Dichmann_IDs=""/>
+        android:minHeight="30dp"/>
 
     <ImageView
         android:id="@+id/loginTwo_UnderscoreImage4"
