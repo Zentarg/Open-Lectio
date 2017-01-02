@@ -21,7 +21,8 @@
         android:layout_marginTop="49dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:layout_alignParentLeft="true" />
 
     <TextView
         android:id="@+id/logineOne_Search_Result_One"
@@ -32,14 +33,17 @@
         android:onClick="newTextView"
         android:layout_below="@+id/loginOne_Search_Search"
         android:layout_alignParentStart="true"
-        android:textSize="25sp"/>
+        android:textSize="25sp"
+        android:layout_alignParentLeft="true"
+        android:text="text" />
 
     <ImageView
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/logineOne_Search_Result_One"/>
+        android:layout_below="@+id/logineOne_Search_Result_One"
+        android:layout_alignParentLeft="true" />
 
     <TextView
         android:id="@+id/logineOne_Search_Result_Two"
@@ -50,14 +54,16 @@
         android:onClick="newTextView"
         android:layout_below="@+id/logineOne_Search_Result_One"
         android:layout_alignParentStart="true"
-        android:textSize="25sp"/>
+        android:textSize="25sp"
+        android:layout_alignParentLeft="true" />
 
     <ImageView
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/logineOne_Search_Result_Two"/>
+        android:layout_below="@+id/logineOne_Search_Result_Two"
+        android:layout_alignParentLeft="true" />
 
     <TextView
         android:id="@+id/logineOne_Search_Result_Three"
@@ -68,14 +74,16 @@
         android:onClick="newTextView"
         android:layout_below="@+id/logineOne_Search_Result_Two"
         android:layout_alignParentStart="true"
-        android:textSize="25sp"/>
+        android:textSize="25sp"
+        android:layout_alignParentLeft="true" />
 
     <ImageView
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/logineOne_Search_Result_Three"/>
+        android:layout_below="@+id/logineOne_Search_Result_Three"
+        android:layout_alignParentLeft="true" />
 
     <TextView
         android:id="@+id/logineOne_Search_Result_Four"
@@ -86,13 +94,15 @@
         android:onClick="newTextView"
         android:layout_below="@+id/logineOne_Search_Result_Three"
         android:layout_alignParentStart="true"
-        android:textSize="25sp"/>
+        android:textSize="25sp"
+        android:layout_alignParentLeft="true" />
 
     <ImageView
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/logineOne_Search_Result_Four"/>
+        android:layout_below="@+id/logineOne_Search_Result_Four"
+        android:layout_alignParentLeft="true" />
 
 </RelativeLayout>

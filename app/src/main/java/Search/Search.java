@@ -46,19 +46,21 @@ public class Search extends AsyncTask<String, Void, String[]> {
 	private TextView textView = null;
 
 	public Search(TextView textView, String result) {
-		this.textView = textView; mResult = result;
+		this.textView = textView;
+		mResult = result;
 	}
 
 	@Override
 	public String[] doInBackground(String... args) {
-		String[] result = new String[0];
-		String read;
+		String[] result;
 		String input = args[0];
+
+
 
 
 		String[] length = input.split("");
 		length[0] = length[0].toUpperCase();
-		String[] key = mResult.split("\n");
+		String[] key = mResult.split("£");
 
 		int q = 0;
 		int entry = 0;
@@ -89,6 +91,7 @@ public class Search extends AsyncTask<String, Void, String[]> {
 
 	@Override
 	public void onPostExecute(String[] result) {
+		System.out.println(result);
 		if (result != null) {
 			textView.setText(result[0]);
 		}

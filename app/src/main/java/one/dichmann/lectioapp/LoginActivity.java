@@ -137,7 +137,6 @@ public class LoginActivity extends Activity implements AsyncResponse {
 
         // Define Content View before any other variables of the content.
         setContentView(R.layout.activity_login);
-    }
 
 
         // Define the contents by using findViewById
@@ -178,22 +177,10 @@ public class LoginActivity extends Activity implements AsyncResponse {
         sendPostReqAsyncTask.execute(name);
     }
 */
-    // onClick function of the TextView that goes to the next activity with the GymName/ID
-    public void newTextView(View view) {
+        // onClick function of the TextView that goes to the next activity with the GymName/ID
 
 
-        TextView selectedGym = (TextView) view;
-        String selectedGymString = selectedGym.getText().toString();
-
-        Toast.makeText(this, selectedGymString, Toast.LENGTH_SHORT).show();
-
-        TextView newTextView = new TextView(this);
-        newTextView.setText(selectedGym.getText().toString());
-
-        ViewGroup layout = (ViewGroup) findViewById(R.id.activity_login);
-        layout.addView(newTextView);
-
-        editText  = (EditText) findViewById(R.id.loginOne_Search_Search);
+        editText = (EditText) findViewById(R.id.loginOne_Search_Search);
         textView1 = (TextView) findViewById(R.id.logineOne_Search_Result_One);
         textView2 = (TextView) findViewById(R.id.logineOne_Search_Result_Two);
         textView3 = (TextView) findViewById(R.id.logineOne_Search_Result_Three);
@@ -244,7 +231,20 @@ public class LoginActivity extends Activity implements AsyncResponse {
 
     }
 
+    public void newTextView(View view) {
 
+
+        TextView selectedGym = (TextView) view;
+        String selectedGymString = selectedGym.getText().toString();
+
+        Toast.makeText(this, selectedGymString, Toast.LENGTH_SHORT).show();
+
+        TextView newTextView = new TextView(this);
+        newTextView.setText(selectedGym.getText().toString());
+
+        ViewGroup layout = (ViewGroup) findViewById(R.id.activity_login);
+        layout.addView(newTextView);
+    }
     //TODO: Check if logged in.
         //TODO: If actually logged in, check who is logged in. Thereafter make sure to go directly to the logged in activity as user.
         //TODO: If not logged in, display as normally.
