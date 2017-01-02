@@ -61,4 +61,8 @@ public class Search {
 			}
 		}
 	}
+	public String[] IDs() {
+		return IDs;
+	}
 }
+
