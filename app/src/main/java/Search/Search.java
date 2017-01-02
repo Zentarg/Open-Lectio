@@ -5,10 +5,13 @@ import android.widget.TextView;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import downloadLectio.IDs;
+
 
 public class Search {
 	private String mResult;
-	public String[] IDs;
+	private String[] IDs;
+	public String delegate = null;
 	private int q = 0;
 	private TextView textView = null;
 	private ImageView imageView = null;
@@ -60,9 +63,7 @@ public class Search {
 				q++;
 			}
 		}
-	}
-	public String[] IDs() {
-		return IDs;
+		delegate = IDs[0]+"£"+IDs[1]+"£"+IDs[2]+"£"+IDs[3];
 	}
 }
 
