@@ -28,49 +28,32 @@ import one.dichmann.lectioapp.LoginActivity;
 import one.dichmann.lectioapp.R;
 
 import static android.R.attr.data;
+import static android.content.Context.MODE_PRIVATE;
 import static one.dichmann.lectioapp.R.layout.activity_login;
 
-public class GetGyms extends AsyncTask<String, Void, SortedMap<String, String>> {
-    @Override
-    public SortedMap<String, String> doInBackground(String... Strings) {
-                String url = "http://www.enelleranden.dk/lectio/logingym.html";
-                Document doc = null;
-                try {
-                    doc = Jsoup.connect(url).get();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return null;
-                }
-                SortedMap<String, String> values = new TreeMap<String, String>();
-
-                Elements links = doc.select("a");
-                for (Element link : links) {
-                    values.put(link.text(), link.attr("href").replace("/lectio/", "").replace("/default.aspx", ""));
-                }
-                System.out.println(values);
-                return values;
-            }
-
+public class GetGyms extends AsyncTask<String, Void, String> {
+    public AsyncResponse delegate = null;
 
     @Override
-    public void onPostExecute(SortedMap<String, String> result) {
-        try{
-            File root = new File(Environment.getExternalStorageDirectory(), "temp");
-            if (!root.exists()) {
-                root.mkdirs();
-            }
-            System.out.println(root);
-            String sFileName = "temp.txt";
-            File gpxfile = new File(root, sFileName);
-            FileWriter writer = new FileWriter(gpxfile);
-            writer.append((CharSequence) result);
-            writer.flush();
-            writer.close();
-
-            System.out.println("Saved");
-
+    public String doInBackground(String... Strings) {
+        String url = "http://www.enelleranden.dk/lectio/logingym.html";
+        String compact = "gym==key\n";
+        Document doc = null;
+        try {
+            doc = Jsoup.connect(url).get();
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
+        Elements links = doc.select("a");
+           for (Element link : links) {
+               compact = compact+link.text() + "==" + link.attr("href").replace("/lectio/", "").replace("/default.aspx", "") + "£";
+           }
+        return compact;
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+        delegate.processFinish(result);
     }
 }

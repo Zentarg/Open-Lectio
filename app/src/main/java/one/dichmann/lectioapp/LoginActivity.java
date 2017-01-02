@@ -2,11 +2,8 @@ package one.dichmann.lectioapp;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
@@ -17,17 +14,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.SortedMap;
-
 import Search.Search;
+import downloadLectio.AsyncResponse;
 import downloadLectio.GetGyms;
 import permissions.checkStoragePermission;
 
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements AsyncResponse {
     public final static String SKOLE_ID = "one.dichmann.LectioApp.SKOLEID";
 
     //Define Privates of the ID's before onCreate.
@@ -38,7 +31,7 @@ public class LoginActivity extends Activity {
     private TextView textView4;
     private String Value;
     private int PERMISSION_STORAGE = 0;
-
+    private String gymList;
     // Storage Permissions variables
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
@@ -46,8 +39,16 @@ public class LoginActivity extends Activity {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
+    GetGyms asynctask = new GetGyms();
+
+    //retrieves Gym list and assigns it to a private variable.
+    @Override
+    public void processFinish(String output) {
+        gymList = output;
+        System.out.println(gymList);
+    }
     //persmission method.
-    public static void verifyStoragePermissions(Activity activity) {
+    public void verifyStoragePermissions(Activity activity) {
         // Check if we have read or write permission
         int writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int readPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -71,7 +72,7 @@ public class LoginActivity extends Activity {
 
         //Check if we have permission now. If so, then execute GetGyms.
         if (writePermission2 != PackageManager.PERMISSION_DENIED && readPermission2 != PackageManager.PERMISSION_DENIED) {
-            new GetGyms().execute();
+            //new GetGyms(this).execute();
             System.out.println("GetGyms executing & permission granted.");
         } else {
             System.out.println("We couldn't execute GetGyms");
@@ -86,6 +87,7 @@ public class LoginActivity extends Activity {
 
         //Calling the permission method.
         //verifyStoragePermissions(this);
+
 
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this,
@@ -112,78 +114,34 @@ public class LoginActivity extends Activity {
                         PERMISSION_STORAGE);
 
 
-
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                 // app-defined int constant. The callback method gets the
                 // result of the request.
 
                 int writePermission2 = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
                 int readPermission2 = ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-                System.out.println("writePerm2 : "+writePermission2 + "   readPerm2 : "+readPermission2);
+                System.out.println("writePerm2 : " + writePermission2 + "   readPerm2 : " + readPermission2);
                 int[] permissions = {writePermission2, readPermission2};
-                new checkStoragePermission().onRequestPermissionsResult(0,permissions);
+                new checkStoragePermission().onRequestPermissionsResult(0, permissions);
             }
         } else {
             System.out.println("Permission has been granted before we try to get it");
-            new GetGyms().execute();
+            //new GetGyms(this).execute();
         }
 
 
+        //due to bugfixing the below code tries to execute the getgyms method no matter what the permissions are.
+        //assigns Getgyms delegate and launches it
+        asynctask.delegate = this;
+        asynctask.execute();
 
         // Define Content View before any other variables of the content.
         setContentView(R.layout.activity_login);
+    }
+
 
         // Define the contents by using findViewById
-        editText  = (EditText) findViewById(R.id.loginOne_Search_Search);
-        textView1 = (TextView) findViewById(R.id.logineOne_Search_Result_One);
-        textView2 = (TextView) findViewById(R.id.logineOne_Search_Result_Two);
-        textView3 = (TextView) findViewById(R.id.logineOne_Search_Result_Three);
-        textView4 = (TextView) findViewById(R.id.logineOne_Search_Result_Four);
 
-        // A function that does something whenever you change the text in the specific EditText
-        editText.addTextChangedListener(new TextWatcher() {
-
-            // We don't use this, however it is required to have it for the TextWatcher to work.
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            // Here we do stuff the moment you change text in the EditText.
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                // Make whatever is in the EditText a string of lower case words every time you change the EditText.
-                Value = editText.getText().toString().toLowerCase();
-
-                new Search(textView1).execute(Value);
-                new Search(textView2).execute(Value);
-
-
-                if (Value.length() >= 1) {
-                    textView1.setVisibility(View.VISIBLE);
-                    textView2.setVisibility(View.VISIBLE);
-                    textView3.setVisibility(View.VISIBLE);
-                    textView4.setVisibility(View.VISIBLE);
-                } else {
-                    textView1.setVisibility(View.INVISIBLE);
-                    textView2.setVisibility(View.INVISIBLE);
-                    textView3.setVisibility(View.INVISIBLE);
-                    textView4.setVisibility(View.INVISIBLE);
-                }
-
-            }
-
-            // We don't use this either. Still required for the TextWatcher to work.
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-
-        });
-
-
-    }
 /*
     protected void insertToDatabase(String name) {
         class SendPostReqAsyncTask extends AsyncTask<String, Void, String> {
@@ -234,9 +192,60 @@ public class LoginActivity extends Activity {
 
         ViewGroup layout = (ViewGroup) findViewById(R.id.activity_login);
         layout.addView(newTextView);
+
+        editText  = (EditText) findViewById(R.id.loginOne_Search_Search);
+        textView1 = (TextView) findViewById(R.id.logineOne_Search_Result_One);
+        textView2 = (TextView) findViewById(R.id.logineOne_Search_Result_Two);
+        textView3 = (TextView) findViewById(R.id.logineOne_Search_Result_Three);
+        textView4 = (TextView) findViewById(R.id.logineOne_Search_Result_Four);
+
+        // A function that does something whenever you change the text in the specific EditText
+        editText.addTextChangedListener(new TextWatcher() {
+
+            // We don't use this, however it is required to have it for the TextWatcher to work.
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            // Here we do stuff the moment you change text in the EditText.
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Make whatever is in the EditText a string of lower case words every time you change the EditText.
+                System.out.println("i do");
+                Value = editText.getText().toString().toLowerCase();
+
+                new Search(textView1, gymList).execute(Value);
+                new Search(textView2, gymList).execute(Value);
+
+
+                if (Value.length() >= 1) {
+                    textView1.setVisibility(View.VISIBLE);
+                    textView2.setVisibility(View.VISIBLE);
+                    textView3.setVisibility(View.VISIBLE);
+                    textView4.setVisibility(View.VISIBLE);
+                } else {
+                    textView1.setVisibility(View.INVISIBLE);
+                    textView2.setVisibility(View.INVISIBLE);
+                    textView3.setVisibility(View.INVISIBLE);
+                    textView4.setVisibility(View.INVISIBLE);
+                }
+
+            }
+
+            // We don't use this either. Still required for the TextWatcher to work.
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+
+        });
+
+
     }
 
-        //TODO: Check if logged in.
+
+    //TODO: Check if logged in.
         //TODO: If actually logged in, check who is logged in. Thereafter make sure to go directly to the logged in activity as user.
         //TODO: If not logged in, display as normally.
 /*
@@ -248,6 +257,6 @@ public class LoginActivity extends Activity {
         startActivity(intent);
     }
   */
-    };
+};
 
 
