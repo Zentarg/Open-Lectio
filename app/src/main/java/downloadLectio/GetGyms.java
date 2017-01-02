@@ -37,10 +37,10 @@ public class GetGyms extends AsyncTask<String, Void, String> {
 
     @Override
     public String doInBackground(String... Strings) {
-        String url = "http://www.enelleranden.dk/lectio/logingym.html";
+        String url = "http://www.lectio.dk/lectio/login_list.aspx";
         Document doc = null;
         try {
-            doc = Jsoup.connect(url).get();
+            doc = Jsoup.connect(url).userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36").get();
         } catch (IOException e) {
             e.printStackTrace();
             return null;

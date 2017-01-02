@@ -9,7 +9,6 @@ import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +17,7 @@ import android.widget.Toast;
 import Search.Search;
 import downloadLectio.AsyncResponse;
 import downloadLectio.GetGyms;
+import downloadLectio.GetNames;
 import permissions.checkStoragePermission;
 
 
@@ -41,7 +41,8 @@ public class LoginActivity extends Activity implements AsyncResponse {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
-    GetGyms asynctask = new GetGyms();
+    GetGyms asyncTaskGyms = new GetGyms();
+    GetNames asyncTaskNames = new GetNames();
 
     //retrieves Gym list and assigns it to a private variable.
     @Override
@@ -134,8 +135,8 @@ public class LoginActivity extends Activity implements AsyncResponse {
 
         //due to bugfixing the below code tries to execute the getgyms method no matter what the permissions are.
         //assigns Getgyms delegate and launches it
-        asynctask.delegate = this;
-        asynctask.execute();
+        asyncTaskGyms.delegate = this;
+        asyncTaskGyms.execute();
 
         // Define Content View before any other variables of the content.
         setContentView(R.layout.activity_login);
@@ -267,7 +268,9 @@ public class LoginActivity extends Activity implements AsyncResponse {
         for (int i=0;i<4;i++){
             if (id == textViewsGym[i].getId()){
                 gymID = gymIDs[i];
-                System.out.println(gymID);
+                asyncTaskNames.GymID = gymID;
+                asyncTaskNames.delegate = this;
+                asyncTaskNames.execute();
             }
         }
         //Get the string of the TextView that was clicked.
