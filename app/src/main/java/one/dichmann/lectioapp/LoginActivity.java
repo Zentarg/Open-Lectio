@@ -26,12 +26,15 @@ import downloadLectio.GetNames;
 
 public class LoginActivity extends Activity implements AsyncResponse {
 
+    public static String finalNameID = "one.dichmann.LectioApp.nameID";
+    public static String finalGymID = "one.dichmann.LectioApp.gymID";
+
     //Define Privates of the ID's before onCreate.
     private TextView gymText, textView1, textView2, textView3, textView4, textView5, textView6, textView7, textView8;
     private EditText editTextGyms, editTextNames;
     private ImageView imageView1, imageView2, imageView3, imageView4, imageView5, imageView6, imageView7, imageView8;
     private LinearLayout fragment_loginOne, fragment_loginTwo;
-    private String valueGyms, valueNames, gymID, nameID, list;
+    private String valueGyms, valueNames, nameID, gymID, list;
     private String[] gymIDs, NameIDs;
 
     // Storage Permissions variables
@@ -204,6 +207,9 @@ public class LoginActivity extends Activity implements AsyncResponse {
         //Set the EditText for the second part of the login aswell as the TextView that displays the Gym you chose to VISIBLE
         editTextNames.setVisibility(View.VISIBLE);
         gymText.setVisibility(View.VISIBLE);
+
+        finalGymID = gymID;
+
     }
 
     //TODO: Check if logged in.
@@ -211,9 +217,12 @@ public class LoginActivity extends Activity implements AsyncResponse {
     //TODO: If not logged in, display as normally.
 
     public void LoginWithout(View view) {
+        //Set finalNameID to the chosen nameID before we start the intent.
+        finalNameID = nameID;
+
         Intent intent = new Intent(this, ScheduleActivity.class);
-        intent.putExtra("gymID", gymID);
-        intent.putExtra("nameID", nameID);
+        intent.putExtra("gymID", finalGymID);
+        intent.putExtra("nameID", finalNameID);
         startActivity(intent);
     }
 

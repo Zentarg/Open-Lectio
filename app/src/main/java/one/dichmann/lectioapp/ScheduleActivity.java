@@ -13,16 +13,16 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
 
-        Bundle receive = new Bundle();
         String gymID;
         String nameID;
 
-        receive = getIntent().getExtras();
-        gymID = receive.getString("gym");
-        nameID = receive.getString("name");
+        gymID = getIntent().getStringExtra(LoginActivity.finalGymID);
+        nameID = getIntent().getStringExtra(LoginActivity.finalNameID);
 
         getIntent();
         GetGyms asyncTaskSchedule = new GetGyms();
+        asyncTaskSchedule.gymID = gymID;
+        asyncTaskSchedule.nameID = nameID;
         asyncTaskSchedule.delegate = this;
         asyncTaskSchedule.execute();
 
