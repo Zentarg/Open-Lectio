@@ -5,9 +5,11 @@
     <string name="login_Button">Login</string>
     <string name="login_Next">Next</string>
     <string name="login_Tilbage">Previous</string>
-    <string name="login_Search_Hint">Enter the school name or ID</string>
-    <string name="login_Hint_ElevID">Elev ID</string>
+    <string name="login_Search_Hint">Name of The School</string>
+    <string name="login_Hint_ElevID">Student ID</string>
     <string name="loginTwo_IdButton">Use Student ID</string>
     <string name="loginTwo_LoginButton">Use Lectio Login</string>
     <string name="notAvailable">This feature is not available at the moment.</string>
+    <string name="login_Hint_ElevNavn">Name</string>
+    <string name="loginTwo_Search_Hint">Student Name</string>
 </resources>

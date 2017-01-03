@@ -1,14 +1,15 @@
 <resources>
-    <string name="app_name">Lectio App</string>
+    <string name="app_name">Open Lectio</string>
     <string name="login_Brugernavn">Brugernavn</string>
     <string name="login_Password">Password</string>
     <string name="login_Button">Login</string>
     <string name="login_Next">Næste</string>
     <string name="login_Tilbage">Tilbage</string>
-    <string name="login_Search_Hint">Skriv skolens navn eller ID</string>
+    <string name="login_Search_Hint">Skolens Navn</string>
     <string name="loginTwo_IdButton">Brug Navn</string>
     <string name="loginTwo_LoginButton">Brug Lectio Login</string>
     <string name="login_Hint_ElevNavn">Navn</string>
     <string name="notAvailable">Denne feature er desværre ikke tilgængelig i øjeblikket.</string>
-    <string name="loginTwo_Search_Hint">Søg efter et navn</string>
+    <string name="loginTwo_Search_Hint">Elevens Navn</string>
+    <string name="login_Hint_ElevID">Elev ID</string>
 </resources>
