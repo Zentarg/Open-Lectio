@@ -22,7 +22,7 @@ public class Weekday {
         return Day(dayOfWeek);
     }
 
-    public String Today() {
+    public static String Today() {
         try{
         SimpleDateFormat s = new SimpleDateFormat("yyyy-dd-MM HH:mm:ss");
         String format = s.format(new Date());
