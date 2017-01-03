@@ -123,7 +123,9 @@ public class LoginActivity extends Activity implements AsyncResponse {
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     // Make whatever is in the EditText a string of lower case words every time you change the EditText.
                     valueGyms = editTextGyms.getText().toString().toLowerCase();
-                    gymIDs = new Search().Search(imageViewsGym, textViewsGym, list, valueGyms);
+                    Search search = new Search();
+                    search.delegate = this;
+                    gymIDs = search.Search(imageViewsGym, textViewsGym, list, valueGyms);
                 }
 
                 // We don't use this either. Still required for the TextWatcher to work.
@@ -146,7 +148,9 @@ public class LoginActivity extends Activity implements AsyncResponse {
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     // Make whatever is in the EditText a string of lower case words every time you change the EditText.
                     valueNames = editTextNames.getText().toString().toLowerCase();
-                    NameIDs = new Search().Search(imageViewsName, textViewsName, list, valueNames);
+                    Search search = new Search();
+                    search.delegate = this;
+                    NameIDs = search.Search(imageViewsName, textViewsName, list, valueNames);
                 }
 
                 // We don't use this either. Still required for the TextWatcher to work.
