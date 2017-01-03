@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import downloadLectio.AsyncResponse;
 import downloadLectio.GetGyms;
+import downloadLectio.GetSchedule;
 
 public class ScheduleActivity extends AppCompatActivity implements AsyncResponse {
 
@@ -18,12 +19,12 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
 
         gymID = getIntent().getStringExtra(LoginActivity.finalGymID);
         nameID = getIntent().getStringExtra(LoginActivity.finalNameID);
+        System.out.println(gymID+"-"+nameID);
 
         getIntent();
-        GetGyms asyncTaskSchedule = new GetGyms();
+        GetSchedule asyncTaskSchedule = new GetSchedule();
         asyncTaskSchedule.gymID = gymID;
         asyncTaskSchedule.nameID = nameID;
-        asyncTaskSchedule.delegate = this;
         asyncTaskSchedule.execute();
 
     }

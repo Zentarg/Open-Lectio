@@ -33,7 +33,6 @@ import static one.dichmann.lectioapp.R.layout.activity_login;
 
 public class GetGyms extends AsyncTask<String, Void, String> {
     public AsyncResponse delegate = null;
-
     private String compact;
 
     @Override
@@ -46,9 +45,9 @@ public class GetGyms extends AsyncTask<String, Void, String> {
             e.printStackTrace();
             return null;
         }
-        Elements links = doc.select("div").select("a");
+        Elements links = doc.select("a");
            for (Element link : links) {
-               compact = compact+link.text() + "==" + link.attr("title") + "£";
+               compact = compact+link.text() + "==" + link.attr("href").replace("/lectio/", "").replace("/default.aspx", "") + "£";
            }
         return compact;
     }
