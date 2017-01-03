@@ -5,7 +5,6 @@ import android.widget.TextView;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import downloadLectio.IDs;
 import one.dichmann.lectioapp.LoginActivity;
 
 
