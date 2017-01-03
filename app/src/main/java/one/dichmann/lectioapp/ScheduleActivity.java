@@ -1,11 +1,13 @@
 package one.dichmann.lectioapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import downloadLectio.AsyncResponse;
 import downloadLectio.GetGyms;
 import downloadLectio.GetSchedule;
+import schedule.Schedule;
 
 public class ScheduleActivity extends AppCompatActivity implements AsyncResponse {
 
@@ -17,12 +19,15 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
         String gymID;
         String nameID;
 
-        gymID = getIntent().getStringExtra(LoginActivity.finalGymID);
-        nameID = getIntent().getStringExtra(LoginActivity.finalNameID);
+        Intent intent = getIntent();
+        gymID = intent.getStringExtra(LoginActivity.finalGymID);
+        nameID = intent.getStringExtra(LoginActivity.finalNameID);
         System.out.println(gymID+"-"+nameID);
 
         getIntent();
+
         GetSchedule asyncTaskSchedule = new GetSchedule();
+        asyncTaskSchedule.delegate = this;
         asyncTaskSchedule.gymID = gymID;
         asyncTaskSchedule.nameID = nameID;
         asyncTaskSchedule.execute();

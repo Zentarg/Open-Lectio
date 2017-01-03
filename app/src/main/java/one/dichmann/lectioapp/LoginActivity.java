@@ -38,6 +38,8 @@ public class LoginActivity extends Activity implements AsyncResponse {
     private LinearLayout fragment_loginOne, fragment_loginTwo;
     private String valueGyms, valueNames, nameID, gymID, list;
     private String[] gymIDs, NameIDs;
+    private TextView[] textViewsGym, textViewsName;
+    private ImageView[] imageViewsGym, imageViewsName;
 
     // Storage Permissions variables
     private int gym, name;
@@ -55,7 +57,6 @@ public class LoginActivity extends Activity implements AsyncResponse {
     @Override
     public void processFinish(String output) {
         list = output;
-        System.out.println(list);
     }
 
     @Override
@@ -101,12 +102,16 @@ public class LoginActivity extends Activity implements AsyncResponse {
             imageView7 = (ImageView) findViewById(R.id.loginTwo_UnderscoreImage3);
             imageView8 = (ImageView) findViewById(R.id.loginTwo_UnderscoreImage4);
 
+            //Defines arrays of the TextViews and ImageViews we need for the first part of the login (1-4)
+            textViewsGym = new TextView[]{textView1, textView2, textView3, textView4};
+            imageViewsGym = new ImageView[]{imageView1, imageView2, imageView3, imageView4};
+
+            //Defines arrays of the TextViews and ImageViews we need for the first part of the login (5-8)
+            textViewsName = new TextView[]{textView5, textView6, textView7, textView8};
+            imageViewsName = new ImageView[]{imageView5, imageView6, imageView7, imageView8};
+
             // A function that does something whenever you change the text in the specific EditText
             editTextGyms.addTextChangedListener(new TextWatcher() {
-                //Defines arrays of the TextViews and ImageViews we need for the first part of the login (1-4)
-                TextView[] textViewsGym = new TextView[]{textView1, textView2, textView3, textView4};
-                ImageView[] imageViewsGym = new ImageView[]{imageView1, imageView2, imageView3, imageView4};
-
                 // We don't use this, however it is required to have it for the TextWatcher to work.
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -130,10 +135,6 @@ public class LoginActivity extends Activity implements AsyncResponse {
             });
 
             editTextNames.addTextChangedListener(new TextWatcher() {
-                //Defines arrays of the TextViews and ImageViews we need for the first part of the login (1-4)
-                TextView[] textViewsName = new TextView[]{textView5, textView6, textView7, textView8};
-                ImageView[] imageViewsName = new ImageView[]{imageView5, imageView6, imageView7, imageView8};
-
                 // We don't use this, however it is required to have it for the TextWatcher to work.
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -163,11 +164,6 @@ public class LoginActivity extends Activity implements AsyncResponse {
 
 
     public void newTextView(View view) {
-        //textViewGym is defined here for the sake of retrieving the ID for the gym pressed
-        TextView[] textViewsGym = new TextView[]{textView1, textView2, textView3, textView4};
-        //Defines arrays of the TextViews and ImageViews we need for the second part of the login (5-8)
-        TextView[] textViewsNames = new TextView[]{textView5, textView6, textView7, textView8};
-        ImageView[] imageViewsNames = new ImageView[]{imageView5, imageView6, imageView7, imageView8};
         //Defines the TextView that was clicked.
         TextView selectedGym = (TextView) view;
         int id = selectedGym.getId();
@@ -180,13 +176,6 @@ public class LoginActivity extends Activity implements AsyncResponse {
                     asyncTaskNames.delegate = this;
                     asyncTaskNames.execute();
                     gym = 1;
-                }
-            }
-        }else{
-            for (int i = 0; i < 4; i++) {
-                if (id == textViewsGym[i].getId()) {
-                    nameID = NameIDs[i];
-                    name = 1;
                 }
             }
         }
@@ -224,12 +213,18 @@ public class LoginActivity extends Activity implements AsyncResponse {
     //TODO: If not logged in, display as normally.
 
     public void LoginWithout(View view) {
-        //Set finalNameID to the chosen nameID before we start the intent.
-        finalNameID = nameID;
+        TextView selectedGym = (TextView) view;
+        int id = selectedGym.getId();
+        for (int i = 0; i < 4; i++) {
+            if (id == textViewsName[i].getId()) {
+                nameID = NameIDs[i];
+                name = 1;
+            }
+        }
 
         Intent intent = new Intent(this, ScheduleActivity.class);
-        intent.putExtra("gymID", finalGymID);
-        intent.putExtra("nameID", finalNameID);
+        intent.putExtra(finalGymID, gymID);
+        intent.putExtra(finalNameID, nameID);
         startActivity(intent);
     }
 

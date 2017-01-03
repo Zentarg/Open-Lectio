@@ -30,7 +30,6 @@ public class GetNames extends AsyncTask<String, Void, String> {
                 compact = compact + link.text() + "==" + link.attr("href").replace("/lectio/" + GymID + "/SkemaNy.aspx?type=elev&elevid=", "") + "£";
             }
         }
-        System.out.println(compact);
         return compact;
     }
 

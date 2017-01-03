@@ -11,15 +11,16 @@ import downloadLectio.GetSchedule;
 import downloadLectio.parseLesson;
 
 public class Schedule extends AsyncTask<String, Void, String> {
-    public AsyncResponse delegate;
+    public AsyncResponse delegate = null;
     public String[] modules;
     public String schedule;
-    String lesson;
+    String[] lesson;
+    String lessons;
 
     @Override
     public String doInBackground(String... Strings) {
-        System.out.println(schedule);
         modules = Strings[0].split("£");
+        lesson = new String[modules.length];
         for (int i=0;i<modules.length;i++) {
             String lessonData = modules[i];
             String additionalContent = parseLesson.getAdditionalContent(lessonData);
@@ -30,14 +31,16 @@ public class Schedule extends AsyncTask<String, Void, String> {
             String note = parseLesson.getNote(lessonData);
             String homework = parseLesson.getHomework(lessonData);
             String title = parseLesson.getTitle(lessonData);
-            lesson = lesson+"££"+time+"---"+team+"---"+room+"---"+teacher+"---"+note+"---"+additionalContent+"---"+homework+"---"+title;
+            if (time != null) {
+                lesson[i] = "££"+time+"---"+team+"---"+room+"---"+teacher+"---"+note+"---"+additionalContent+"---"+homework+"---"+title;
+                lessons = lessons+lesson[i];
+            }
         }
-    return lesson;
+    return lessons;
     }
 
     @Override
     protected void onPostExecute(String result) {
-        System.out.println(result);
         delegate.processFinish(result);
     }
 }
