@@ -14,6 +14,7 @@ public class Search {
 	private int q = 0;
 	private TextView textView = null;
 	private ImageView imageView = null;
+	private boolean dupe = true;
 
 	public String[] Search(ImageView[] imageView, TextView[] textView, String result, String args) {
 		mResult = result;
@@ -41,7 +42,8 @@ public class Search {
 				String[] list = key[i].split("==");
 				Pattern noteRegex = Pattern.compile(".*?" + args + ".*?");
 				Matcher noteMatcher = noteRegex.matcher(list[0].toLowerCase());
-				if(noteMatcher.find()){
+                for (int k=0; k<textView.length; k++){if (list[1]==IDs[k]){dupe=false;}}
+				if(noteMatcher.find() && dupe==false){
 					IDs[q] = list[1];
 					textView[q].setText(list[0]);
 					textView[q].setVisibility(View.VISIBLE);
