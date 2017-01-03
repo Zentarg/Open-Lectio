@@ -10,11 +10,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import downloadLectio.AsyncResponse;
+import downloadLectio.GetGyms;
 import one.dichmann.lectioapp.LoginActivity;
 
 
 public class Search {
-    public Context delegate = null;
+    public TextWatcher delegate = null;
 	private String mResult;
 	private String[] IDs = new String[4];
 	private int q = 0;
@@ -77,7 +78,10 @@ public class Search {
 				}
 			}
 		} else {
-			Toast.makeText(delegate, "No internet connection", Toast.LENGTH_SHORT).show();
+			Toast.makeText((Context) delegate, "No internet connection", Toast.LENGTH_SHORT).show();
+            GetGyms getGyms = new GetGyms();
+            getGyms.delegate = (AsyncResponse) delegate;
+            getGyms.execute();
             return null;
 		}
 		return IDs;
