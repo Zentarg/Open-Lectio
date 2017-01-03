@@ -1,12 +1,14 @@
 package one.dichmann.lectioapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -189,6 +191,16 @@ public class LoginActivity extends Activity implements AsyncResponse {
             }
         }
 
+        try{
+            View thisView = this.getCurrentFocus();
+            if (thisView != null) {
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         //Get the string of the TextView that was clicked.
         String selectedGymString = selectedGym.getText().toString();
 
@@ -202,12 +214,7 @@ public class LoginActivity extends Activity implements AsyncResponse {
         fragment_loginOne.setVisibility(View.GONE);
         fragment_loginTwo.setVisibility(View.VISIBLE);
 
-        //Set the EditText of the first part of the login to GONE
-        editTextGyms.setVisibility(View.GONE);
-        //Set the EditText for the second part of the login aswell as the TextView that displays the Gym you chose to VISIBLE
-        editTextNames.setVisibility(View.VISIBLE);
-        gymText.setVisibility(View.VISIBLE);
-
+        //Define finalGymID to be the same as gymID
         finalGymID = gymID;
 
     }

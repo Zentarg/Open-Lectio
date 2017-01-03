@@ -138,6 +138,10 @@
             android:gravity="center"
             android:text=""/>
 
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="60dp" />
+
         <EditText
             android:id="@+id/loginTwo_Search_Search"
             android:layout_width="match_parent"
@@ -150,7 +154,8 @@
             android:layout_alignParentStart="true"
             android:textSize="30sp"
             android:layout_alignParentLeft="true"
-            android:minHeight="30dp"/>
+            android:minHeight="30dp"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/loginTwo_Search_Result_One"
