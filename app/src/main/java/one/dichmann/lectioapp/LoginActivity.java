@@ -124,7 +124,7 @@ public class LoginActivity extends Activity implements AsyncResponse {
                     // Make whatever is in the EditText a string of lower case words every time you change the EditText.
                     valueGyms = editTextGyms.getText().toString().toLowerCase();
                     Search search = new Search();
-                    search.delegate = this;
+                    search.delegate = LoginActivity.this;
                     gymIDs = search.Search(imageViewsGym, textViewsGym, list, valueGyms);
                 }
 
@@ -149,7 +149,7 @@ public class LoginActivity extends Activity implements AsyncResponse {
                     // Make whatever is in the EditText a string of lower case words every time you change the EditText.
                     valueNames = editTextNames.getText().toString().toLowerCase();
                     Search search = new Search();
-                    search.delegate = this;
+                    search.delegate = LoginActivity.this;
                     NameIDs = search.Search(imageViewsName, textViewsName, list, valueNames);
                 }
 
