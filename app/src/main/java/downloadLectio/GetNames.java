@@ -34,10 +34,10 @@ public class GetNames extends AsyncTask<String, Void, String> { //Gets the Names
                 //link.attr(href) is the link component of the a tag <a href="this"></a>
                 //we replace everything in the link except for the ID of the student and adds a seperator before next student.
                 //this returns a list with (name==ID£name==ID£name==ID£...)
-                compact = compact + link.text() + "==" + link.attr("href").replace("/lectio/" + GymID + "/SkemaNy.aspx?type=elev&elevid=", "") + "£";
+                compact = compact + "£" + link.text() + "==" + link.attr("href").replace("/lectio/" + GymID + "/SkemaNy.aspx?type=elev&elevid=", "");
             }//goes back to do it for the next element
         }//goes back to do it for the next letter
-        return compact; //returns the complete studentlist
+        return compact.replace("null",""); //returns the complete studentlist
     }
 
     @Override //own super method and therefore needs an overwrite
