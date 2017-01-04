@@ -37,7 +37,7 @@ public class GetSchedule extends AsyncTask<String, Void, String> { //gets the na
 			//this returns a long list where all the infomations for each module are seperated by a "£"
 			compact = compact+"£"+link.attr("title");
 		}
-		return compact.replace("\n", " ");//replaces all the newlines in the document with blankspaces so the parser parses it faster.
+		return compact.replace("\n", " ").replace("null£","");//replaces all the newlines in the document with blankspaces so the parser parses it faster.
 	}
 
 	@Override //own super method and therefore needs an overwrite

@@ -32,9 +32,9 @@ public class GetGyms extends AsyncTask<String, Void, String> { //Gets the gyms f
                //link.attr(href) is the link component of the a tag <a href="this"></a>
                //we replace everything in the link except for the ID of the gym and adds a seperator before next gym.
                //this returns a list with (gym==ID£gym==ID£gym==ID£...)
-               compact = compact+link.text() + "==" + link.attr("href").replace("/lectio/", "").replace("/default.aspx", "") + "£";
+               compact = compact+ "£" +link.text() + "==" + link.attr("href").replace("/lectio/", "").replace("/default.aspx", "");
            }
-        return compact;
+        return compact.replace("null£","");
     }
 
     @Override //own super method and therefore needs an overwrite

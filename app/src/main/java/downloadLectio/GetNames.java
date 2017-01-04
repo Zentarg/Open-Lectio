@@ -37,7 +37,7 @@ public class GetNames extends AsyncTask<String, Void, String> { //Gets the Names
                 compact = compact + "£" + link.text() + "==" + link.attr("href").replace("/lectio/" + GymID + "/SkemaNy.aspx?type=elev&elevid=", "");
             }//goes back to do it for the next element
         }//goes back to do it for the next letter
-        return compact.replace("null",""); //returns the complete studentlist
+        return compact.replace("null£",""); //returns the complete studentlist
     }
 
     @Override //own super method and therefore needs an overwrite
