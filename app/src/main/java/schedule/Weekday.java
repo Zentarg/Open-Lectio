@@ -7,7 +7,7 @@ import java.util.Date; //a format dates are stored in
 
 public class Weekday { //handles day arrangement of modules on the schedule
 
-    public String Weekday() {
+    public static String Weekday() {
         Date date; //initialices date
         String weekDay = null;
         date = new Date();//gets todays date and parses it to a more simpified one
