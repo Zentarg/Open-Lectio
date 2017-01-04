@@ -9,19 +9,22 @@ public class Weekday { //handles day arrangement of modules on the schedule
 
     public String Weekday() {
         Date date; //initialices date
-
-        try {
-            date = new SimpleDateFormat("dd/mm/yyyy").parse(Today());//gets todays date and parses it to a more simpified one
-        } catch (ParseException e) {//catches parse exceptions
-                                    //beware that this will return a parse exception if Today hits an exception
-            e.printStackTrace();    //prints error message to console
-            return null;
-        }
+        String weekDay = null;
+        date = new Date();//gets todays date and parses it to a more simpified one
         Calendar c = Calendar.getInstance();//calender is created and called upon
         c.setTime(date);                    //the calender is set with today date
-        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);//calender returns an integer which symbolises the weekday
-        return Day(dayOfWeek);//returns day after it is convertet to a string
-    }
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+
+        if (Calendar.MONDAY == dayOfWeek) weekDay = "Mandag";
+        else if (Calendar.TUESDAY == dayOfWeek) weekDay = "Tirsdag";
+        else if (Calendar.WEDNESDAY == dayOfWeek) weekDay = "Onsdag";
+        else if (Calendar.THURSDAY == dayOfWeek) weekDay = "Torsdag";
+        else if (Calendar.FRIDAY == dayOfWeek) weekDay = "Fredag";
+        else if (Calendar.SATURDAY == dayOfWeek) weekDay = "Lørdag";
+        else if (Calendar.SUNDAY == dayOfWeek) weekDay = "Søndag";
+
+        return weekDay;//returns day after it is convertet to a string
+        }
 
     public static String Today() { //returns today´s date
         try{
@@ -32,28 +35,5 @@ public class Weekday { //handles day arrangement of modules on the schedule
             e.printStackTrace(); //prints any errors that might occur
             return null; //should never return null and might cause a crash if i does
         }
-    }
-
-
-    private static String Day(int args) { //returns the day of week as a string
-        // every day is defined by a number
-        final int Mon = 0;
-        final int Tue = 1;
-        final int Wed = 2;
-        final int Thu = 3;
-        final int Fri = 4;
-        final int Sat = 5;
-        final int Sun = 6;
-
-        switch (args) { //converts weekday from a number to a word.
-            case Mon: { return "Mandag"; }
-            case Tue: { return "Tirsdag"; }
-            case Wed: { return "Onsdag"; }
-            case Thu: { return "Torsdag"; }
-            case Fri: { return "Fredag"; }
-            case Sat: { return "Lørdag"; }
-            case Sun: { return "Søndag"; }
-        }
-        return null; //if args is out of the range [0;6] it returns null
     }
 }
