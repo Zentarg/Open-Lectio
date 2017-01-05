@@ -4,9 +4,13 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by apgch on 05-01-2017.
@@ -33,21 +37,30 @@ public class fileManagement {
     }
 
 
-    public static void doStuff(Context context, String filename) {
+    public static String getFile(Context context, String filename) {
         System.out.println("Before try");
+        String sbString = null;
         try {
             System.out.println("Trying");
-            FileInputStream fin = context.openFileInput(filename);
-            int c;
-            String temp = "";
-            while( (c = fin.read()) != -1) {
-                temp = temp + Character.toString((char)c);
+            FileInputStream fis = context.openFileInput(filename);
+            InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+            BufferedReader bufferedReader = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                sb.append(line);
             }
-            Toast.makeText(context, "This is what file said:"+temp, Toast.LENGTH_SHORT).show();
-        } catch(Exception e) {
+            sbString = sb.toString();
+            Toast.makeText(context, "This is what file said:" + sb.toString(), Toast.LENGTH_SHORT).show();
+        } catch (FileNotFoundException e) {
+            return "";
+        } catch (UnsupportedEncodingException e) {
+            return "";
+        } catch (Exception e) {
 
         }
         System.out.println("After try");
+        return sbString;
     }
 
 }

@@ -272,6 +272,13 @@ public class LoginActivity extends Activity implements AsyncResponse {
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }
+
+    public void idostuff(View view) {
+        permissions.fileManagement.createFile(this, "imafilename", "bulubulu, lotte hvor du §-§henne§-§");
+    }
+    public void idostufftoo(View view) {
+        String test = permissions.fileManagement.getFile(this, "imafilename");
+    }
 };
 
 
