@@ -17,8 +17,9 @@ public class Display {
         TextView[] textViews = new TextView[3];
         for (int i=0;i<3;i++) {
             TextView module = new TextView(context);
-            module.setText(lesson[i]);
+            module.setText(lesson[i+1]);
             module.setTextSize(25);
+            module.setPadding(10, 10, 10, 10);
             module.setGravity(Gravity.CENTER);
             module.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             textViews[i] = module;
@@ -26,8 +27,8 @@ public class Display {
         return textViews;
     }
 
-    public void horizontal(String lessons, Context context) {
-
+    public TextView[] horizontal(String lessons, Context context) {
+        return null;
     }
 
     public TextView[] DayAndDate(String date, String day, Context context) {

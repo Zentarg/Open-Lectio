@@ -50,24 +50,29 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
     }
 
     @Override
-    public void processViews(TextView[] textView) {
+    public void processViews(Object[] objects) {
+        TextView[] textView = (TextView[]) objects[0];
+        TextView[] textViewModule = new TextView[3];
         ((LinearLayout) findViewById(R.id.schedule_DayAndDate)).addView(textView[0]);
         ((LinearLayout) findViewById(R.id.schedule_DayAndDate)).addView(textView[1]);
         LinearLayout.LayoutParams moduleLLParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         moduleLLParams.setMargins(0, 20, 0, 0);
 
-        LinearLayout moduleLL = new LinearLayout(this);
-        moduleLL.setOrientation(LinearLayout.VERTICAL);
-        moduleLL.setLayoutParams(moduleLLParams);
-        moduleLL.setGravity(Gravity.CENTER);
-        moduleLL.setBackgroundColor(getResources().getColor(R.color.schedule_Regular));
+        for (int i=1;i<objects.length;i++) {
+            LinearLayout moduleLL = new LinearLayout(this);
+            moduleLL.setOrientation(LinearLayout.VERTICAL);
+            moduleLL.setLayoutParams(moduleLLParams);
+            moduleLL.setGravity(Gravity.CENTER);
+            moduleLL.setBackgroundColor(getResources().getColor(R.color.schedule_Regular));
 
-        for (int i=2;i<textView.length;i++) {
-            moduleLL.addView(textView[i]);
-            System.out.println(textView[i]);
+            textViewModule = (TextView[]) objects[i];
+
+            for (int k=0;k<textView.length+1;k++) {
+                moduleLL.addView(textViewModule[k]);
+            }
+
+            ((LinearLayout) findViewById(R.id.activity_schedule)).addView(moduleLL);
+
         }
-
-        ((LinearLayout) findViewById(R.id.activity_schedule)).addView(moduleLL);
-
     }
 }

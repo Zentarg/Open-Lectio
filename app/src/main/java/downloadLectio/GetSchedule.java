@@ -30,6 +30,6 @@ public class GetSchedule {
 			//this returns a long list where all the infomations for each module are seperated by a "£"
 			compact = compact+"£"+link.attr("title");
 		}
-		return compact.replace("\n", " ").replace("null£","");//replaces all the newlines in the document with blankspaces so the parser parses it faster.
+		return compact.replace("\n", "§-§").replace("null£","");//replaces all the newlines in the document with blankspaces so the parser parses it faster.
 	}
 }

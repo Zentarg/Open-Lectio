@@ -60,7 +60,7 @@ public class LoginActivity extends Activity implements AsyncResponse {
     }
 
     @Override
-    public void processViews(TextView[] textView) {
+    public void processViews(Object[] objects) {
 
     }
 
