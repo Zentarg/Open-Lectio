@@ -53,7 +53,6 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
     public void processViews(TextView[] textView) {
         ((LinearLayout) findViewById(R.id.schedule_DayAndDate)).addView(textView[0]);
         ((LinearLayout) findViewById(R.id.schedule_DayAndDate)).addView(textView[1]);
-
         LinearLayout.LayoutParams moduleLLParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         moduleLLParams.setMargins(0, 20, 0, 0);
 
@@ -61,10 +60,14 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
         moduleLL.setOrientation(LinearLayout.VERTICAL);
         moduleLL.setLayoutParams(moduleLLParams);
         moduleLL.setGravity(Gravity.CENTER);
-        moduleLL.setBackgroundColor(this.getResources().getColor(R.color.schedule_Regular));
+        moduleLL.setBackgroundColor(getResources().getColor(R.color.schedule_Regular));
 
         for (int i=2;i<textView.length;i++) {
             moduleLL.addView(textView[i]);
+            System.out.println(textView[i]);
         }
+
+        ((LinearLayout) findViewById(R.id.activity_schedule)).addView(moduleLL);
+
     }
 }
