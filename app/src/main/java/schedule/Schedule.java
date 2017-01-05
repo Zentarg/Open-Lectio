@@ -17,22 +17,45 @@ public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a
     public String[] modules, date; //a String array of all the modules
     public int display,v,h,q;
     public Context context;
-    public String gymID, nameID, todayDate, todayDay;
+    public String gymID, nameID, todayDate, todayDay, file, timeStamp, parse;
     public LinearLayout mainLinearLayout;
     public View dayAndDate;
 
     private Object[] views;
-    private boolean downloaded;
+    private boolean downloaded, replace = false;
     private String lessons; //the lessons module
 
     @Override
     public Object[] doInBackground(Object... Strings) { //gets all the strings send to it from getSchedule
+        if (new permissions.fileManagement().fileExists(context, gymID+nameID)){
+            timeStamp = new schedule.Weekday().Today();
+            file = new permissions.fileManagement().getFile(context, gymID+nameID);
+            parse = ("(.*?)(\\d\\d)(:)(\\d\\d)(:)(\\d\\d)");
+            Pattern p = Pattern.compile(parse);
+            Matcher m = p.matcher(timeStamp);
+            Matcher m2 = p.matcher(file);
+            if (m.find() && m2.find()){
+                int hour = Integer.parseInt(m.group(2));
+                int hour2 = Integer.parseInt(m2.group(2));
 
-        if (!downloaded) {
+                if (hour2+1<hour) {
+                    replace = true;
+                } else {
+                    lessons=file.replace(String.valueOf(hour2), "");
+                    downloaded=true;
+                }
+            }
+        }
+        if (!downloaded || replace) {
             GetSchedule GetSchedule = new downloadLectio.GetSchedule();
             GetSchedule.gymID = gymID;
             GetSchedule.nameID = nameID;
             lessons = GetSchedule.getSchedule();
+            if (replace) {
+                permissions.fileManagement.createFile(context, gymID + nameID, lessons);
+            } else {
+                permissions.fileManagement.createFile(context, gymID + nameID, new schedule.Weekday().Today()+lessons);
+            }
         }
         date = Weekday.Today().split("");
         if (date[6].equals("0")) {
