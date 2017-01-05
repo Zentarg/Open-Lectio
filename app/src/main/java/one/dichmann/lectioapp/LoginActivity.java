@@ -60,6 +60,11 @@ public class LoginActivity extends Activity implements AsyncResponse {
     }
 
     @Override
+    public void processViews(TextView[] textView) {
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);

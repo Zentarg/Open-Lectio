@@ -20,10 +20,6 @@ import schedule.Schedule;
 import schedule.Weekday;
 
 public class ScheduleActivity extends AppCompatActivity implements AsyncResponse {
-    private String todayDay;
-    private String todayDate;
-    private String[] date;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,71 +35,24 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
 
         getIntent();
 
-        GetSchedule asyncTaskSchedule = new GetSchedule();
+        Schedule asyncTaskSchedule = new Schedule();
         asyncTaskSchedule.delegate = this;
         asyncTaskSchedule.gymID = gymID;
         asyncTaskSchedule.nameID = nameID;
+        asyncTaskSchedule.context = this;
+        asyncTaskSchedule.mainLinearLayout = (LinearLayout) findViewById(R.id.activity_schedule);
+        asyncTaskSchedule.dayAndDate = findViewById(R.id.schedule_DayAndDate);
         asyncTaskSchedule.execute();
     }
 
     @Override
     public void processFinish(String output) {
-        CreateDay(output);
     }
 
-    public void CreateDay(String Schedule) {
-
-        String[] modules = Schedule.split("££");
-        String lessonDate;
-        String lessonTime;
-
-        date = Weekday.Today().split("");
-            if (date[6].equals("0")) {
-                date[6] = "";
-            }
-            if (date[9].equals("0")) {
-                date[9] = "";
-        }
-
-        todayDay = Weekday.Weekday();
-
-        todayDate = date[6]+date[7]+"/"+date[9]+date[10]+"-"+date[1]+date[2]+date[3]+date[4];
-
-        View schedule = findViewById(R.id.schedule_DayAndDate);
-
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-        TextView dayDay = new TextView(this);
-        dayDay.setTextSize(25);
-        dayDay.setGravity(Gravity.CENTER);
-        dayDay.setTextColor(getResources().getColor(R.color.schedule_TextColor));
-        dayDay.setLayoutParams(layoutParams);
-        dayDay.setText(todayDay);
-
-        TextView dayDate = new TextView(this);
-        dayDate.setTextSize(25);
-        dayDate.setTextColor(getResources().getColor(R.color.schedule_TextColor));
-        dayDate.setLayoutParams(layoutParams);
-        dayDate.setGravity(Gravity.CENTER);
-        dayDate.setText(todayDate);
-
-        ((LinearLayout) schedule).addView(dayDay);
-        ((LinearLayout) schedule).addView(dayDate);
-
-
-        for (int i = 0; i < modules.length; i++) {
-            String[] module = modules[i].split("---");
-            Pattern noteRegex = Pattern.compile(".*?" + todayDate + ".*?");
-            Matcher noteMatcher = noteRegex.matcher(module[0]);
-            boolean found = noteMatcher.find();
-            if(found){
-                this.CreateModule("time", "team", "teacher", "room");
-            }
-        }
-    }
-
-    public void CreateModule(String time, String team, String teacher, String room) {
-        LinearLayout mainLinearLayout = (LinearLayout) findViewById(R.id.activity_schedule);
+    @Override
+    public void processViews(TextView[] textView) {
+        ((LinearLayout) findViewById(R.id.schedule_DayAndDate)).addView(textView[0]);
+        ((LinearLayout) findViewById(R.id.schedule_DayAndDate)).addView(textView[1]);
 
         LinearLayout.LayoutParams moduleLLParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         moduleLLParams.setMargins(0, 20, 0, 0);
@@ -112,30 +61,10 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
         moduleLL.setOrientation(LinearLayout.VERTICAL);
         moduleLL.setLayoutParams(moduleLLParams);
         moduleLL.setGravity(Gravity.CENTER);
-        moduleLL.setBackgroundColor(getResources().getColor(R.color.schedule_Regular));
+        moduleLL.setBackgroundColor(this.getResources().getColor(R.color.schedule_Regular));
 
-        TextView moduleTeam = new TextView(this);
-        moduleTeam.setText(team);
-        moduleTeam.setTextSize(25);
-        moduleTeam.setGravity(Gravity.CENTER);
-        moduleTeam.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        moduleLL.addView(moduleTeam);
-
-        TextView moduleTeacher = new TextView(this);
-        moduleTeacher.setText(teacher);
-        moduleTeacher.setTextSize(25);
-        moduleTeacher.setGravity(Gravity.CENTER);
-        moduleTeacher.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        moduleLL.addView(moduleTeacher);
-
-        TextView moduleRoom = new TextView(this);
-        moduleRoom.setText(room);
-        moduleRoom.setTextSize(25);
-        moduleRoom.setGravity(Gravity.CENTER);
-        moduleRoom.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        moduleLL.addView(moduleRoom);
-
-
-        mainLinearLayout.addView(moduleLL);
+        for (int i=2;i<textView.length;i++) {
+            moduleLL.addView(textView[i]);
+        }
     }
 }
