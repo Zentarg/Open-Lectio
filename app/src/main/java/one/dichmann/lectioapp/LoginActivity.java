@@ -20,6 +20,9 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import Search.Search;
 import downloadLectio.AsyncResponse;
 import downloadLectio.GetGyms;
@@ -36,13 +39,13 @@ public class LoginActivity extends Activity implements AsyncResponse {
     private EditText editTextGyms, editTextNames;
     private ImageView imageView1, imageView2, imageView3, imageView4, imageView5, imageView6, imageView7, imageView8;
     private LinearLayout fragment_loginOne, fragment_loginTwo;
-    private String valueGyms, valueNames, nameID, gymID, list;
+    private String valueGyms, valueNames, nameID, gymID, list, file, parse;
     private String[] gymIDs, NameIDs;
     private TextView[] textViewsGym, textViewsName;
     private ImageView[] imageViewsGym, imageViewsName;
+    private boolean loggedIn = false;
 
-    // Storage Permissions variables
-    private int gym, name;
+    private int gym;
 
     GetGyms asyncTaskGyms = new GetGyms();
     GetNames asyncTaskNames = new GetNames();
@@ -67,108 +70,115 @@ public class LoginActivity extends Activity implements AsyncResponse {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (new permissions.fileManagement().fileExists(this, "login")){
+            file = new permissions.fileManagement().getFile(this, "login");
+            parse = ("(.*?)(-)(.*)");
+            Pattern p = Pattern.compile(parse);
+            Matcher m = p.matcher(file);
+            if (m.find()){
+                loggedIn = true;
+                gymID = m.group(1);
+                nameID = m.group(3);
+                LoginWithout(findViewById(R.id.loginOne_Search_Result_One));
+            }
+        }
         setContentView(R.layout.activity_login);
         //this if statement will be used to check if the student is already logged in.
-        if (gym==1 && name==1){
-            //LoginWithout();
-            Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show();
-        } else {
-            //assigns Getgyms delegate and launches it
-            asyncTaskGyms.delegate = this;
-            asyncTaskGyms.execute();
+        //assigns Getgyms delegate and launches it
+        asyncTaskGyms.delegate = this;
+        asyncTaskGyms.execute();
 
-            // Define Content View before any other variables of the content.
-            setContentView(R.layout.activity_login);
+        // Define Content View before any other variables of the content.
+        setContentView(R.layout.activity_login);
 
-            // Define the contents by using findViewById
-            fragment_loginOne = (LinearLayout) findViewById(R.id.fragment_LoginOne);
-            fragment_loginTwo = (LinearLayout) findViewById(R.id.fragment_LoginTwo);
+        // Define the contents by using findViewById
+        fragment_loginOne = (LinearLayout) findViewById(R.id.fragment_LoginOne);
+        fragment_loginTwo = (LinearLayout) findViewById(R.id.fragment_LoginTwo);
 
-            //First part of the login defined.
-            editTextGyms = (EditText) findViewById(R.id.loginOne_Search_Search);
-            textView1 = (TextView) findViewById(R.id.loginOne_Search_Result_One);
-            textView2 = (TextView) findViewById(R.id.loginOne_Search_Result_Two);
-            textView3 = (TextView) findViewById(R.id.loginOne_Search_Result_Three);
-            textView4 = (TextView) findViewById(R.id.loginOne_Search_Result_Four);
-            imageView1 = (ImageView) findViewById(R.id.login_UnderscoreImage1);
-            imageView2 = (ImageView) findViewById(R.id.login_UnderscoreImage2);
-            imageView3 = (ImageView) findViewById(R.id.login_UnderscoreImage3);
-            imageView4 = (ImageView) findViewById(R.id.login_UnderscoreImage4);
+        //First part of the login defined.
+        editTextGyms = (EditText) findViewById(R.id.loginOne_Search_Search);
+        textView1 = (TextView) findViewById(R.id.loginOne_Search_Result_One);
+        textView2 = (TextView) findViewById(R.id.loginOne_Search_Result_Two);
+        textView3 = (TextView) findViewById(R.id.loginOne_Search_Result_Three);
+        textView4 = (TextView) findViewById(R.id.loginOne_Search_Result_Four);
+        imageView1 = (ImageView) findViewById(R.id.login_UnderscoreImage1);
+        imageView2 = (ImageView) findViewById(R.id.login_UnderscoreImage2);
+        imageView3 = (ImageView) findViewById(R.id.login_UnderscoreImage3);
+        imageView4 = (ImageView) findViewById(R.id.login_UnderscoreImage4);
 
-            //Second part of the login defined.
-            gymText = (TextView) findViewById(R.id.loginTwo_gymText);
-            editTextNames = (EditText) findViewById(R.id.loginTwo_Search_Search);
-            textView5 = (TextView) findViewById(R.id.loginTwo_Search_Result_One);
-            textView6 = (TextView) findViewById(R.id.loginTwo_Search_Result_Two);
-            textView7 = (TextView) findViewById(R.id.loginTwo_Search_Result_Three);
-            textView8 = (TextView) findViewById(R.id.loginTwo_Search_Result_Four);
-            imageView5 = (ImageView) findViewById(R.id.loginTwo_UnderscoreImage1);
-            imageView6 = (ImageView) findViewById(R.id.loginTwo_UnderscoreImage2);
-            imageView7 = (ImageView) findViewById(R.id.loginTwo_UnderscoreImage3);
-            imageView8 = (ImageView) findViewById(R.id.loginTwo_UnderscoreImage4);
+        //Second part of the login defined.
+        gymText = (TextView) findViewById(R.id.loginTwo_gymText);
+        editTextNames = (EditText) findViewById(R.id.loginTwo_Search_Search);
+        textView5 = (TextView) findViewById(R.id.loginTwo_Search_Result_One);
+        textView6 = (TextView) findViewById(R.id.loginTwo_Search_Result_Two);
+        textView7 = (TextView) findViewById(R.id.loginTwo_Search_Result_Three);
+        textView8 = (TextView) findViewById(R.id.loginTwo_Search_Result_Four);
+        imageView5 = (ImageView) findViewById(R.id.loginTwo_UnderscoreImage1);
+        imageView6 = (ImageView) findViewById(R.id.loginTwo_UnderscoreImage2);
+        imageView7 = (ImageView) findViewById(R.id.loginTwo_UnderscoreImage3);
+        imageView8 = (ImageView) findViewById(R.id.loginTwo_UnderscoreImage4);
 
-            //Defines arrays of the TextViews and ImageViews we need for the first part of the login (1-4)
-            textViewsGym = new TextView[]{textView1, textView2, textView3, textView4};
-            imageViewsGym = new ImageView[]{imageView1, imageView2, imageView3, imageView4};
+        //Defines arrays of the TextViews and ImageViews we need for the first part of the login (1-4)
+        textViewsGym = new TextView[]{textView1, textView2, textView3, textView4};
+        imageViewsGym = new ImageView[]{imageView1, imageView2, imageView3, imageView4};
 
-            //Defines arrays of the TextViews and ImageViews we need for the first part of the login (5-8)
-            textViewsName = new TextView[]{textView5, textView6, textView7, textView8};
-            imageViewsName = new ImageView[]{imageView5, imageView6, imageView7, imageView8};
+        //Defines arrays of the TextViews and ImageViews we need for the first part of the login (5-8)
+        textViewsName = new TextView[]{textView5, textView6, textView7, textView8};
+        imageViewsName = new ImageView[]{imageView5, imageView6, imageView7, imageView8};
 
-            // A function that does something whenever you change the text in the specific EditText
-            editTextGyms.addTextChangedListener(new TextWatcher() {
-                // We don't use this, however it is required to have it for the TextWatcher to work.
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        // A function that does something whenever you change the text in the specific EditText
+        editTextGyms.addTextChangedListener(new TextWatcher() {
+            // We don't use this, however it is required to have it for the TextWatcher to work.
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                }
+            }
 
-                // Here we do stuff the moment you change text in the EditText.
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    // Make whatever is in the EditText a string of lower case words every time you change the EditText.
-                    valueGyms = editTextGyms.getText().toString().toLowerCase();
-                    Search search = new Search();
-                    search.delegate = LoginActivity.this;
-                    gymIDs = search.Search(imageViewsGym, textViewsGym, list, valueGyms);
-                }
+            // Here we do stuff the moment you change text in the EditText.
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Make whatever is in the EditText a string of lower case words every time you change the EditText.
+                valueGyms = editTextGyms.getText().toString().toLowerCase();
+                Search search = new Search();
+                search.delegate = LoginActivity.this;
+                gymIDs = search.Search(imageViewsGym, textViewsGym, list, valueGyms);
+            }
 
-                // We don't use this either. Still required for the TextWatcher to work.
-                @Override
-                public void afterTextChanged(Editable editable) {
+            // We don't use this either. Still required for the TextWatcher to work.
+            @Override
+            public void afterTextChanged(Editable editable) {
 
-                }
+            }
 
-            });
+        });
 
-            editTextNames.addTextChangedListener(new TextWatcher() {
-                // We don't use this, however it is required to have it for the TextWatcher to work.
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        editTextNames.addTextChangedListener(new TextWatcher() {
+            // We don't use this, however it is required to have it for the TextWatcher to work.
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                }
+            }
 
-                // Here we do stuff the moment you change text in the EditText.
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    // Make whatever is in the EditText a string of lower case words every time you change the EditText.
-                    valueNames = editTextNames.getText().toString().toLowerCase();
-                    Search search = new Search();
-                    search.delegate = LoginActivity.this;
-                    NameIDs = search.Search(imageViewsName, textViewsName, list, valueNames);
-                }
+            // Here we do stuff the moment you change text in the EditText.
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Make whatever is in the EditText a string of lower case words every time you change the EditText.
+                valueNames = editTextNames.getText().toString().toLowerCase();
+                Search search = new Search();
+                search.delegate = LoginActivity.this;
+                NameIDs = search.Search(imageViewsName, textViewsName, list, valueNames);
+            }
 
-                // We don't use this either. Still required for the TextWatcher to work.
-                @Override
-                public void afterTextChanged(Editable editable) {
+            // We don't use this either. Still required for the TextWatcher to work.
+            @Override
+            public void afterTextChanged(Editable editable) {
 
-                }
+            }
 
-            });
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-        }
+        });
+    // ATTENTION: This was auto-generated to implement the App Indexing API.
+    // See https://g.co/AppIndexing/AndroidStudio for more information.
+    client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
 
@@ -222,15 +232,15 @@ public class LoginActivity extends Activity implements AsyncResponse {
     //TODO: If not logged in, display as normally.
 
     public void LoginWithout(View view) {
-        TextView selectedGym = (TextView) view;
-        int id = selectedGym.getId();
-        for (int i = 0; i < 4; i++) {
-            if (id == textViewsName[i].getId()) {
-                nameID = NameIDs[i];
-                name = 1;
+        if (!loggedIn) {
+            TextView selectedGym = (TextView) view;
+            int id = selectedGym.getId();
+            for (int i = 0; i < 4; i++) {
+                if (id == textViewsName[i].getId()) {
+                    nameID = NameIDs[i];
+                }
             }
         }
-
         Intent intent = new Intent(this, ScheduleActivity.class);
         intent.putExtra(finalGymID, gymID);
         intent.putExtra(finalNameID, nameID);

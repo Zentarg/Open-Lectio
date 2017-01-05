@@ -41,12 +41,14 @@ public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a
                 if (hour2+1<hour) {
                     replace = true;
                 } else {
-                    lessons=file.replace(String.valueOf(hour2), "");
+                    lessons=file.replace(String.valueOf(m2.group(0)), "");
+                    System.out.println(lessons);
                     downloaded=true;
                 }
             }
         }
         if (!downloaded || replace) {
+            System.out.println("Downloaded new schedule");
             GetSchedule GetSchedule = new downloadLectio.GetSchedule();
             GetSchedule.gymID = gymID;
             GetSchedule.nameID = nameID;
@@ -93,8 +95,7 @@ public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a
 
         Object[] viewsV = new Object[v];
         Object[] viewsH = new Object[h];
-        System.out.println(v);
-        System.out.println(h);
+
         viewsV[0] = new schedule.Display().DayAndDate(todayDate, todayDay, context);
 
         q=1;
