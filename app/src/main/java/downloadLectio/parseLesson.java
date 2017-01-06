@@ -75,14 +75,19 @@ public class parseLesson {
                     Matcher teacherMatcher2 = teacherRegex2.matcher(teachers[i]);
                     if (teacherMatcher2.find()) {
                         teacher = teacher+ "," +teacherMatcher2.group(1) + " " + teacherMatcher2.group(3);
-                    }
+                    } else {
+						return teacherMatcher.group(0);
+					}
                 }
-                return teacher.replace(null,"");
+				teacher = teacher.replace("null,","");
+                return teacher;
                 } else {
                 Matcher teacherMatcher3 = teacherRegex2.matcher(teacherMatcher.group(0));
                 if (teacherMatcher3.find()) {
                     return teacherMatcher3.group(1) + " " + teacherMatcher3.group(3);
-                }
+				} else {
+					return teacherMatcher3.group(0);
+				}
             }
         }
 		return null;

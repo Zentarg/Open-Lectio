@@ -17,7 +17,7 @@ public class GetSchedule {
 		String url = "https://www.lectio.dk/lectio/"+gymID+"/SkemaNy.aspx?type=elev&elevid="+nameID; //creates the URL we need to connect to in order to download the schedule.
 		Document doc = null;
 		try { //initiates a download of the Webpage
-			doc = Jsoup.connect(url).userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36").get(); //connects in whichever useragent is preferred by the device
+			doc = Jsoup.connect(url).userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36").timeout(0).get(); //connects in whichever useragent is preferred by the device
 		} catch (IOException e) { //cathes a denial exception from lectio
 			e.printStackTrace(); //prints error code
 			return null; //returns null to be caught by the search fundtion and get relaunced.
