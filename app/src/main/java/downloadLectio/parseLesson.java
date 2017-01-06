@@ -65,10 +65,26 @@ public class parseLesson {
 		// Gets the teacher of a lesson from Lectio.
 		Pattern teacherRegex = Pattern.compile("(?<=Lærer: |Lærere: )(?s)(.*?)(?=§-§)");
 		Matcher teacherMatcher = teacherRegex.matcher(lessonData);
-		
-		if(teacherMatcher.find()){
-			return teacherMatcher.group(0);
-		}
+        Pattern teacherRegex2 = Pattern.compile("(.*?)(\\s.*=?)(?=\\()(.*$)");
+
+		if(teacherMatcher.find()) {
+            if (teacherMatcher.group(0).contains(",")) {
+                String teacher = null;
+                String[] teachers = teacherMatcher.group(0).split(",");
+                for (int i=0;i<teachers.length;i++) {
+                    Matcher teacherMatcher2 = teacherRegex2.matcher(teachers[i]);
+                    if (teacherMatcher2.find()) {
+                        teacher = teacher+ "," +teacherMatcher2.group(1) + " " + teacherMatcher2.group(3);
+                    }
+                }
+                return teacher.replace(null,"");
+                } else {
+                Matcher teacherMatcher3 = teacherRegex2.matcher(teacherMatcher.group(0));
+                if (teacherMatcher3.find()) {
+                    return teacherMatcher3.group(1) + " " + teacherMatcher3.group(3);
+                }
+            }
+        }
 		return null;
 	}
 
