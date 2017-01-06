@@ -42,14 +42,14 @@ public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a
                     replace = true;
                 } else {
                     lessons=file.replace(String.valueOf(m2.group(0)), "");
-                    System.out.println(lessons);
+                    System.out.println("Found file");
                     downloaded=true;
                 }
             }
         }
         if (!downloaded || replace) {
-            System.out.println("Downloaded new schedule");
             GetSchedule GetSchedule = new downloadLectio.GetSchedule();
+            System.out.println("Downloaded new schedule");
             GetSchedule.gymID = gymID;
             GetSchedule.nameID = nameID;
             lessons = GetSchedule.getSchedule();

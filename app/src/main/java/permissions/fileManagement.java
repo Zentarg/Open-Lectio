@@ -52,11 +52,11 @@ public class fileManagement {
             sbString = sb.toString();
 
         } catch (FileNotFoundException e) {
-            return "";
+            return null;
         } catch (UnsupportedEncodingException e) {
-            return "";
+            return null;
         } catch (Exception e) {
-            return "";
+            return null;
         }
 
         return sbString;

@@ -72,14 +72,16 @@ public class LoginActivity extends Activity implements AsyncResponse {
         super.onCreate(savedInstanceState);
         if (new permissions.fileManagement().fileExists(this, "login")){
             file = new permissions.fileManagement().getFile(this, "login");
-            parse = ("(.*?)(-)(.*)");
-            Pattern p = Pattern.compile(parse);
-            Matcher m = p.matcher(file);
-            if (m.find()){
-                loggedIn = true;
-                gymID = m.group(1);
-                nameID = m.group(3);
-                LoginWithout(findViewById(R.id.loginOne_Search_Result_One));
+            if (file!=null){
+                parse = ("(.*?)(-)(.*)");
+                Pattern p = Pattern.compile(parse);
+                Matcher m = p.matcher(file);
+                if (m.find()) {
+                    loggedIn = true;
+                    gymID = m.group(1);
+                    nameID = m.group(3);
+                    LoginWithout(findViewById(R.id.loginOne_Search_Result_One));
+                }
             }
         }
         setContentView(R.layout.activity_login);
@@ -238,6 +240,7 @@ public class LoginActivity extends Activity implements AsyncResponse {
             for (int i = 0; i < 4; i++) {
                 if (id == textViewsName[i].getId()) {
                     nameID = NameIDs[i];
+                    permissions.fileManagement.createFile(this, "login", gymID+"-"+nameID);
                 }
             }
         }
