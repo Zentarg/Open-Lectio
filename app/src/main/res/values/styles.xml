@@ -9,7 +9,7 @@
         <item name="android:colorBackground">@android:color/background_light</item>
     </style>
     <!-- Theme without any action bar -->
-    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.NoActionBar">
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/chosenTab</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
