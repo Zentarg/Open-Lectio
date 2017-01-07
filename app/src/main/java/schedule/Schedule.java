@@ -15,9 +15,9 @@ import downloadLectio.parseLesson;   //used to parse the data from the schedule 
 public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a parsing terminal
     public AsyncResponse delegate = null; //initialises Asyncresponse delegate which should be set to context before doInBackground executes
     public String[] modules, date; //a String array of all the modules
-    public int display,v,h,q;
+    public int display, v, h, q, todayYear;
     public Context context;
-    public String gymID, nameID, todayDate, todayDay, file, timeStamp, parse;
+    public String gymID, nameID, todayDate, todayDay, file, timeStamp, parse, todayWeek;
     public LinearLayout mainLinearLayout;
     public View dayAndDate;
 
@@ -27,6 +27,29 @@ public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a
 
     @Override
     public Object[] doInBackground(Object... Strings) { //gets all the strings send to it from getSchedule
+        todayYear = 2017;
+        todayDay = Weekday.Weekday();
+        if (todayDay=="Lørdag") {
+            date = Weekday.Weekend(2).split("");
+            todayDay = "Mandag";
+            todayWeek = Weekday.todayWeek(1,0);
+        } else if (todayDay=="Søndag") {
+            date = Weekday.Weekend(1).split("");
+            todayDay = "Mandag";
+            todayWeek = Weekday.todayWeek(1,0);
+        } else {
+            date = Weekday.Today().split("");
+        }
+
+        if (date[6].equals("0")) {
+            date[6] = "";
+        }
+        if (date[9].equals("0")) {
+            date[9] = "";
+        }
+
+        todayDate = date[6] + date[7] + "/" + date[9] + date[10] + "-" + date[1] + date[2] + date[3] + date[4];
+
         if (new permissions.fileManagement().fileExists(context, gymID+nameID)){
             timeStamp = new schedule.Weekday().Today();
             file = new permissions.fileManagement().getFile(context, gymID+nameID);
@@ -41,7 +64,7 @@ public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a
                 if (hour2+1<hour) {
                     replace = true;
                 } else {
-                    lessons=file.replace(String.valueOf(m2.group(0)), "");
+                    lessons = file.replace(String.valueOf(m2.group(0)), "");
                     System.out.println("Found file");
                     downloaded=true;
                 }
@@ -52,6 +75,8 @@ public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a
             System.out.println("Downloaded new schedule");
             GetSchedule.gymID = gymID;
             GetSchedule.nameID = nameID;
+            GetSchedule.week = todayWeek;
+            GetSchedule.year = todayYear;
             lessons = GetSchedule.getSchedule();
             if (replace) {
                 permissions.fileManagement.createFile(context, gymID + nameID, lessons);
@@ -59,25 +84,16 @@ public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a
                 permissions.fileManagement.createFile(context, gymID + nameID, new schedule.Weekday().Today()+lessons);
             }
         }
-        date = Weekday.Today().split("");
-        if (date[6].equals("0")) {
-            date[6] = "";
-        }
-        if (date[9].equals("0")) {
-            date[9] = "";
-        }
-
-        todayDay = Weekday.Weekday();
-
-        todayDate = date[6]+date[7]+"/"+date[9]+date[10]+"-"+date[1]+date[2]+date[3]+date[4];
 
         modules = lessons.split("£"); //creates an array of all the modules
-        h=1;
-        v=1;
+        System.out.println(modules[6]);
+        h = 1;
+        v = 1;
+
         for (int i=0;i<modules.length;i++) { //loops through all the modules downloaded
             String team = parseLesson.getTeam(modules[i]); //parses for teams
             String time = parseLesson.getTime(modules[i]); //parses for time
-            if (time != null) {
+            if (time != null && team != null) {
                 h++;
                 Pattern noteRegex = Pattern.compile(".*?" + todayDate + ".*?");
                 Matcher noteMatcher = noteRegex.matcher(time);
@@ -111,7 +127,7 @@ public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a
             if (time != null) { //we can´t display the module on the schedule if we don´t know when it is
                 //creates an array of the lessons and sepperates them with "££".
                 lessons = time + "---" + team + "---" + teacher + "---" + room + "---" + note + "---" + additionalContent + "---" + homework + "---" + title;
-                if (display == 0) {
+                if (display == 0 && team != null) {
                     Pattern noteRegex = Pattern.compile(".*?" + todayDate + ".*?");
                     Matcher noteMatcher = noteRegex.matcher(time);
                     boolean found = noteMatcher.find();
@@ -122,7 +138,7 @@ public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a
                         viewsV[q] = new schedule.Display().vertical(lessons, context, mainLinearLayout);
                         q++;
                     }
-                } else if (display == 1) {
+                } else if (display == 1 && team != null) {
                     viewsH[q] = new schedule.Display().horizontal(lessons, context);
                     q++;
                 }

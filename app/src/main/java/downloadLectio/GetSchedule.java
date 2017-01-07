@@ -12,9 +12,11 @@ public class GetSchedule {
 	private String compact; //compact is a compact list of all the modules the student has on the gym
 	public String gymID; //the GymID specifies which gym the schedule should be created from
 	public String nameID; //the nameID specifies which student the schudele should be created from
+	public String week;
+	public int year;
 
 	public String getSchedule() { //runs in an asynctask to minimize cpu usage on the UI Thread (main)
-		String url = "https://www.lectio.dk/lectio/"+gymID+"/SkemaNy.aspx?type=elev&elevid="+nameID; //creates the URL we need to connect to in order to download the schedule.
+		String url = "https://www.lectio.dk/lectio/"+gymID+"/SkemaNy.aspx?type=elev&elevid="+nameID+"&week="+week+year; //creates the URL we need to connect to in order to download the schedule.
 		Document doc = null;
 		try { //initiates a download of the Webpage
 			doc = Jsoup.connect(url).userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36").timeout(0).get(); //connects in whichever useragent is preferred by the device
