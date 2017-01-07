@@ -10,4 +10,28 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="one.dichmann.lectioapp.LoginChooseActivity">
 
+    <Button
+        android:id="@+id/login_choose_FindStudent"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:text="Find Elev"
+        android:textSize="25sp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="75dp"
+        android:onClick="FindStudent"/>
+
+    <Button
+        android:id="@+id/login_choose_UseLogin"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:text="Brug Lectio Login"
+        android:textSize="25sp"
+        android:layout_below="@id/login_choose_FindStudent"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:onClick="UseLogin"
+        android:clickable="false"
+        android:background="#7a7a7a"/>
+
 </RelativeLayout>

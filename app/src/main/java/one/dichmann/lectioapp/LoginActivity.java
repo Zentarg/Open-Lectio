@@ -153,7 +153,7 @@ public class LoginActivity extends Activity implements AsyncResponse {
             for (int i = 0; i < 4; i++) {
                 if (id == textViewsGym[i].getId()) {
                     gymID = gymIDs[i];
-                    Intent intent = new Intent(this, LoginActivityTwo.class);
+                    Intent intent = new Intent(this, LoginChooseActivity.class);
                     intent.putExtra(finalGymID, gymID);
                     intent.putExtra(finalGymName, gymName);
                     startActivity(intent);
