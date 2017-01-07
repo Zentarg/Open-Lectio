@@ -125,12 +125,7 @@ public class Search {  // a class to search both Gyms and Names
 
         //if else is called there were no list to search in
         else { //if the list is empty something went wrong in the retrieval of the list
-                 //we send a error message if the list was rejected by lectio which means that the list being equal to null must mean we don´t have internet acces.
-            Toast.makeText( delegate , "No internet connection", Toast.LENGTH_SHORT).show(); //makes a toast on the UI to the Users
-            GetGyms getGyms = new GetGyms(); //sets up for a retry to get the gymlist
-            getGyms.delegate = (AsyncResponse) delegate; //sends the context on to Asyncresponse and the on again to getGyms.
-            getGyms.execute(); //executes the task with the context of the LoginActivity
-            return null; // returns an empty IDs array
+            return null;
         }
         return IDs; //returns the ID´s of the results in order
     }

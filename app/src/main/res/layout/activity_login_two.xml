@@ -1,126 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_login"
+    android:id="@+id/activity_login_two"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="one.dichmann.lectioapp.LoginActivity">
+    tools:context="one.dichmann.lectioapp.LoginActivityTwo">
 
     <LinearLayout
-        android:id="@+id/fragment_LoginOne"
+        android:id="@+id/fragment_LoginTwo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:weightSum="1">
 
-        <EditText
-            android:id="@+id/loginOne_Search_Search"
+        <TextView
+            android:id="@+id/loginTwo_gymText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/login_Search_Hint"
+            android:gravity="center"
+            android:text=""/>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:visibility="gone"
+            android:layout_weight="1" />
+
+        <EditText
+            android:id="@+id/loginTwo_Search_Search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/loginTwo_Search_Hint"
             android:gravity="center"
             android:inputType="textPersonName"
             android:layout_marginTop="49dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
             android:textSize="30sp"
+            android:layout_alignParentLeft="true"
+            android:minHeight="30dp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/loginTwo_Search_Result_One"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="gone"
+            android:onClick="LoginWithout"
+            android:layout_below="@+id/loginTwo_Search_Search"
+            android:layout_alignParentStart="true"
+            android:textSize="25sp"
+            android:layout_alignParentLeft="true"
+            android:text="text" />
+
+        <ImageView
+            android:id="@+id/loginTwo_UnderscoreImage1"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/loginTwo_Search_Result_One"
+            android:layout_alignParentLeft="true"
+            android:visibility="gone"
+            android:minHeight="30dp"/>
+
+        <TextView
+            android:id="@+id/loginTwo_Search_Result_Two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="gone"
+            android:onClick="LoginWithout"
+            android:layout_below="@+id/loginTwo_Search_Result_One"
+            android:layout_alignParentStart="true"
+            android:textSize="25sp"
             android:layout_alignParentLeft="true" />
 
+        <ImageView
+            android:id="@+id/loginTwo_UnderscoreImage2"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/loginTwo_Search_Result_Two"
+            android:layout_alignParentLeft="true"
+            android:visibility="gone"/>
+
         <TextView
-            android:id="@+id/loginOne_Search_Result_One"
+            android:id="@+id/loginTwo_Search_Result_Three"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:onClick="LoginWithout"
-            android:layout_below="@+id/loginOne_Search_Search"
-            android:layout_marginTop="5dp"
+            android:layout_below="@+id/loginTwo_Search_Result_Two"
             android:layout_alignParentStart="true"
             android:textSize="25sp"
             android:layout_alignParentLeft="true"
             android:minHeight="30dp" />
 
         <ImageView
-            android:id="@+id/login_UnderscoreImage1"
+            android:id="@+id/loginTwo_UnderscoreImage3"
             android:background="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/loginOne_Search_Result_One"
+            android:layout_below="@+id/loginTwo_Search_Result_Three"
             android:layout_alignParentLeft="true"
-            android:visibility="invisible"/>
+            android:visibility="gone"/>
 
         <TextView
-            android:id="@+id/loginOne_Search_Result_Two"
+            android:id="@+id/loginTwo_Search_Result_Four"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:onClick="LoginWithout"
-            android:layout_below="@+id/loginOne_Search_Result_One"
+            android:layout_below="@+id/loginTwo_Search_Result_Three"
             android:layout_alignParentStart="true"
             android:textSize="25sp"
             android:layout_alignParentLeft="true"
             android:minHeight="30dp"/>
 
         <ImageView
-            android:id="@+id/login_UnderscoreImage2"
+            android:id="@+id/loginTwo_UnderscoreImage4"
             android:background="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/loginOne_Search_Result_Two"
+            android:layout_below="@+id/loginTwo_Search_Result_Four"
             android:layout_alignParentLeft="true"
-            android:visibility="invisible"/>
-
-        <TextView
-            android:id="@+id/loginOne_Search_Result_Three"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:visibility="invisible"
-            android:onClick="LoginWithout"
-            android:layout_below="@+id/loginOne_Search_Result_Two"
-            android:layout_alignParentStart="true"
-            android:textSize="25sp"
-            android:layout_alignParentLeft="true"
-            android:minHeight="30dp"/>
-
-        <ImageView
-            android:id="@+id/login_UnderscoreImage3"
-            android:background="@color/colorPrimary"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/loginOne_Search_Result_Three"
-            android:layout_alignParentLeft="true"
-            android:visibility="invisible"/>
-
-        <TextView
-            android:id="@+id/loginOne_Search_Result_Four"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:visibility="invisible"
-            android:onClick="LoginWithout"
-            android:layout_below="@+id/loginOne_Search_Result_Three"
-            android:layout_alignParentStart="true"
-            android:textSize="25sp"
-            android:layout_alignParentLeft="true"
-            android:minHeight="30dp" />
-
-        <ImageView
-            android:id="@+id/login_UnderscoreImage4"
-            android:background="@color/colorPrimary"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/loginOne_Search_Result_Four"
-            android:layout_alignParentLeft="true"
-            android:visibility="invisible"/>
+            android:visibility="gone"/>
     </LinearLayout>
 
 </RelativeLayout>

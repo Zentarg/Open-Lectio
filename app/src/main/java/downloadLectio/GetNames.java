@@ -27,8 +27,14 @@ public class GetNames extends AsyncTask<String, Void, String> { //Gets the Names
                 e.printStackTrace(); //prints error code
                 return null; //returns null to be caught by the search fundtion and get relaunced.
             }
+
+            if (doc==null) { return null;}
+
             //never reaches here if the connection to lectio failed
             Elements links = doc.select("li").select("a"); //selects all a tags under the li tags
+            if (links==null) {
+                return "non";
+            }
             for (Element link : links) { //loops through all the results and writes them onto a String.
                 //link.text() is the text component of the a tag <a>this</a>
                 //link.attr(href) is the link component of the a tag <a href="this"></a>

@@ -24,6 +24,9 @@ public class GetGyms extends AsyncTask<String, Void, String> { //Gets the gyms f
             e.printStackTrace(); //prints error code
             return null; //returns null to be caught by the search fundtion and get relaunced.
         }
+
+        if (doc==null) { return null;}
+
         //never reaches here if the connection to lectio failed
         Elements links = doc.select("a");
 
