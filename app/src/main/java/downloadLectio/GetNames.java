@@ -12,7 +12,7 @@ import java.io.IOException;//used to catch errors like (connection refused by se
 
 public class GetNames extends AsyncTask<String, Void, String> { //Gets the Names of the students on the gymn selected
     public AsyncResponse delegate = null; //a delegate is passed onto the Asyncresponse which via the supermethod returns the delegate to the function processFinish in activity whose context was passed onto it
-    private String compact; //compact is a compact list of all the students on the gym.
+    private String compact = null; //compact is a compact list of all the students on the gym.
     public String GymID; //the GymID specifies which gym the list of names should be created from
 
     @Override //overrides normal method and enables the .execute to launch the task
@@ -32,9 +32,7 @@ public class GetNames extends AsyncTask<String, Void, String> { //Gets the Names
 
             //never reaches here if the connection to lectio failed
             Elements links = doc.select("li").select("a"); //selects all a tags under the li tags
-            if (links==null) {
-                return "non";
-            }
+
             for (Element link : links) { //loops through all the results and writes them onto a String.
                 //link.text() is the text component of the a tag <a>this</a>
                 //link.attr(href) is the link component of the a tag <a href="this"></a>
@@ -43,7 +41,10 @@ public class GetNames extends AsyncTask<String, Void, String> { //Gets the Names
                 compact = compact + "£" + link.text() + "==" + link.attr("href").replace("/lectio/" + GymID + "/SkemaNy.aspx?type=elev&elevid=", "");
             }//goes back to do it for the next element
         }//goes back to do it for the next letter
-        return compact.replace("null£",""); //returns the complete studentlist
+        if (compact!=null) {
+            return compact.replace("null£", ""); //returns the complete studentlist
+        }
+        return "non";
     }
 
     @Override //own super method and therefore needs an overwrite
