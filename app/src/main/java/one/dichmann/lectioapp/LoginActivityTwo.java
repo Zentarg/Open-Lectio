@@ -84,11 +84,8 @@ public class LoginActivityTwo extends AppCompatActivity implements AsyncResponse
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 // Make whatever is in the EditText a string of lower case words every time you change the EditText.
                 valueNames = editTextNames.getText().toString().toLowerCase();
-                if (list.equals("non")) {
-                    Toast.makeText(LoginActivityTwo.this, "Dette gymnasie er ikke i brug", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(LoginActivityTwo.this, LoginActivity.class);
-                    startActivity(intent);
-                } else if (!list.equals("wait")){
+
+                if (!list.equals("wait")){
                     Search search = new Search();
                     search.delegate = LoginActivityTwo.this;
                     String[] result = search.Search(imageViewsName, textViewsName, list, valueNames);
@@ -131,6 +128,11 @@ public class LoginActivityTwo extends AppCompatActivity implements AsyncResponse
     @Override
     public void processFinish(String output) {
         list = output;
+        if (list.equals("non")) {
+            Toast.makeText(LoginActivityTwo.this, "Dette gymnasie er ikke i brug", Toast.LENGTH_LONG).show();
+            Intent intent2 = new Intent(LoginActivityTwo.this, LoginActivity.class);
+            startActivity(intent2);
+        }
     }
 
     @Override
