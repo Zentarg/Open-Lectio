@@ -12,8 +12,8 @@ public class GetSchedule {
 	private String compact; //compact is a compact list of all the modules the student has on the gym
 	public String gymID; //the GymID specifies which gym the schedule should be created from
 	public String nameID; //the nameID specifies which student the schudele should be created from
-	public String week;
-	public int year;
+	public String week; // sets the week of the year for the schedule we want
+	public int year; // sets the year of the schedule
 
 	public String getSchedule() { //runs in an asynctask to minimize cpu usage on the UI Thread (main)
 		String url = "https://www.lectio.dk/lectio/"+gymID+"/SkemaNy.aspx?type=elev&elevid="+nameID+"&week="+week+year; //creates the URL we need to connect to in order to download the schedule.
@@ -33,5 +33,6 @@ public class GetSchedule {
 			compact = compact+"£"+link.attr("title");
 		}
 		return compact.replace("\n", "§-§").replace("null£","");//replaces all the newlines in the document with blankspaces so the parser parses it faster.
+		//note that the "§-§" also gets used as a stop method for the regex in the parser
 	}
 }

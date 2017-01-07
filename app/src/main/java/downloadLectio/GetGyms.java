@@ -25,19 +25,19 @@ public class GetGyms extends AsyncTask<String, Void, String> { //Gets the gyms f
             return null; //returns null to be caught by the search fundtion and get relaunced.
         }
 
-        if (doc==null) { return null;}
+        if (doc==null) { return null;}//checks if Jsoup connected to and downloaded from lectio
 
         //never reaches here if the connection to lectio failed
-        Elements links = doc.select("a");
+        Elements links = doc.select("a"); //searches for all a tags under the tag html
 
-           for (Element link : links) {
+           for (Element link : links) { //loops through all links found with the element search
                //link.text() is the text component of the a tag <a>this</a>
                //link.attr(href) is the link component of the a tag <a href="this"></a>
                //we replace everything in the link except for the ID of the gym and adds a seperator before next gym.
                //this returns a list with (gym==ID£gym==ID£gym==ID£...)
                compact = compact+ "£" +link.text() + "==" + link.attr("href").replace("/lectio/", "").replace("/default.aspx", "");
            }
-        return compact.replace("null£","");
+        return compact.replace("null£",""); //removes the first "module" which is a null
     }
 
     @Override //own super method and therefore needs an overwrite
