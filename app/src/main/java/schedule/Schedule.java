@@ -41,6 +41,7 @@ public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a
             todayWeek = Weekday.todayWeek(1, 0);//adds one week to the week of the year
         } else { //if it´s a weekday it just passes on.
             date = Weekday.Today().split("");
+            todayWeek = Weekday.todayWeek(0,0);
         }
 
         //date were split due to us formatting it from a american standard to a more common danish way (not the Dansih standard)
