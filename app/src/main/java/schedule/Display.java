@@ -11,7 +11,7 @@ import one.dichmann.lectioapp.ScheduleActivity;
 
 public class Display {
 
-    public TextView[] vertical(String lessons, Context context, LinearLayout mainLinearLayout) {
+    public TextView[] vertical(String lessons, Context context) {
         String[] lesson = lessons.split("---");
 
         TextView[] textViews = new TextView[3];

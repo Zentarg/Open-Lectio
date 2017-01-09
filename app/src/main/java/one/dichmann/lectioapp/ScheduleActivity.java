@@ -50,6 +50,11 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
     }
 
     @Override
+    public void processViews(Object objects) {
+
+    }
+/*
+    @Override
     public void processViews(Object[] objects) {
         TextView[] textView = (TextView[]) objects[0];
         TextView[] textViewModule = new TextView[3];
@@ -75,4 +80,5 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
 
         }
     }
+    */
 }

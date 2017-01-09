@@ -5,6 +5,7 @@ import android.os.AsyncTask; //limits the consumption on the UI thread
 import android.view.View;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,7 +13,7 @@ import downloadLectio.AsyncResponse; //used to get the product of the Asynctask
 import downloadLectio.GetSchedule;
 import downloadLectio.parseLesson;   //used to parse the data from the schedule to qualify what kind of data it is
 
-public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a parsing terminal
+public class Schedule extends AsyncTask<Object, Object, Object> { //works as a parsing terminal
     public AsyncResponse delegate = null; //initialises Asyncresponse delegate which should be set to context before doInBackground executes
     public String[] modules, date; //a String array of all the modules
     public int display, v, h, q, todayYear;
@@ -26,7 +27,7 @@ public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a
     private String lessons; //the lessons module
 
     @Override
-    public Object[] doInBackground(Object... Strings) { //gets all the strings send to it from getSchedule
+    public Object doInBackground(Object... Strings) { //gets all the strings send to it from getSchedule
 
         todayYear = 2017; //hardcoded for now
 
@@ -41,7 +42,6 @@ public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a
             todayWeek = Weekday.todayWeek(1, 0);//adds one week to the week of the year
         } else { //if it´s a weekday it just passes on.
             date = Weekday.Today().split("");
-            todayWeek = Weekday.todayWeek(0,0);
         }
 
         //date were split due to us formatting it from a american standard to a more common danish way (not the Dansih standard)
@@ -58,7 +58,7 @@ public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a
 
         if (new permissions.fileManagement().fileExists(context, gymID + nameID)) { //checks if a file with the schedule already exists
             timeStamp = new schedule.Weekday().Today(); // creates a new timestamp whcih should be equal to the time of execution
-            file = new permissions.fileManagement().getFile(context, gymID + nameID); //loads the file to a string from Storage with th GetFile method from fileManagement
+            file = new permissions.fileManagement().getFile(context, gymID + nameID); //loads the file to a string from Storage with the GetFile method from fileManagement
             parse = ("(.*?)(\\d\\d)(:)(\\d\\d)(:)(\\d\\d)"); // creates a pattern for the date method
             Pattern p = Pattern.compile(parse); //compiles the pattern
             Matcher m = p.matcher(timeStamp); //matches the pattern against the entire file
@@ -85,9 +85,9 @@ public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a
             GetSchedule.year = todayYear;
             lessons = GetSchedule.getSchedule();
             if (replace) {
-                permissions.fileManagement.createFile(context, gymID + nameID, lessons);
+                permissions.fileManagement.createFile(context, gymID + nameID, timeStamp + lessons);
             } else {
-                permissions.fileManagement.createFile(context, gymID + nameID, new schedule.Weekday().Today() + lessons);
+                permissions.fileManagement.createFile(context, gymID + nameID, timeStamp + lessons);
             }
         }
 
@@ -96,11 +96,12 @@ public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a
         h = 1;
         v = 1;
 
+        /*
         for (int i = 0; i < modules.length; i++) { //loops through all the modules downloaded
             String team = parseLesson.getTeam(modules[i]); //parses for teams
             String time = parseLesson.getTime(modules[i]); //parses for time
             if (time != null && team != null) { //checks if the time and team is defined for the mdoule
-                //// TODO: 07-01-2017 add support for student modules
+                // TODO: 07-01-2017 add support for student modules
                 h++; //adds one to the horizontal view
                 Pattern noteRegex = Pattern.compile(".*?" + todayDate + ".*?"); //checks if the module is on the day todayDate
                 Matcher noteMatcher = noteRegex.matcher(time); //Matches
@@ -117,11 +118,11 @@ public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a
             }
         }
 
-
         Object[] viewsV = new Object[v]; //sets the length of a Object module array for vertical view
         Object[] viewsH = new Object[h]; //sets the length of a Object module array for horizontal view
 
-        viewsV[0] = new schedule.Display().DayAndDate(todayDate, todayDay, context); //gets todays date and weekday and creates these displays to module 0 of the vertical schedule
+
+        viewsV[0] = new schedule.Display().DayAndDate(todayDate, todayDay, context); //gets today's date and weekday and creates these displays to module 0 of the vertical schedule
 
         q = 1; //since we have information in module 0 we set the array to start at 1
         for (int i = 0; i < modules.length; i++) { //loops through all the modules downloaded
@@ -157,9 +158,32 @@ public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a
         if (display == 0) { //checks if the view is horizontal or vertical
             return viewsV; //returns viewsV if the phone is vertical
         } else return viewsH; //else it returns a horizontal view
+    */
+        String timeDay = null;
+        ArrayList<ArrayList<Object>> week = new ArrayList<ArrayList<Object>>();
+        ArrayList<Object> day = new ArrayList<Object>();
+
+        for (int i=0;i<modules.length;i++) {
+            String time = parseLesson.getTime(modules[i]);
+            String team = parseLesson.getTeam(modules[i]);
+            String teacher = parseLesson.getTeacher(modules[i]);
+            String room = parseLesson.getRoom(modules[i]);
+            if (timeDay.equals(null)) {
+                timeDay = time;
+                day.add((Object) new Display().vertical(team + "---" + teacher + "---" + room, context));
+            } else if (timeDay.equals(time)) {
+                day.add((Object) new Display().vertical(team + "---" + teacher + "---" + room, context));
+            } else {
+                week.add(day);
+                timeDay = time;
+                day.clear();
+                day.add((Object) new Display().vertical(team + "---" + teacher + "---" + room, context));
+            }
+        }
+        return (Object) week;
     }
 
-    protected void onPostExecute(Object[] result) {//recieves the result of the AsyncTask
+    protected void onPostExecute(Object result) {//recieves the result of the AsyncTask
         delegate.processViews(result); //sends the result to the processViews task in the context activity.
     }
 }
