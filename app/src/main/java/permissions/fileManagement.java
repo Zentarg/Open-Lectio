@@ -9,8 +9,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 /**
  * Created by apgch on 05-01-2017.
@@ -61,5 +66,43 @@ public class fileManagement {
 
         return sbString;
     }
+
+    public static void writeObject(Context context, String filename, Object object) {
+
+        FileOutputStream fos = null;
+        try {
+            fos = context.openFileOutput(filename, Context.MODE_PRIVATE);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(object);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static Object readObject(Context context, String filename) {
+
+        FileInputStream fis = null;
+        try {
+            fis = context.openFileInput(filename);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            ArrayList<Object> list = (ArrayList<Object>) ois.readObject();
+            return list;
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    return null;
+    }
+
 
 }
