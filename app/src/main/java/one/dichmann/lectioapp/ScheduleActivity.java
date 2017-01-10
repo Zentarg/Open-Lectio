@@ -1,9 +1,11 @@
 package one.dichmann.lectioapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,9 @@ import schedule.Schedule;
 import schedule.Weekday;
 
 public class ScheduleActivity extends AppCompatActivity implements AsyncResponse {
+
+    private GestureDetector gestureDetector;
+
     private Date date = new Date(); //initialices date
     private int n = 0;
     private String todayDate;
@@ -65,9 +70,23 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
         asyncTaskSchedule.mainLinearLayout = mainLinearLayout;
         asyncTaskSchedule.dayAndDate = findViewById(R.id.schedule_DayAndDate);
         asyncTaskSchedule.execute();
+
+        mainLinearLayout.setOnTouchListener(new OnSwipeTouchListener(ScheduleActivity.this) {
+            public void onSwipeLeft() {
+                c.add(Calendar.DATE, -1);
+                setSchedule();
+            }
+            public void onSwipeRight() {
+                c.add(Calendar.DATE, 1);
+                setSchedule();
+            }
+        });
+
     }
 
-    view.setOnTouchListener (new OnSwipeTouchListener(this)) {
+
+/*
+    View.setOnTouchListener (new OnSwipeTouchListener(this)) {
     public void onSwipeLeft() {
         c.add(Calendar.DATE, 1);
         setSchedule();
@@ -77,7 +96,7 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
         setSchedule();
     }
     }
-
+*/
 
     @Override
     public void processFinish(String output) {
