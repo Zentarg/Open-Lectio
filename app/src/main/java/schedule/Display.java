@@ -17,7 +17,7 @@ public class Display {
         TextView[] textViews = new TextView[3];
         for (int i=0;i<3;i++) {
             TextView module = new TextView(context);
-            module.setText(lesson[i+1]);
+            module.setText(lesson[i]);
             module.setTextSize(25);
             module.setPadding(10, 10, 10, 10);
             module.setGravity(Gravity.CENTER);
