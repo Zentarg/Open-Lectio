@@ -107,6 +107,11 @@ public class Schedule extends AsyncTask<Object, Object, Object> { //works as a p
             if (timeDay!=null && team!=null) {
                 Pattern teamRegex = Pattern.compile("Alle");
                 Matcher teamMatcher = teamRegex.matcher(team);
+                Pattern roomRegex = Pattern.compile("\\,(.*?)(\\,|$)");
+                Matcher roomMatcher = roomRegex.matcher(room);
+                if (roomMatcher.find()){
+                    room = roomMatcher.group(1);
+                }
                 if (!teamMatcher.find()) {
                     if (timeDay.equals("first")) {
                         timeDay = time;

@@ -28,7 +28,7 @@ public class Display {
             TextView moduleHorizontal = new TextView(context);
             moduleHorizontal.setText(lesson[i]);
             moduleHorizontal.setTextSize(15);
-            moduleHorizontal.setPadding(10, 10, 10, 10);
+            moduleHorizontal.setPadding(5, 5, 5, 5);
             moduleHorizontal.setGravity(Gravity.CENTER);
             moduleHorizontal.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
