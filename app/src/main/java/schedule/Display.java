@@ -6,23 +6,34 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import one.dichmann.lectioapp.R;
 import one.dichmann.lectioapp.ScheduleActivity;
 
 public class Display {
 
-    public TextView[] vertical(String lessons, Context context) {
+    public ArrayList<Object> vertical(String lessons, Context context) {
         String[] lesson = lessons.split("---");
 
-        TextView[] textViews = new TextView[3];
+        ArrayList<Object> textViews = new ArrayList<Object>();
         for (int i=0;i<3;i++) {
-            TextView module = new TextView(context);
-            module.setText(lesson[i]);
-            module.setTextSize(25);
-            module.setPadding(10, 10, 10, 10);
-            module.setGravity(Gravity.CENTER);
-            module.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            textViews[i] = module;
+            TextView moduleVertical = new TextView(context);
+            moduleVertical.setText(lesson[i]);
+            moduleVertical.setTextSize(25);
+            moduleVertical.setPadding(10, 10, 10, 10);
+            moduleVertical.setGravity(Gravity.CENTER);
+            moduleVertical.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+            TextView moduleHorizontal = new TextView(context);
+            moduleHorizontal.setText(lesson[i]);
+            moduleHorizontal.setTextSize(15);
+            moduleHorizontal.setPadding(10, 10, 10, 10);
+            moduleHorizontal.setGravity(Gravity.CENTER);
+            moduleHorizontal.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+            textViews.add((Object)moduleVertical);
+            textViews.add((Object)moduleHorizontal);
         }
         return textViews;
     }

@@ -2,6 +2,7 @@ package one.dichmann.lectioapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -44,14 +45,15 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
     private String gymID;
     private String nameID;
     private Calendar c = Calendar.getInstance();//calender is created and called upon
-    private ArrayList<ArrayList<TextView[]>> object;
+    private ArrayList<ArrayList<ArrayList<TextView>>> object;
     private ScrollView mainLinearLayout;
 
-    private LinearLayout[] day;
+    private LinearLayout[] day, week;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("i started");
         setContentView(R.layout.activity_schedule);
 
         Intent intent = getIntent();
@@ -69,6 +71,14 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
                 (LinearLayout) findViewById(R.id.schedule_Friday),
         };
 
+        week = new LinearLayout[] {
+                (LinearLayout) findViewById(R.id.horizontal_Monday),
+                (LinearLayout) findViewById(R.id.horizontal_Tuesday),
+                (LinearLayout) findViewById(R.id.horizontal_Wednesday),
+                (LinearLayout) findViewById(R.id.horizontal_Thursday),
+                (LinearLayout) findViewById(R.id.horizontal_Friday),
+        };
+
         c.setTime(date);
 
         mainLinearLayout = (ScrollView) findViewById(R.id.schedule_Scrollview);
@@ -78,7 +88,8 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
         asyncTaskSchedule.gymID = gymID;
         asyncTaskSchedule.nameID = nameID;
         asyncTaskSchedule.context = this;
-        asyncTaskSchedule.mainLinearLayout = (LinearLayout) findViewById(R.id.activity_schedule);
+        asyncTaskSchedule.VerticalLinearLayout = (LinearLayout) findViewById(R.id.activity_schedule_Vertical);
+        asyncTaskSchedule.HorizontalLinearLayout = (LinearLayout) findViewById(R.id.activity_schedule_Horizontal);
         asyncTaskSchedule.dayAndDate = findViewById(R.id.schedule_DayAndDate);
         asyncTaskSchedule.execute();
 
@@ -116,7 +127,7 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
 
     @Override
     public void processViews(Object objects) {
-        object = (ArrayList<ArrayList<TextView[]>>) objects;
+        object = (ArrayList<ArrayList<ArrayList<TextView>>>) objects;
         createdays();
         setSchedule();
     }
@@ -139,6 +150,56 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
 
         todayDate = dateint[6] + dateint[7] + "/" + dateint[9] + dateint[10] + "-" + dateint[1] + dateint[2] + dateint[3] + dateint[4];
 
+        setDay();
+
+
+        TextView schedule_Day = (TextView) findViewById(R.id.schedule_DayAndDate_Day);
+        schedule_Day.setText(weekDay);
+
+        TextView schedule_Date = (TextView) findViewById(R.id.schedule_DayAndDate_Date);
+        schedule_Date.setText(todayDate);
+
+        day[n].setVisibility(View.VISIBLE);
+    }
+
+    public void createdays() {
+        LinearLayout Schedule = (LinearLayout) findViewById(R.id.activity_schedule_Vertical);
+        LinearLayout.LayoutParams moduleLLParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        moduleLLParams.setMargins(0, 20, 0, 0);
+
+        ArrayList textViewModule;
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
+        for (int n = 0; n < object.size(); n++) {
+            for (int i = 0; i < object.get(n).size(); i++) {
+                LinearLayout moduleLL = new LinearLayout(this);
+                moduleLL.setOrientation(LinearLayout.VERTICAL);
+                moduleLL.setLayoutParams(moduleLLParams);
+                moduleLL.setGravity(Gravity.CENTER);
+                moduleLL.setBackgroundColor(getResources().getColor(R.color.schedule_Regular));
+
+                LinearLayout moduleLL2 = new LinearLayout(this);
+                moduleLL2.setOrientation(LinearLayout.VERTICAL);
+                moduleLL2.setLayoutParams(moduleLLParams);
+                moduleLL2.setGravity(Gravity.CENTER);
+                moduleLL2.setBackgroundColor(getResources().getColor(R.color.schedule_Regular));
+
+                textViewModule = (ArrayList) object.get(n).get(i);
+
+                for (int k = 0; k < textViewModule.size(); k=k+2) {
+                    moduleLL.addView((TextView) textViewModule.get(k));
+                    moduleLL2.addView((TextView) textViewModule.get(k+1));
+                    System.out.println("added");
+                }
+
+                day[n].addView(moduleLL);
+                week[n].addView(moduleLL2);
+            }
+        }
+        }
+
+    public void setDay() {
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK); //gets a integer between to be compared with the weekday
 
         if (Calendar.MONDAY == dayOfWeek) {
@@ -163,43 +224,21 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
             weekDay = "Søndag";
             n = 6;
         }
-
-        TextView schedule_Day = (TextView) findViewById(R.id.schedule_DayAndDate_Day);
-        schedule_Day.setText(weekDay);
-
-        TextView schedule_Date = (TextView) findViewById(R.id.schedule_DayAndDate_Date);
-        schedule_Date.setText(todayDate);
-
-        day[n].setVisibility(View.VISIBLE);
     }
 
-        public void createdays(){
-        LinearLayout Schedule = (LinearLayout) findViewById(R.id.activity_schedule);
-        LinearLayout.LayoutParams moduleLLParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        moduleLLParams.setMargins(0, 20, 0, 0);
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
 
-        TextView[] textViewModule;
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-
-        for (int n = 0; n < object.size(); n++) {
-            for (int i = 0; i < object.get(n).size(); i++) {
-                LinearLayout moduleLL = new LinearLayout(this);
-                moduleLL.setOrientation(LinearLayout.VERTICAL);
-                moduleLL.setLayoutParams(moduleLLParams);
-                moduleLL.setGravity(Gravity.CENTER);
-                moduleLL.setBackgroundColor(getResources().getColor(R.color.schedule_Regular));
-
-                textViewModule = (TextView[]) object.get(n).get(i);
-
-                for (int k = 0; k < textViewModule.length; k++) {
-                    moduleLL.addView(textViewModule[k]);
-                }
-
-                day[n].addView(moduleLL);
-            }
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            findViewById(R.id.activity_schedule_Vertical).setVisibility(View.GONE);
+            findViewById(R.id.activity_schedule_Horizontal).setVisibility(View.VISIBLE);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            findViewById(R.id.activity_schedule_Horizontal).setVisibility(View.GONE);
+            findViewById(R.id.activity_schedule_Vertical).setVisibility(View.VISIBLE);
         }
     }
+
 /*
     @Override
     public void processViews(Object[] objects) {

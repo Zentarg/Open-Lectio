@@ -20,7 +20,7 @@ public class Schedule extends AsyncTask<Object, Object, Object> { //works as a p
     public int display, v, h, q, todayYear;
     public Context context;
     public String gymID, nameID, todayDate, todayDay, file, timeStamp, parse, todayWeek;
-    public LinearLayout mainLinearLayout;
+    public LinearLayout VerticalLinearLayout, HorizontalLinearLayout;
     public View dayAndDate;
 
     private Object[] views;
@@ -118,7 +118,7 @@ public class Schedule extends AsyncTask<Object, Object, Object> { //works as a p
                         timeDay = time;
                         day = new ArrayList<Object>();
                         day.add((Object) new Display().vertical(team + "---" + teacher + "---" + room, context));
-                        }
+                    }
                 }
             }
         }
