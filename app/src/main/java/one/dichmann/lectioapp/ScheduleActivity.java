@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.view.View.OnTouchListener;
 
@@ -44,7 +45,9 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
     private String nameID;
     private Calendar c = Calendar.getInstance();//calender is created and called upon
     private ArrayList<ArrayList<TextView[]>> object;
-    private LinearLayout mainLinearLayout;
+    private ScrollView mainLinearLayout;
+
+    private LinearLayout[] day;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,32 +61,41 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
 
         getIntent();
 
+        day = new LinearLayout[] {
+                (LinearLayout) findViewById(R.id.schedule_Monday),
+                (LinearLayout) findViewById(R.id.schedule_Tuesday),
+                (LinearLayout) findViewById(R.id.schedule_Wednesday),
+                (LinearLayout) findViewById(R.id.schedule_Thursday),
+                (LinearLayout) findViewById(R.id.schedule_Friday),
+        };
+
         c.setTime(date);
 
-        mainLinearLayout = (LinearLayout) findViewById(R.id.activity_schedule);
+        mainLinearLayout = (ScrollView) findViewById(R.id.schedule_Scrollview);
 
         Schedule asyncTaskSchedule = new Schedule();
         asyncTaskSchedule.delegate = this;
         asyncTaskSchedule.gymID = gymID;
         asyncTaskSchedule.nameID = nameID;
         asyncTaskSchedule.context = this;
-        asyncTaskSchedule.mainLinearLayout = mainLinearLayout;
+        asyncTaskSchedule.mainLinearLayout = (LinearLayout) findViewById(R.id.activity_schedule);
         asyncTaskSchedule.dayAndDate = findViewById(R.id.schedule_DayAndDate);
         asyncTaskSchedule.execute();
 
         mainLinearLayout.setOnTouchListener(new OnSwipeTouchListener(ScheduleActivity.this) {
             public void onSwipeLeft() {
-                c.add(Calendar.DATE, -1);
+                removeSchedule();
+                c.add(Calendar.DATE, 1);
                 setSchedule();
             }
             public void onSwipeRight() {
-                c.add(Calendar.DATE, 1);
+                removeSchedule();
+                c.add(Calendar.DATE, -1);
                 setSchedule();
             }
         });
 
     }
-
 
 /*
     View.setOnTouchListener (new OnSwipeTouchListener(this)) {
@@ -105,14 +117,17 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
     @Override
     public void processViews(Object objects) {
         object = (ArrayList<ArrayList<TextView[]>>) objects;
+        createdays();
         setSchedule();
     }
-    public void setSchedule(){
-        TextView[] textViewModule;
-        LinearLayout.LayoutParams moduleLLParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        moduleLLParams.setMargins(0, 20, 0, 0);
+
+    public void removeSchedule() {
+        day[n].setVisibility(View.GONE);
+    }
+
+    public void setSchedule() {
         s = new SimpleDateFormat("yyyy-dd-MM HH:mm:ss");
-        dateint = s.format(date).split("");
+        dateint = s.format(c.getTime()).split("");
 
         //date were split due to us formatting it from a american standard to a more common danish way (not the Dansih standard)
         if (dateint[6].equals("0")) { //zero´s look bad in the monthday and months number
@@ -126,47 +141,63 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
 
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK); //gets a integer between to be compared with the weekday
 
-        if (Calendar.MONDAY == dayOfWeek) { weekDay = "Mandag"; n = 0; }
-        else if (Calendar.TUESDAY == dayOfWeek) { weekDay = "Tirsdag"; n = 1; }
-        else if (Calendar.WEDNESDAY == dayOfWeek) { weekDay = "Onsdag"; n = 2; }
-        else if (Calendar.THURSDAY == dayOfWeek) { weekDay = "Torsdag"; n = 3; }
-        else if (Calendar.FRIDAY == dayOfWeek) { weekDay = "Fredag"; n = 4; }
-        else if (Calendar.SATURDAY == dayOfWeek) { weekDay = "Lørdag"; n = 5; }
-        else if (Calendar.SUNDAY == dayOfWeek) { weekDay = "Søndag"; n = 6; }
+        if (Calendar.MONDAY == dayOfWeek) {
+            weekDay = "Mandag";
+            n = 0;
+        } else if (Calendar.TUESDAY == dayOfWeek) {
+            weekDay = "Tirsdag";
+            n = 1;
+        } else if (Calendar.WEDNESDAY == dayOfWeek) {
+            weekDay = "Onsdag";
+            n = 2;
+        } else if (Calendar.THURSDAY == dayOfWeek) {
+            weekDay = "Torsdag";
+            n = 3;
+        } else if (Calendar.FRIDAY == dayOfWeek) {
+            weekDay = "Fredag";
+            n = 4;
+        } else if (Calendar.SATURDAY == dayOfWeek) {
+            weekDay = "Lørdag";
+            n = 5;
+        } else if (Calendar.SUNDAY == dayOfWeek) {
+            weekDay = "Søndag";
+            n = 6;
+        }
 
+        TextView schedule_Day = (TextView) findViewById(R.id.schedule_DayAndDate_Day);
+        schedule_Day.setText(weekDay);
+
+        TextView schedule_Date = (TextView) findViewById(R.id.schedule_DayAndDate_Date);
+        schedule_Date.setText(todayDate);
+
+        day[n].setVisibility(View.VISIBLE);
+    }
+
+        public void createdays(){
+        LinearLayout Schedule = (LinearLayout) findViewById(R.id.activity_schedule);
+        LinearLayout.LayoutParams moduleLLParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        moduleLLParams.setMargins(0, 20, 0, 0);
+
+        TextView[] textViewModule;
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        TextView dayDay = new TextView(this);
-        dayDay.setTextSize(25);
-        dayDay.setGravity(Gravity.CENTER);
-        dayDay.setTextColor(this.getResources().getColor(R.color.schedule_TextColor));
-        dayDay.setLayoutParams(layoutParams);
-        dayDay.setText(todayDay);
 
-        TextView dayDate = new TextView(this);
-        dayDate.setTextSize(25);
-        dayDate.setTextColor(this.getResources().getColor(R.color.schedule_TextColor));
-        dayDate.setLayoutParams(layoutParams);
-        dayDate.setGravity(Gravity.CENTER);
-        dayDate.setText(todayDate);
+        for (int n = 0; n < object.size(); n++) {
+            for (int i = 0; i < object.get(n).size(); i++) {
+                LinearLayout moduleLL = new LinearLayout(this);
+                moduleLL.setOrientation(LinearLayout.VERTICAL);
+                moduleLL.setLayoutParams(moduleLLParams);
+                moduleLL.setGravity(Gravity.CENTER);
+                moduleLL.setBackgroundColor(getResources().getColor(R.color.schedule_Regular));
 
-        ((LinearLayout) findViewById(R.id.schedule_DayAndDate)).addView(dayDay);
-        ((LinearLayout) findViewById(R.id.schedule_DayAndDate)).addView(dayDate);
+                textViewModule = (TextView[]) object.get(n).get(i);
 
-        for (int i=0;i<object.get(n).size();i++) {
-            LinearLayout moduleLL = new LinearLayout(this);
-            moduleLL.setOrientation(LinearLayout.VERTICAL);
-            moduleLL.setLayoutParams(moduleLLParams);
-            moduleLL.setGravity(Gravity.CENTER);
-            moduleLL.setBackgroundColor(getResources().getColor(R.color.schedule_Regular));
+                for (int k = 0; k < textViewModule.length; k++) {
+                    moduleLL.addView(textViewModule[k]);
+                }
 
-            textViewModule = (TextView[]) object.get(n).get(i);
-
-            for (int k = 0; k < textViewModule.length; k++) {
-                moduleLL.addView(textViewModule[k]);
+                day[n].addView(moduleLL);
             }
-
-            ((LinearLayout) findViewById(R.id.activity_schedule)).addView(moduleLL);
         }
     }
 /*

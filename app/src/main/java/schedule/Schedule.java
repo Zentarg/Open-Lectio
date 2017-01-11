@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -94,7 +95,7 @@ public class Schedule extends AsyncTask<Object, Object, Object> { //works as a p
 
         modules = lessons.split("£"); //creates an array of all the modules
 
-        ArrayList<ArrayList<Object>> week = new ArrayList<ArrayList<Object>>();
+        ArrayList<Object> week = new ArrayList<Object>();
         ArrayList<Object> day = new ArrayList<Object>();
         timeDay = "first";
 
@@ -103,20 +104,25 @@ public class Schedule extends AsyncTask<Object, Object, Object> { //works as a p
             String team = parseLesson.getTeam(modules[i]);
             String teacher = parseLesson.getTeacher(modules[i]);
             String room = parseLesson.getRoom(modules[i]);
-            if (timeDay!=null) {
-                if (timeDay.equals("first")) {
-                    timeDay = time;
-                    day.add((Object) new Display().vertical(team + "---" + teacher + "---" + room, context));
-                } else if (timeDay.equals(time)) {
-                    day.add((Object) new Display().vertical(team + "---" + teacher + "---" + room, context));
-                } else {
-                    week.add(day);
-                    timeDay = time;
-                    day.clear();
-                    day.add((Object) new Display().vertical(team + "---" + teacher + "---" + room, context));
+            if (timeDay!=null && team!=null) {
+                Pattern teamRegex = Pattern.compile("Alle");
+                Matcher teamMatcher = teamRegex.matcher(team);
+                if (!teamMatcher.find()) {
+                    if (timeDay.equals("first")) {
+                        timeDay = time;
+                        day.add((Object) new Display().vertical(team + "---" + teacher + "---" + room, context));
+                    } else if (timeDay.equals(time)) {
+                        day.add((Object) new Display().vertical(team + "---" + teacher + "---" + room, context));
+                    } else {
+                        week.add((Object) day);
+                        timeDay = time;
+                        day = new ArrayList<Object>();
+                        day.add((Object) new Display().vertical(team + "---" + teacher + "---" + room, context));
+                        }
                 }
             }
         }
+        week.add((Object) day);
         return (Object) week;
     }
 
