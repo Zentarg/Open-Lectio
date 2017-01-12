@@ -5,6 +5,8 @@ import android.os.AsyncTask; //limits the consumption on the UI thread
 import android.view.View;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,21 +14,21 @@ import downloadLectio.AsyncResponse; //used to get the product of the Asynctask
 import downloadLectio.GetSchedule;
 import downloadLectio.parseLesson;   //used to parse the data from the schedule to qualify what kind of data it is
 
-public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a parsing terminal
+public class Schedule extends AsyncTask<Object, Object, Object> { //works as a parsing terminal
     public AsyncResponse delegate = null; //initialises Asyncresponse delegate which should be set to context before doInBackground executes
     public String[] modules, date; //a String array of all the modules
     public int display, v, h, q, todayYear;
     public Context context;
     public String gymID, nameID, todayDate, todayDay, file, timeStamp, parse, todayWeek;
-    public LinearLayout mainLinearLayout;
+    public LinearLayout VerticalLinearLayout, HorizontalLinearLayout;
     public View dayAndDate;
 
     private Object[] views;
     private boolean downloaded, replace = false;
-    private String lessons; //the lessons module
+    private String lessons, timeDay; //the lessons module
 
     @Override
-    public Object[] doInBackground(Object... Strings) { //gets all the strings send to it from getSchedule
+    public Object doInBackground(Object... Strings) { //gets all the strings send to it from getSchedule
 
         todayYear = 2017; //hardcoded for now
 
@@ -41,7 +43,7 @@ public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a
             todayWeek = Weekday.todayWeek(1, 0);//adds one week to the week of the year
         } else { //if it´s a weekday it just passes on.
             date = Weekday.Today().split("");
-            todayWeek = Weekday.todayWeek(0,0);
+            todayWeek = Weekday.todayWeek(0, 0);//adds one week to the week of the year
         }
 
         //date were split due to us formatting it from a american standard to a more common danish way (not the Dansih standard)
@@ -58,7 +60,7 @@ public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a
 
         if (new permissions.fileManagement().fileExists(context, gymID + nameID)) { //checks if a file with the schedule already exists
             timeStamp = new schedule.Weekday().Today(); // creates a new timestamp whcih should be equal to the time of execution
-            file = new permissions.fileManagement().getFile(context, gymID + nameID); //loads the file to a string from Storage with th GetFile method from fileManagement
+            file = new permissions.fileManagement().getFile(context, gymID + nameID); //loads the file to a string from Storage with the GetFile method from fileManagement
             parse = ("(.*?)(\\d\\d)(:)(\\d\\d)(:)(\\d\\d)"); // creates a pattern for the date method
             Pattern p = Pattern.compile(parse); //compiles the pattern
             Matcher m = p.matcher(timeStamp); //matches the pattern against the entire file
@@ -85,81 +87,51 @@ public class Schedule extends AsyncTask<Object, Object, Object[]> { //works as a
             GetSchedule.year = todayYear;
             lessons = GetSchedule.getSchedule();
             if (replace) {
-                permissions.fileManagement.createFile(context, gymID + nameID, lessons);
+                permissions.fileManagement.createFile(context, gymID + nameID, timeStamp + lessons);
             } else {
-                permissions.fileManagement.createFile(context, gymID + nameID, new schedule.Weekday().Today() + lessons);
+                permissions.fileManagement.createFile(context, gymID + nameID, timeStamp + lessons);
             }
         }
 
         modules = lessons.split("£"); //creates an array of all the modules
 
-        h = 1;
-        v = 1;
+        ArrayList<Object> week = new ArrayList<Object>();
+        ArrayList<Object> day = new ArrayList<Object>();
+        timeDay = "first";
 
-        for (int i = 0; i < modules.length; i++) { //loops through all the modules downloaded
-            String team = parseLesson.getTeam(modules[i]); //parses for teams
-            String time = parseLesson.getTime(modules[i]); //parses for time
-            if (time != null && team != null) { //checks if the time and team is defined for the mdoule
-                //// TODO: 07-01-2017 add support for student modules
-                h++; //adds one to the horizontal view
-                Pattern noteRegex = Pattern.compile(".*?" + todayDate + ".*?"); //checks if the module is on the day todayDate
-                Matcher noteMatcher = noteRegex.matcher(time); //Matches
-                boolean found = noteMatcher.find(); //sets if the matcher finds todaysDate on the module
-                // TODO: 07-01-2017 add support for people to choose which teams they would like to not have displayed on the schedule
-                // TODO: 07-01-2017 add a method to check if the module is obligational
-                //for now we assume that if the module contains team "everyone" it is obligational and therefore not shown on schedule
-                Pattern noteRegex2 = Pattern.compile(".*?Alle.*?"); //checks if the module if for everyone
-                Matcher noteMatcher2 = noteRegex2.matcher(team); //matches
-                boolean found2 = noteMatcher2.find(); //setes if the Matcher finds that the module is for everyone
-                if (found && !found2) { //if it happens today and is not for everyone
-                    v++; //add one module to the vertical view
+        for (int i = 0; i < modules.length; i=i+2) {
+            String time = parseLesson.getDate(modules[i]);
+            String team = parseLesson.getTeam(modules[i]);
+            String teacher = parseLesson.getTeacher(modules[i]);
+            String room = parseLesson.getRoom(modules[i]);
+            if (timeDay!=null && team!=null) {
+                Pattern teamRegex = Pattern.compile("Alle");
+                Matcher teamMatcher = teamRegex.matcher(team);
+                Pattern roomRegex = Pattern.compile("\\,(.*?)(\\,|$)");
+                Matcher roomMatcher = roomRegex.matcher(room);
+                if (roomMatcher.find()){
+                    room = roomMatcher.group(1);
                 }
-            }
-        }
-
-
-        Object[] viewsV = new Object[v]; //sets the length of a Object module array for vertical view
-        Object[] viewsH = new Object[h]; //sets the length of a Object module array for horizontal view
-
-        viewsV[0] = new schedule.Display().DayAndDate(todayDate, todayDay, context); //gets todays date and weekday and creates these displays to module 0 of the vertical schedule
-
-        q = 1; //since we have information in module 0 we set the array to start at 1
-        for (int i = 0; i < modules.length; i++) { //loops through all the modules downloaded
-            String additionalContent = parseLesson.getAdditionalContent(modules[i]); //parses for additionalContent
-            String room = parseLesson.getRoom(modules[i]); //parses for rooms
-            String teacher = parseLesson.getTeacher(modules[i]); //parses for teachers
-            String time = parseLesson.getTime(modules[i]); //parses for time
-            String team = parseLesson.getTeam(modules[i]); //parses for teams
-            String note = parseLesson.getNote(modules[i]); //parses for notes
-            String homework = parseLesson.getHomework(modules[i]); //parses for homework
-            String title = parseLesson.getTitle(modules[i]); //parses for title
-            if (time != null) { //we can´t display the module on the schedule if we don´t know when it is
-                //creates an array of the lessons and sepperates them with "££".
-                lessons = time + "---" + team + "---" + teacher + "---" + room + "---" + note + "---" + additionalContent + "---" + homework + "---" + title;
-                if (display == 0 && team != null) { //checks if the display is vertical and if there is a team assigned to the module
-                    //todo support student modules and not just team lessons
-                    Pattern noteRegex = Pattern.compile(".*?" + todayDate + ".*?"); //compiles a pattern which searches for the date of the day.
-                    Matcher noteMatcher = noteRegex.matcher(time); //matches all the possibilities to see if the module happens on the date
-                    boolean found = noteMatcher.find(); //finds all matches
-                    Pattern noteRegex2 = Pattern.compile(".*?Alle.*?"); //compiles a pattern which searches for modules involving all students and filter them off.
-                    Matcher noteMatcher2 = noteRegex2.matcher(team); //matches all the possibilities to see if the module involves large teams
-                    boolean found2 = noteMatcher2.find(); //finds all matches
-                    if (found && !found2) { //checks if the module happens today and if it doesn´t involve large teams
-                        viewsV[q] = new schedule.Display().vertical(lessons, context, mainLinearLayout); //calls display.vertical method to construct a textview[]
-                        q++; //adds one to found modules for today
+                if (!teamMatcher.find()) {
+                    if (timeDay.equals("first")) {
+                        timeDay = time;
+                        day.add((Object) new Display().vertical(team + "---" + teacher + "---" + room, context));
+                    } else if (timeDay.equals(time)) {
+                        day.add((Object) new Display().vertical(team + "---" + teacher + "---" + room, context));
+                    } else {
+                        week.add((Object) day);
+                        timeDay = time;
+                        day = new ArrayList<Object>();
+                        day.add((Object) new Display().vertical(team + "---" + teacher + "---" + room, context));
                     }
-                } else if (display == 1 && team != null) { //not implemented yet
-                    viewsH[q] = new schedule.Display().horizontal(lessons, context);
-                    q++; //adds one to found modules for the week
                 }
             }
         }
-        if (display == 0) { //checks if the view is horizontal or vertical
-            return viewsV; //returns viewsV if the phone is vertical
-        } else return viewsH; //else it returns a horizontal view
+        week.add((Object) day);
+        return (Object) week;
     }
 
-    protected void onPostExecute(Object[] result) {//recieves the result of the AsyncTask
+    protected void onPostExecute(Object result) {//recieves the result of the AsyncTask
         delegate.processViews(result); //sends the result to the processViews task in the context activity.
     }
 }

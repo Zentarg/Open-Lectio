@@ -9,7 +9,7 @@ import org.jsoup.select.Elements; //used to select the elements we needed. (pars
 import java.io.IOException;//used to catch errors like (connection refused by server)
 
 public class GetSchedule {
-	private String compact; //compact is a compact list of all the modules the student has on the gym
+	private String compact = null; //compact is a compact list of all the modules the student has on the gym
 	public String gymID; //the GymID specifies which gym the schedule should be created from
 	public String nameID; //the nameID specifies which student the schudele should be created from
 	public String week; // sets the week of the year for the schedule we want

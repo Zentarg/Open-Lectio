@@ -136,7 +136,7 @@ public class LoginActivityTwo extends AppCompatActivity implements AsyncResponse
     }
 
     @Override
-    public void processViews(Object[] objects) {
+    public void processViews(Object objects) {
 
     }
 
