@@ -26,10 +26,89 @@ import java.util.regex.Pattern;
 import downloadLectio.AsyncResponse;
 import downloadLectio.GetGyms;
 import downloadLectio.GetSchedule;
+import one.dichmann.lectioapp.Fragments.DayFragment;
 import schedule.OnSwipeTouchListener;
 import schedule.Schedule;
 import schedule.Weekday;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
+public class ScheduleActivity extends FragmentActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_schedule);
+        ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
+        pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+    }
+
+    private class MyPagerAdapter extends FragmentPagerAdapter {
+
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int pos) {
+            switch(pos) {
+
+                case 0: {
+                    Bundle b = new Bundle();
+                    b.putString("Day","Mandag");
+                    return DayFragment.newInstance(b);
+                }
+                case 1: {
+                    Bundle b = new Bundle();
+                    b.putString("Day","Tirsdag");
+                    return DayFragment.newInstance(b);
+                }
+                case 2: {
+                    Bundle b = new Bundle();
+                    b.putString("Day","Onsdag");
+                    return DayFragment.newInstance(b);
+                }
+                case 3: {
+                    Bundle b = new Bundle();
+                    b.putString("Day","Torsdag");
+                    return DayFragment.newInstance(b);
+                }
+                case 4: {
+                    Bundle b = new Bundle();
+                    b.putString("Day","Fredag");
+                    return DayFragment.newInstance(b);
+                }
+                case 5: {
+                    Bundle b = new Bundle();
+                    b.putString("Day","Lørdag");
+                    return DayFragment.newInstance(b);
+                }
+                case 6: {
+                    Bundle b = new Bundle();
+                    b.putString("Day","Søndag");
+                    return DayFragment.newInstance(b);
+                }
+                default: return null;
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return 5;
+        }
+    }
+}
+
+
+/*
 public class ScheduleActivity extends AppCompatActivity implements AsyncResponse {
 
     private GestureDetector gestureDetector;
@@ -108,7 +187,7 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
 
     }
 
-/*
+
     View.setOnTouchListener (new OnSwipeTouchListener(this)) {
     public void onSwipeLeft() {
         c.add(Calendar.DATE, 1);
@@ -119,7 +198,7 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
         setSchedule();
     }
     }
-*/
+
 
     @Override
     public void processFinish(String output) {
@@ -239,7 +318,7 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
         }
     }
 
-/*
+
     @Override
     public void processViews(Object[] objects) {
         TextView[] textView = (TextView[]) objects[0];
@@ -266,5 +345,5 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
 
         }
     }
+    }
     */
-}

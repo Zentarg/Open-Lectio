@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.view.ViewPager
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/viewPager"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    />
+
+
+<!--ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/schedule_Scrollview"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -236,4 +245,4 @@
 
     </LinearLayout>
 
-</ScrollView>
+</ScrollView>-->
