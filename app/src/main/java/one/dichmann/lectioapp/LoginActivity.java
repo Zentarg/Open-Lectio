@@ -73,10 +73,10 @@ public class LoginActivity extends Activity implements AsyncResponse {
                 Pattern p = Pattern.compile(parse);
                 Matcher m = p.matcher(file);
                 if (m.find()) {
-                    //loggedIn = true;
-                    //gymID = m.group(1);
-                    //nameID = m.group(3);
-                    //LoginWithout(findViewById(R.id.loginOne_Search_Result_One));
+                    loggedIn = true;
+                    gymID = m.group(1);
+                    nameID = m.group(3);
+                    LoginWithout(findViewById(R.id.loginOne_Search_Result_One));
                 }
             }
         }
