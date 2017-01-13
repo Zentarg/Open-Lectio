@@ -28,7 +28,6 @@ import downloadLectio.GetGyms;
 import downloadLectio.GetSchedule;
 import one.dichmann.lectioapp.Fragments.DayFragment;
 import schedule.OnSwipeTouchListener;
-import schedule.Schedule;
 import schedule.Weekday;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -43,12 +42,18 @@ import android.widget.TextView;
 
 public class ScheduleActivity extends FragmentActivity {
 
+    Date date = new Date();
+    private Calendar c = Calendar.getInstance();
+    private int lastpos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        c.setTime(date);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
         ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
         pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
+        pager.setCurrentItem(4);
+        lastpos=4;
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
@@ -61,42 +66,13 @@ public class ScheduleActivity extends FragmentActivity {
         public Fragment getItem(int pos) {
             switch(pos) {
 
-                case 0: {
+                default: {
+                    c.add(Calendar.DATE, pos-lastpos);
                     Bundle b = new Bundle();
-                    b.putString("Day","Mandag");
+                    b.putLong("Date", c.getTimeInMillis());
+                    lastpos=pos;
                     return DayFragment.newInstance(b);
                 }
-                case 1: {
-                    Bundle b = new Bundle();
-                    b.putString("Day","Tirsdag");
-                    return DayFragment.newInstance(b);
-                }
-                case 2: {
-                    Bundle b = new Bundle();
-                    b.putString("Day","Onsdag");
-                    return DayFragment.newInstance(b);
-                }
-                case 3: {
-                    Bundle b = new Bundle();
-                    b.putString("Day","Torsdag");
-                    return DayFragment.newInstance(b);
-                }
-                case 4: {
-                    Bundle b = new Bundle();
-                    b.putString("Day","Fredag");
-                    return DayFragment.newInstance(b);
-                }
-                case 5: {
-                    Bundle b = new Bundle();
-                    b.putString("Day","Lørdag");
-                    return DayFragment.newInstance(b);
-                }
-                case 6: {
-                    Bundle b = new Bundle();
-                    b.putString("Day","Søndag");
-                    return DayFragment.newInstance(b);
-                }
-                default: return null;
             }
         }
 

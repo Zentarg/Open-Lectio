@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,37 +15,24 @@ import downloadLectio.AsyncResponse; //used to get the product of the Asynctask
 import downloadLectio.GetSchedule;
 import downloadLectio.parseLesson;   //used to parse the data from the schedule to qualify what kind of data it is
 
+
 public class Schedule extends AsyncTask<Object, Object, Object> { //works as a parsing terminal
     public AsyncResponse delegate = null; //initialises Asyncresponse delegate which should be set to context before doInBackground executes
-    public String[] modules, date; //a String array of all the modules
-    public int display, v, h, q, todayYear;
+    public String[] date; //a String array of all the modules
+    public int year, week;
     public Context context;
-    public String gymID, nameID, todayDate, todayDay, file, timeStamp, parse, todayWeek;
-    public LinearLayout VerticalLinearLayout, HorizontalLinearLayout;
-    public View dayAndDate;
+    public String gymID, nameID, todayDate, file, timeStamp, parse, todayWeek;
+    private String lessons; //the lessons module
+    public Calendar c = Calendar.getInstance();
 
-    private Object[] views;
+
     private boolean downloaded, replace = false;
-    private String lessons, timeDay; //the lessons module
+
 
     @Override
     public Object doInBackground(Object... Strings) { //gets all the strings send to it from getSchedule
 
-        todayYear = 2017; //hardcoded for now
-
-        todayDay = Weekday.Weekday(); //gets a string with todays physical name
-        if (todayDay == "Lørdag") { //checks if it´s saturday
-            date = Weekday.Weekend(2).split(""); //asks a function to add 2 days to the date
-            todayDay = "Mandag"; //sets the day to Monday
-            todayWeek = Weekday.todayWeek(1, 0); //adds one week to the week of the year
-        } else if (todayDay == "Søndag") { //checks if it´s sunday
-            date = Weekday.Weekend(1).split("");//asks a function to add 1 days to the date
-            todayDay = "Mandag"; //sets the day to Monday
-            todayWeek = Weekday.todayWeek(1, 0);//adds one week to the week of the year
-        } else { //if it´s a weekday it just passes on.
-            date = Weekday.Today().split("");
-            todayWeek = Weekday.todayWeek(0, 0);//adds one week to the week of the year
-        }
+        year = 2017; //hardcoded for now
 
         //date were split due to us formatting it from a american standard to a more common danish way (not the Dansih standard)
 
@@ -59,7 +47,7 @@ public class Schedule extends AsyncTask<Object, Object, Object> { //works as a p
         todayDate = date[6] + date[7] + "/" + date[9] + date[10] + "-" + date[1] + date[2] + date[3] + date[4];
 
         if (new permissions.fileManagement().fileExists(context, gymID + nameID)) { //checks if a file with the schedule already exists
-            timeStamp = new schedule.Weekday().Today(); // creates a new timestamp whcih should be equal to the time of execution
+            timeStamp = new schedule.Weekday().Today(c.getTimeInMillis()); // creates a new timestamp whcih should be equal to the time of execution
             file = new permissions.fileManagement().getFile(context, gymID + nameID); //loads the file to a string from Storage with the GetFile method from fileManagement
             parse = ("(.*?)(\\d\\d)(:)(\\d\\d)(:)(\\d\\d)"); // creates a pattern for the date method
             Pattern p = Pattern.compile(parse); //compiles the pattern
@@ -84,7 +72,7 @@ public class Schedule extends AsyncTask<Object, Object, Object> { //works as a p
             GetSchedule.gymID = gymID;
             GetSchedule.nameID = nameID;
             GetSchedule.week = todayWeek;
-            GetSchedule.year = todayYear;
+            GetSchedule.year = year;
             lessons = GetSchedule.getSchedule();
             if (replace) {
                 permissions.fileManagement.createFile(context, gymID + nameID, timeStamp + lessons);
@@ -92,6 +80,11 @@ public class Schedule extends AsyncTask<Object, Object, Object> { //works as a p
                 permissions.fileManagement.createFile(context, gymID + nameID, timeStamp + lessons);
             }
         }
+        return null;
+    }
+}
+
+        /*
 
         modules = lessons.split("£"); //creates an array of all the modules
 
@@ -135,3 +128,4 @@ public class Schedule extends AsyncTask<Object, Object, Object> { //works as a p
         delegate.processViews(result); //sends the result to the processViews task in the context activity.
     }
 }
+*/

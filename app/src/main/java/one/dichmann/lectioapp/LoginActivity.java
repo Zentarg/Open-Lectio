@@ -27,7 +27,6 @@ import Search.Search;
 import downloadLectio.AsyncResponse;
 import downloadLectio.GetGyms;
 import downloadLectio.GetNames;
-import schedule.Schedule;
 
 
 public class LoginActivity extends Activity implements AsyncResponse {
