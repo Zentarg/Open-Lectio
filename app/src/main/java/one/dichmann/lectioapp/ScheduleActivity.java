@@ -43,14 +43,29 @@ import android.widget.TextView;
 public class ScheduleActivity extends FragmentActivity {
 
     Date date = new Date();
+    private Context context = this;
     private Calendar c = Calendar.getInstance();
-    private int lastpos;
+    private int lastpos, lastDownload;
+    private String gymID, nameID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         c.setTime(date);
         super.onCreate(savedInstanceState);
+
+        if (new permissions.fileManagement().fileExists(context, "login")){
+            String file = new permissions.fileManagement().getFile(context, "login");
+            if (file!=null){
+                String parse = ("(.*?)(-)(.*)");
+                Pattern p = Pattern.compile(parse);
+                Matcher m = p.matcher(file);
+                if (m.find()) {
+                    gymID = m.group(1);
+                    nameID = m.group(3);
+                }
+            }
+        }
+
         setContentView(R.layout.activity_schedule);
         ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
         pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
@@ -64,14 +79,34 @@ public class ScheduleActivity extends FragmentActivity {
             super(fm);
         }
 
+
         @Override
         public Fragment getItem(int pos) {
+
+            if (lastDownload-lastpos<7 || lastDownload-lastpos>7) {
+                String week = c.get(Calendar.WEEK_OF_YEAR)+""; //gets the week number of the year
+                int length = String.valueOf(week).length(); //gets the amount of digits on the number
+                if (length==1) { //checks if the int is only one digit
+                    week = "0"+week;//lectio needs it to be doubledigit
+                } else {
+                    week = ""+week;//function returns String
+                }
+                GetSchedule getSchedule = new GetSchedule();
+                getSchedule.context = context;
+                getSchedule.week = week;
+                getSchedule.year = c.get(Calendar.YEAR)+"";
+                getSchedule.execute();
+                lastDownload = lastpos;
+            }
+
             switch(pos) {
 
                 default: {
                     c.add(Calendar.DATE, pos-lastpos);
                     Bundle b = new Bundle();
                     b.putLong("Date", c.getTimeInMillis());
+                    b.putString("gymID", gymID);
+                    b.putString("nameID", nameID);
                     lastpos=pos;
                     return DayFragment.newInstance(b);
                 }
@@ -83,6 +118,7 @@ public class ScheduleActivity extends FragmentActivity {
             return 30;
         }
     }
+
 }
 
 

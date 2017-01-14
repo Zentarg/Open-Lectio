@@ -40,7 +40,7 @@ public class DayFragment extends Fragment {
     public Calendar c = Calendar.getInstance();
 
     @Override
-    public void onAttach(Activity activity){
+    public void onAttach(Activity activity) {
         super.onAttach(activity);
         context = getActivity().getApplicationContext();
     }
@@ -54,9 +54,17 @@ public class DayFragment extends Fragment {
         TextView date = (TextView) v.findViewById(R.id.schedule_DayAndDate_Date);
 
         c.setTimeInMillis(getArguments().getLong("Date"));
+        gymID = getArguments().getString("gymID");
+        nameID = getArguments().getString("nameID");
 
         year = c.get(Calendar.YEAR) + "";
         intweek = c.get(Calendar.WEEK_OF_YEAR);
+        int length = String.valueOf(intweek).length(); //gets the amount of digits on the number
+        if (length==1) { //checks if the int is only one digit
+            week = "0"+intweek;//lectio needs it to be doubledigit
+        } else {
+            week = ""+intweek;//function returns String
+        }
 
 
         SimpleDateFormat s = new SimpleDateFormat("dd/MM-yyyy");//today down to every detail
@@ -64,56 +72,73 @@ public class DayFragment extends Fragment {
 
         String[] dateint = format.split("");
 
-        todayDate = dateint[1].replace("0","")+dateint[2]+"/"+dateint[4].replace("0","")+dateint[5]+"-"+format.split("-")[1];
+        todayDate = dateint[1].replace("0", "") + dateint[2] + "/" + dateint[4].replace("0", "") + dateint[5] + "-" + format.split("-")[1];
 
         day.setText(Weekday());
         date.setText(todayDate);
 
-        System.out.println(context);
+        System.out.println(week);
+        System.out.println(new permissions.fileManagement().fileExists(context, gymID + nameID + week));
 
-        checkSchedule();
+        if  (new permissions.fileManagement().fileExists(context, gymID + nameID + week)) { //checks if a file with the schedule already exists
+            timeStamp = Weekday.Today(); // creates a new timestamp whcih should be equal to the time of execution
+            file = fileManagement.getFile(context, gymID + nameID + week); //loads the file to a string from Storage with the GetFile method from fileManagement
+            parse = ("(.*?)(\\d\\d)(:)(\\d\\d)(:)(\\d\\d)"); // creates a pattern for the date method
+            Pattern p = Pattern.compile(parse); //compiles the pattern
+            Matcher m = p.matcher(timeStamp); //matches the pattern against the entire file
+            Matcher m2 = p.matcher(file); //matches the pattern against the entire file
+            if (m.find() && m2.find()) { //if both of them are equal they both contain valid date information and therefore we can see how old the file is
+                int hour = Integer.parseInt(m.group(2)); //sets the hour of the timestamp
+                int hour2 = Integer.parseInt(m2.group(2)); //sets the hour of the file´s timestamp
 
-        String lessons = fileManagement.getFile(context, gymID + nameID + week);
-        System.out.println(lessons);
-        if (lessons != null) {
-            String[] lesson = lessons.split("---");
-            for (int i = 0; i < lesson.length; i = i + 2) {
-                String time = parseLesson.getDate(lesson[i]);
-                String team = parseLesson.getTeam(lesson[i]);
-                String teacher = parseLesson.getTeacher(lesson[i]);
-                String room = parseLesson.getRoom(lesson[i]);
-                if (team != null && room != null) {
-                    Pattern teamRegex = Pattern.compile("Alle");
-                    Matcher teamMatcher = teamRegex.matcher(team);
-                    Pattern roomRegex = Pattern.compile("\\,(.*?)(\\,|$)");
-                    Matcher roomMatcher = roomRegex.matcher(room);
-                    if (roomMatcher.find()) {
-                        room = roomMatcher.group(1);
-                    }
-                    if (!teamMatcher.find()) {
-                        if (todayDate.equals(time)) {
-                            String[] module = new String[]{team, teacher, room};
-                            LinearLayout moduleLL = new LinearLayout(context);
-                            moduleLL.setOrientation(LinearLayout.VERTICAL);
-                            moduleLL.setLayoutParams(moduleLLParams);
-                            moduleLL.setGravity(Gravity.CENTER);
-                            moduleLL.setBackgroundColor(getResources().getColor(R.color.schedule_Regular));
-                            for (int m = 0; m < 3; m++) {
-                                TextView moduleVertical = new TextView(context);
-                                moduleVertical.setText(module[m]);
-                                moduleVertical.setTextSize(25);
-                                moduleVertical.setPadding(10, 10, 10, 10);
-                                moduleVertical.setGravity(Gravity.CENTER);
-                                moduleVertical.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                                moduleLL.addView(moduleVertical);
+                if (!(hour2 + 1 < hour)) {//compares the 2 hour numbers. the schedule can at max be 2 hours old.
+                    lessons = file.replace(String.valueOf(m2.group(0)), ""); //removes the date tag from the file before the content of the file is placed as our schedule
+                    System.out.println("Found file"); //for debugging purposes it prints that the file was loaded from storage
+                }
+            }
+
+            System.out.println(lessons);
+
+            if (lessons != null) {
+                String[] lesson = lessons.split("---");
+                for (int i = 0; i < lesson.length; i = i + 2) {
+                    String time = parseLesson.getDate(lesson[i]);
+                    String team = parseLesson.getTeam(lesson[i]);
+                    String teacher = parseLesson.getTeacher(lesson[i]);
+                    String room = parseLesson.getRoom(lesson[i]);
+                    if (team != null && room != null) {
+                        Pattern teamRegex = Pattern.compile("Alle");
+                        Matcher teamMatcher = teamRegex.matcher(team);
+                        Pattern roomRegex = Pattern.compile("\\,(.*?)(\\,|$)");
+                        Matcher roomMatcher = roomRegex.matcher(room);
+                        if (roomMatcher.find()) {
+                            room = roomMatcher.group(1);
+                        }
+                        if (!teamMatcher.find()) {
+                            if (todayDate.equals(time)) {
+                                String[] module = new String[]{team, teacher, room};
+                                LinearLayout moduleLL = new LinearLayout(context);
+                                moduleLL.setOrientation(LinearLayout.VERTICAL);
+                                moduleLL.setLayoutParams(moduleLLParams);
+                                moduleLL.setGravity(Gravity.CENTER);
+                                moduleLL.setBackgroundColor(getResources().getColor(R.color.schedule_Regular));
+                                for (int u = 0; u < 3; u++) {
+                                    TextView moduleVertical = new TextView(context);
+                                    moduleVertical.setText(module[u]);
+                                    moduleVertical.setTextSize(25);
+                                    moduleVertical.setPadding(10, 10, 10, 10);
+                                    moduleVertical.setGravity(Gravity.CENTER);
+                                    moduleVertical.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                                    moduleLL.addView(moduleVertical);
+                                }
+                                ((LinearLayout) v.findViewById(R.id.schedule_Modules)).addView(moduleLL);
                             }
-                            ((LinearLayout) v.findViewById(R.id.schedule_Modules)).addView(moduleLL);
                         }
                     }
                 }
             }
         }
-    return v;
+        return v;
     }
 
     public static DayFragment newInstance(Bundle b) {
@@ -140,61 +165,5 @@ public class DayFragment extends Fragment {
         else if (Calendar.SUNDAY == dayOfWeek) weekDay = "Søndag";
 
         return weekDay;//returns day after it is convertet to a string
-    }
-
-
-    public void checkSchedule(){
-
-        if (new permissions.fileManagement().fileExists(context, "login")){
-            file = new permissions.fileManagement().getFile(context, "login");
-            if (file!=null){
-                parse = ("(.*?)(-)(.*)");
-                Pattern p = Pattern.compile(parse);
-                Matcher m = p.matcher(file);
-                if (m.find()) {
-                    gymID = m.group(1);
-                    nameID = m.group(3);
-                }
-            }
-        }
-        int int2week = intweek;
-        int length = String.valueOf(int2week).length(); //gets the amount of digits on the number
-        if (length==1) { //checks if the int is only one digit
-            week = "0"+int2week;//lectio needs it to be doubledigit
-        } else {
-            week = ""+int2week;
-        }
-
-        if (new permissions.fileManagement().fileExists(context, gymID + nameID + week)) { //checks if a file with the schedule already exists
-            timeStamp = new schedule.Weekday().Today(c); // creates a new timestamp whcih should be equal to the time of execution
-            file = new permissions.fileManagement().getFile(context, gymID + nameID + week); //loads the file to a string from Storage with the GetFile method from fileManagement
-            parse = ("(.*?)(\\d\\d)(:)(\\d\\d)(:)(\\d\\d)"); // creates a pattern for the date method
-            Pattern p = Pattern.compile(parse); //compiles the pattern
-            Matcher m = p.matcher(timeStamp); //matches the pattern against the entire file
-            Matcher m2 = p.matcher(file); //matches the pattern against the entire file
-            if (m.find() && m2.find()) { //if both of them are equal they both contain valid date information and therefore we can see how old the file is
-                int hour = Integer.parseInt(m.group(2)); //sets the hour of the timestamp
-                int hour2 = Integer.parseInt(m2.group(2)); //sets the hour of the file´s timestamp
-
-                if (hour2 + 1 < hour) {//compares the 2 hour numbers. the schedule can at max be 2 hours old.
-                    replace = true; //if it is older than 2 hours a replace order is issued
-                } else {
-                    lessons = file.replace(String.valueOf(m2.group(0)), ""); //removes the date tag from the file before the content of the file is placed as our schedule
-                    System.out.println("Found file"); //for debugging purposes it prints that the file was loaded from storage
-                    downloaded = true; //declares that there is no need for downloading a new schedule.
-                }
-            }
-        }
-        if (!downloaded || replace) {
-            GetSchedule GetSchedule = new downloadLectio.GetSchedule();
-            System.out.println("Downloaded new schedule for week " + week);
-            GetSchedule.context = context;
-            GetSchedule.gymID = gymID;
-            GetSchedule.nameID = nameID;
-            GetSchedule.week = week;
-            GetSchedule.year = year;
-            GetSchedule.execute();
-        }
-
     }
 }

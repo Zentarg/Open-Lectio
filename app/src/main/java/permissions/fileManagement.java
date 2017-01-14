@@ -24,7 +24,6 @@ import java.util.ArrayList;
 public class fileManagement {
 
     public boolean fileExists(Context context, String filename) {
-        System.out.println(context);
         File file = context.getFileStreamPath(filename);
         if (file == null || !file.exists()) {
             return false;
@@ -33,8 +32,6 @@ public class fileManagement {
     }
 
     public static void createFile(Context context, String filename, String data) {
-        System.out.println(data);
-        System.out.println(filename);
         try {
             FileOutputStream fOut = context.openFileOutput(filename, context.MODE_WORLD_READABLE);
             fOut.write(data.getBytes());
@@ -46,7 +43,7 @@ public class fileManagement {
 
 
     public static String getFile(Context context, String filename) {
-
+        System.out.println(filename);
         String sbString = null;
         try {
 
@@ -67,7 +64,7 @@ public class fileManagement {
         } catch (Exception e) {
             return null;
         }
-
+        System.out.println(sbString);
         return sbString;
     }
 

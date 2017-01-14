@@ -47,7 +47,7 @@ public class Schedule extends AsyncTask<Object, Object, Object> { //works as a p
         todayDate = date[6] + date[7] + "/" + date[9] + date[10] + "-" + date[1] + date[2] + date[3] + date[4];
 
         if (new permissions.fileManagement().fileExists(context, gymID + nameID)) { //checks if a file with the schedule already exists
-            timeStamp = new schedule.Weekday().Today(c); // creates a new timestamp whcih should be equal to the time of execution
+            timeStamp = new schedule.Weekday().Today(); // creates a new timestamp whcih should be equal to the time of execution
             file = new permissions.fileManagement().getFile(context, gymID + nameID); //loads the file to a string from Storage with the GetFile method from fileManagement
             parse = ("(.*?)(\\d\\d)(:)(\\d\\d)(:)(\\d\\d)"); // creates a pattern for the date method
             Pattern p = Pattern.compile(parse); //compiles the pattern
