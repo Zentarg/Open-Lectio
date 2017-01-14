@@ -19,7 +19,7 @@ import downloadLectio.parseLesson;   //used to parse the data from the schedule 
 public class Schedule extends AsyncTask<Object, Object, Object> { //works as a parsing terminal
     public AsyncResponse delegate = null; //initialises Asyncresponse delegate which should be set to context before doInBackground executes
     public String[] date; //a String array of all the modules
-    public int year, week;
+    public String year, week;
     public Context context;
     public String gymID, nameID, todayDate, file, timeStamp, parse, todayWeek;
     private String lessons; //the lessons module
@@ -32,7 +32,7 @@ public class Schedule extends AsyncTask<Object, Object, Object> { //works as a p
     @Override
     public Object doInBackground(Object... Strings) { //gets all the strings send to it from getSchedule
 
-        year = 2017; //hardcoded for now
+        year = 2017+""; //hardcoded for now
 
         //date were split due to us formatting it from a american standard to a more common danish way (not the Dansih standard)
 
@@ -47,7 +47,7 @@ public class Schedule extends AsyncTask<Object, Object, Object> { //works as a p
         todayDate = date[6] + date[7] + "/" + date[9] + date[10] + "-" + date[1] + date[2] + date[3] + date[4];
 
         if (new permissions.fileManagement().fileExists(context, gymID + nameID)) { //checks if a file with the schedule already exists
-            timeStamp = new schedule.Weekday().Today(c.getTimeInMillis()); // creates a new timestamp whcih should be equal to the time of execution
+            timeStamp = new schedule.Weekday().Today(c); // creates a new timestamp whcih should be equal to the time of execution
             file = new permissions.fileManagement().getFile(context, gymID + nameID); //loads the file to a string from Storage with the GetFile method from fileManagement
             parse = ("(.*?)(\\d\\d)(:)(\\d\\d)(:)(\\d\\d)"); // creates a pattern for the date method
             Pattern p = Pattern.compile(parse); //compiles the pattern
@@ -73,7 +73,7 @@ public class Schedule extends AsyncTask<Object, Object, Object> { //works as a p
             GetSchedule.nameID = nameID;
             GetSchedule.week = todayWeek;
             GetSchedule.year = year;
-            lessons = GetSchedule.getSchedule();
+            GetSchedule.context = context;
             if (replace) {
                 permissions.fileManagement.createFile(context, gymID + nameID, timeStamp + lessons);
             } else {

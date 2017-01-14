@@ -45,8 +45,10 @@ public class ScheduleActivity extends FragmentActivity {
     Date date = new Date();
     private Calendar c = Calendar.getInstance();
     private int lastpos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         c.setTime(date);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
@@ -78,7 +80,7 @@ public class ScheduleActivity extends FragmentActivity {
 
         @Override
         public int getCount() {
-            return 5;
+            return 30;
         }
     }
 }
