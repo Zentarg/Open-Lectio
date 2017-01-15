@@ -77,9 +77,6 @@ public class DayFragment extends Fragment {
         day.setText(Weekday());
         date.setText(todayDate);
 
-        System.out.println(week);
-        System.out.println(new permissions.fileManagement().fileExists(context, gymID + nameID + week));
-
         if  (new permissions.fileManagement().fileExists(context, gymID + nameID + week)) { //checks if a file with the schedule already exists
             timeStamp = Weekday.Today(); // creates a new timestamp whcih should be equal to the time of execution
             file = fileManagement.getFile(context, gymID + nameID + week); //loads the file to a string from Storage with the GetFile method from fileManagement
@@ -93,29 +90,28 @@ public class DayFragment extends Fragment {
 
                 if (!(hour2 + 1 < hour)) {//compares the 2 hour numbers. the schedule can at max be 2 hours old.
                     lessons = file.replace(String.valueOf(m2.group(0)), ""); //removes the date tag from the file before the content of the file is placed as our schedule
-                    System.out.println("Found file"); //for debugging purposes it prints that the file was loaded from storage
                 }
             }
 
             System.out.println(lessons);
 
             if (lessons != null) {
-                String[] lesson = lessons.split("---");
+                String[] lesson = lessons.split("£");
                 for (int i = 0; i < lesson.length; i = i + 2) {
                     String time = parseLesson.getDate(lesson[i]);
-                    String team = parseLesson.getTeam(lesson[i]);
-                    String teacher = parseLesson.getTeacher(lesson[i]);
-                    String room = parseLesson.getRoom(lesson[i]);
-                    if (team != null && room != null) {
-                        Pattern teamRegex = Pattern.compile("Alle");
-                        Matcher teamMatcher = teamRegex.matcher(team);
-                        Pattern roomRegex = Pattern.compile("\\,(.*?)(\\,|$)");
-                        Matcher roomMatcher = roomRegex.matcher(room);
-                        if (roomMatcher.find()) {
-                            room = roomMatcher.group(1);
-                        }
-                        if (!teamMatcher.find()) {
-                            if (todayDate.equals(time)) {
+                    System.out.println(lesson[i]);
+                    if (todayDate.equals(time)) {
+                        String team = parseLesson.getTeam(lesson[i]);
+                        String teacher = parseLesson.getTeacher(lesson[i]);
+                        String room = parseLesson.getRoom(lesson[i]);
+                        if (team != null && room != null) {
+                            Pattern teamRegex = Pattern.compile("Alle");
+                            Matcher teamMatcher = teamRegex.matcher(team);
+                            Pattern roomRegex = Pattern.compile("\\,(.*?)(\\,|$)");
+                            Matcher roomMatcher = roomRegex.matcher(room);
+                            if (roomMatcher.find()) {
+                                room = roomMatcher.group(1);
+                            }
                                 String[] module = new String[]{team, teacher, room};
                                 LinearLayout moduleLL = new LinearLayout(context);
                                 moduleLL.setOrientation(LinearLayout.VERTICAL);
@@ -132,7 +128,6 @@ public class DayFragment extends Fragment {
                                     moduleLL.addView(moduleVertical);
                                 }
                                 ((LinearLayout) v.findViewById(R.id.schedule_Modules)).addView(moduleLL);
-                            }
                         }
                     }
                 }

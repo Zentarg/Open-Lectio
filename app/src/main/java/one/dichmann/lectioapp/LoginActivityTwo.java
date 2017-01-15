@@ -150,8 +150,6 @@ public class LoginActivityTwo extends AppCompatActivity implements AsyncResponse
             }
         }
         Intent intent = new Intent(this, ScheduleActivity.class);
-        intent.putExtra(finalGymID, gymID);
-        intent.putExtra(finalNameID, nameID);
         startActivity(intent);
     }
 }

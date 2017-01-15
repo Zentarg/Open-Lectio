@@ -27,6 +27,7 @@ import downloadLectio.AsyncResponse;
 import downloadLectio.GetGyms;
 import downloadLectio.GetSchedule;
 import one.dichmann.lectioapp.Fragments.DayFragment;
+import permissions.fileManagement;
 import schedule.OnSwipeTouchListener;
 import schedule.Weekday;
 import android.os.Bundle;
@@ -54,7 +55,7 @@ public class ScheduleActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
 
         if (new permissions.fileManagement().fileExists(context, "login")){
-            String file = new permissions.fileManagement().getFile(context, "login");
+            String file = fileManagement.getFile(context, "login");
             if (file!=null){
                 String parse = ("(.*?)(-)(.*)");
                 Pattern p = Pattern.compile(parse);
@@ -75,7 +76,7 @@ public class ScheduleActivity extends FragmentActivity {
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
 
-        public MyPagerAdapter(FragmentManager fm) {
+        MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 

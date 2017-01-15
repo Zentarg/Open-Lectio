@@ -27,6 +27,7 @@ import Search.Search;
 import downloadLectio.AsyncResponse;
 import downloadLectio.GetGyms;
 import downloadLectio.GetNames;
+import permissions.fileManagement;
 
 
 public class LoginActivity extends Activity implements AsyncResponse {
@@ -66,7 +67,7 @@ public class LoginActivity extends Activity implements AsyncResponse {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (new permissions.fileManagement().fileExists(this, "login")){
-            file = new permissions.fileManagement().getFile(this, "login");
+            file = fileManagement.getFile(this, "login");
             if (file!=null){
                 parse = ("(.*?)(-)(.*)");
                 Pattern p = Pattern.compile(parse);

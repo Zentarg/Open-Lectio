@@ -47,8 +47,9 @@ public class GetSchedule extends AsyncTask<String, Void, Void> {
 			}
 		}
 
+		timeStamp = Weekday.Today(); // creates a new timestamp whcih should be equal to the time of execution
+
 		if (new permissions.fileManagement().fileExists(context, gymID + nameID + week)) { //checks if a file with the schedule already exists
-			timeStamp = Weekday.Today(); // creates a new timestamp whcih should be equal to the time of execution
 			String file = fileManagement.getFile(context, gymID + nameID + week); //loads the file to a string from Storage with the GetFile method from fileManagement
 			String parse = ("(.*?)(\\d\\d)(:)(\\d\\d)(:)(\\d\\d)"); // creates a pattern for the date method
 			Pattern p = Pattern.compile(parse); //compiles the pattern
@@ -65,6 +66,8 @@ public class GetSchedule extends AsyncTask<String, Void, Void> {
 					String lessons = file.replace(String.valueOf(m2.group(0)), ""); //removes the date tag from the file before the content of the file is placed as our schedule
 				}
 			}
+		} else {
+			newSchedule();
 		}
 	}
 

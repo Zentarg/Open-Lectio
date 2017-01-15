@@ -43,7 +43,6 @@ public class fileManagement {
 
 
     public static String getFile(Context context, String filename) {
-        System.out.println(filename);
         String sbString = null;
         try {
 
@@ -64,7 +63,6 @@ public class fileManagement {
         } catch (Exception e) {
             return null;
         }
-        System.out.println(sbString);
         return sbString;
     }
 
