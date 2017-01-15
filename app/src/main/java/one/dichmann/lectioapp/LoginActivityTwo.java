@@ -17,11 +17,14 @@ import android.widget.Toast;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.jar.Attributes;
 
 import Search.Search;
 import downloadLectio.AsyncResponse;
 import downloadLectio.GetNames;
+import schedule.Schedule;
 
 public class LoginActivityTwo extends AppCompatActivity implements AsyncResponse {
 
@@ -37,6 +40,7 @@ public class LoginActivityTwo extends AppCompatActivity implements AsyncResponse
     private TextView[] textViewsName;
     private ImageView[] imageViewsName;
 
+    private Calendar c = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,8 @@ public class LoginActivityTwo extends AppCompatActivity implements AsyncResponse
         asyncTaskNames.execute();
 
         setContentView(R.layout.activity_login_two);
+
+        c.setTime(new Date());
 
         //Second part of the login defined.
         gymText = (TextView) findViewById(R.id.loginTwo_gymText);
@@ -149,7 +155,11 @@ public class LoginActivityTwo extends AppCompatActivity implements AsyncResponse
                 permissions.fileManagement.createFile(this, "login", gymID+"-"+nameID);
             }
         }
-        Intent intent = new Intent(this, ScheduleActivity.class);
+        Intent intent = new Intent(this, LoadingActivity.class);
+        intent.putExtra(LoadingActivity.finalIntent, "Schedule");
+        intent.putExtra(ScheduleActivity.finalLong, c.getTimeInMillis());
+        intent.putExtra(LoginActivity.finalNameID, nameID);
+        intent.putExtra(LoginActivity.finalGymID, gymID);
         startActivity(intent);
     }
 }

@@ -20,6 +20,8 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,6 +48,8 @@ public class LoginActivity extends Activity implements AsyncResponse {
     private ImageView[] imageViewsGym;
     private boolean loggedIn = false;
 
+    private Calendar c = Calendar.getInstance();
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -66,6 +70,9 @@ public class LoginActivity extends Activity implements AsyncResponse {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        c.setTime(new Date());
+
         if (new permissions.fileManagement().fileExists(this, "login")){
             file = fileManagement.getFile(this, "login");
             if (file!=null){
@@ -161,9 +168,11 @@ public class LoginActivity extends Activity implements AsyncResponse {
                 }
             }
         } else {
-            Intent intent = new Intent(this, ScheduleActivity.class);
-            intent.putExtra(finalGymID, gymID);
-            intent.putExtra(finalNameID, nameID);
+            Intent intent = new Intent(this, LoadingActivity.class);
+            intent.putExtra(LoadingActivity.finalIntent, "Schedule");
+            intent.putExtra(ScheduleActivity.finalLong, c.getTimeInMillis());
+            intent.putExtra(LoginActivity.finalNameID, nameID);
+            intent.putExtra(LoginActivity.finalGymID, gymID);
             startActivity(intent);
         }
     }

@@ -43,6 +43,8 @@ import android.widget.TextView;
 
 public class ScheduleActivity extends FragmentActivity {
 
+    public static String finalLong= "one.dichmann.LectioApp.Long";
+
     Date date = new Date();
     private Context context = this;
     private Calendar c = Calendar.getInstance();
@@ -70,8 +72,8 @@ public class ScheduleActivity extends FragmentActivity {
         setContentView(R.layout.activity_schedule);
         ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
         pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
-        pager.setCurrentItem(4);
-        lastpos=4;
+        pager.setCurrentItem(15);
+        lastpos=15;
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
@@ -79,7 +81,6 @@ public class ScheduleActivity extends FragmentActivity {
         MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
-
 
         @Override
         public Fragment getItem(int pos) {
@@ -92,11 +93,7 @@ public class ScheduleActivity extends FragmentActivity {
                 } else {
                     week = ""+week;//function returns String
                 }
-                GetSchedule getSchedule = new GetSchedule();
-                getSchedule.context = context;
-                getSchedule.week = week;
-                getSchedule.year = c.get(Calendar.YEAR)+"";
-                getSchedule.execute();
+
                 lastDownload = lastpos;
             }
 
@@ -116,7 +113,7 @@ public class ScheduleActivity extends FragmentActivity {
 
         @Override
         public int getCount() {
-            return 30;
+            return 40;
         }
     }
 

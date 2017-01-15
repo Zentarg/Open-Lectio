@@ -10,12 +10,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="one.dichmann.lectioapp.LoadingActivity">
 
-    <SeekBar
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:minWidth="60dp"
-        android:minHeight="60dp"
-        android:id="@+id/seekBar2" />
+        android:minWidth="120dp"
+        android:minHeight="120dp"
+        android:id="@+id/progressBar" />
 </RelativeLayout>

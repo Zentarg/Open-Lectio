@@ -71,7 +71,6 @@ public class Schedule extends AsyncTask<Object, Object, Object> { //works as a p
             System.out.println("Downloaded new schedule");
             GetSchedule.gymID = gymID;
             GetSchedule.nameID = nameID;
-            GetSchedule.week = todayWeek;
             GetSchedule.year = year;
             GetSchedule.context = context;
             if (replace) {
