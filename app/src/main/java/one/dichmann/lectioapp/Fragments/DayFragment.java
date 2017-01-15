@@ -71,6 +71,13 @@ public class DayFragment extends Fragment {
         day.setTextColor(getResources().getColor(R.color.schedule_TextColor));
         date.setTextColor(getResources().getColor(R.color.schedule_TextColor));
 
+        int intweek = c.get(Calendar.WEEK_OF_YEAR);
+        int length = String.valueOf(intweek).length(); //gets the amount of digits on the number
+        if (length == 1) { //checks if the int is only one digit
+            week = "0" + intweek;//lectio needs it to be doubledigit
+        } else {
+            week = "" + intweek;//function returns String
+        }
 
         if  (new permissions.fileManagement().fileExists(context, gymID + nameID + week)) { //checks if a file with the schedule already exists
             timeStamp = Weekday.Today(); // creates a new timestamp whcih should be equal to the time of execution
@@ -92,7 +99,6 @@ public class DayFragment extends Fragment {
                 String[] lesson = lessons.split("£");
                 for (int i = 0; i < lesson.length; i = i + 2) {
                     String time = parseLesson.getDate(lesson[i]);
-                    System.out.println(lesson[i]);
                     if (todayDate.equals(time)) {
                         String team = parseLesson.getTeam(lesson[i]);
                         String teacher = parseLesson.getTeacher(lesson[i]);
