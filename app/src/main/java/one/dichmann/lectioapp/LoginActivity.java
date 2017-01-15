@@ -157,6 +157,7 @@ public class LoginActivity extends Activity implements AsyncResponse {
                     intent.putExtra(finalGymID, gymID);
                     intent.putExtra(finalGymName, gymName);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.next_slidein, R.anim.next_slideout);
                 }
             }
         } else {

@@ -24,6 +24,11 @@ public class LoginChooseActivity extends AppCompatActivity {
         GymName = intent.getStringExtra(LoginActivity.finalGymName);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
     public void FindStudent(View view) {
 
         Intent intent = new Intent(this, LoginActivityTwo.class);

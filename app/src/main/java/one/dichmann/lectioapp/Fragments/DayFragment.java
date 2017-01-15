@@ -48,6 +48,8 @@ public class DayFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        moduleLLParams.setMargins(15,20,15,20);
+
         View v = inflater.inflate(R.layout.day_frag, container, false);
 
         TextView day = (TextView) v.findViewById(R.id.schedule_DayAndDate_Day);
@@ -76,6 +78,9 @@ public class DayFragment extends Fragment {
 
         day.setText(Weekday());
         date.setText(todayDate);
+        day.setTextColor(getResources().getColor(R.color.schedule_TextColor));
+        date.setTextColor(getResources().getColor(R.color.schedule_TextColor));
+
 
         if  (new permissions.fileManagement().fileExists(context, gymID + nameID + week)) { //checks if a file with the schedule already exists
             timeStamp = Weekday.Today(); // creates a new timestamp whcih should be equal to the time of execution
@@ -125,6 +130,7 @@ public class DayFragment extends Fragment {
                                     moduleVertical.setPadding(10, 10, 10, 10);
                                     moduleVertical.setGravity(Gravity.CENTER);
                                     moduleVertical.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                                    moduleVertical.setTextColor(getResources().getColor(R.color.schedule_TextColor));
                                     moduleLL.addView(moduleVertical);
                                 }
                                 ((LinearLayout) v.findViewById(R.id.schedule_Modules)).addView(moduleLL);
