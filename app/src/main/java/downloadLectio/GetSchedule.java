@@ -20,7 +20,6 @@ import permissions.fileManagement;
 import schedule.Weekday;
 
 public class GetSchedule extends AsyncTask<String, Void, Void> {
-	private String compact = null; //compact is a compact list of all the modules the student has on the gym
 	private String timeStamp;
 
 	public Context context;
@@ -96,9 +95,9 @@ public class GetSchedule extends AsyncTask<String, Void, Void> {
 
 
 	private void newSchedule(String week){
+		String compact = null;
 		String url = "https://www.lectio.dk/lectio/"+gymID+"/SkemaNy.aspx?type=elev&elevid="+nameID+"&=week&week="+week+year; //creates the URL we need to connect to in order to download the schedule.
 		Document doc = null;
-		System.out.println(url);
 		try { //initiates a download of the Webpage
 			doc = Jsoup.connect(url).userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36").timeout(0).get(); //connects in whichever useragent is preferred by the device
 		} catch (IOException e) { //cathes a denial exception from lectio
@@ -113,7 +112,8 @@ public class GetSchedule extends AsyncTask<String, Void, Void> {
 			//this returns a long list where all the infomations for each module are seperated by a "£"
 			compact = compact+"£"+link.attr("title");
 		}
-		String save = compact.replace("\n", "§-§").replace("null£","");//replaces all the newlines in the document with blankspaces so the parser parses it faster.
+		String save = compact.replace("\n", "§-§").replace("null£","").replace("££","£");//replaces all the newlines in the document with blankspaces so the parser parses it faster.
+		System.out.println(save);
 		fileManagement.createFile(context, gymID+nameID+week, timeStamp+save);
 		//note that the "§-§" also gets used as a stop method for the regex in the parser
 	}

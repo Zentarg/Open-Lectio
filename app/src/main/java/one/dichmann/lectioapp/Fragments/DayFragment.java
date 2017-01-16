@@ -20,8 +20,6 @@ import java.util.regex.Pattern;
 import downloadLectio.GetSchedule;
 import downloadLectio.parseLesson;
 import one.dichmann.lectioapp.R;
-import permissions.fileManagement;
-import schedule.Weekday;
 
 public class DayFragment extends Fragment {
 
@@ -80,8 +78,9 @@ public class DayFragment extends Fragment {
         }
 
         if  (new permissions.fileManagement().fileExists(context, gymID + nameID + week)) { //checks if a file with the schedule already exists
-            timeStamp = Weekday.Today(); // creates a new timestamp whcih should be equal to the time of execution
-            file = fileManagement.getFile(context, gymID + nameID + week); //loads the file to a string from Storage with the GetFile method from fileManagement
+            System.out.println(new permissions.fileManagement().fileExists(context, gymID + nameID + week));
+            timeStamp = schedule.Weekday.Today(); // creates a new timestamp whcih should be equal to the time of execution
+            file = permissions.fileManagement.getFile(context, gymID + nameID + week);//loads the file to a string from Storage with the GetFile method from fileManagement
             parse = ("(.*?)(\\d\\d)(:)(\\d\\d)(:)(\\d\\d)"); // creates a pattern for the date method
             Pattern p = Pattern.compile(parse); //compiles the pattern
             Matcher m = p.matcher(timeStamp); //matches the pattern against the entire file
@@ -96,22 +95,27 @@ public class DayFragment extends Fragment {
             }
 
             if (lessons != null) {
+                System.out.println(lessons);
                 String[] lesson = lessons.split("£");
-                for (int i = 0; i < lesson.length; i = i + 2) {
+                for (int i = 0; i < lesson.length; i++) {
                     String time = parseLesson.getDate(lesson[i]);
+                    System.out.println(lesson[i]);
+                    System.out.println("time "+time);
                     if (todayDate.equals(time)) {
                         String team = parseLesson.getTeam(lesson[i]);
                         String teacher = parseLesson.getTeacher(lesson[i]);
                         String room = parseLesson.getRoom(lesson[i]);
-                        if (team != null && room != null) {
+                        if (team != null) {
                             Pattern teamRegex = Pattern.compile("Alle");
                             Matcher teamMatcher = teamRegex.matcher(team);
-                            Pattern roomRegex = Pattern.compile("\\,(.*?)(\\,|$)");
-                            Matcher roomMatcher = roomRegex.matcher(room);
-                            if (!teamMatcher.find()) {
+                            if (room !=null) {
+                                Pattern roomRegex = Pattern.compile("\\,(.*?)(\\,|$)");
+                                Matcher roomMatcher = roomRegex.matcher(room);
                                 if (roomMatcher.find()) {
                                     room = roomMatcher.group(1);
                                 }
+                            }
+                            if (!teamMatcher.find()) {
                                 String[] module = new String[]{team, teacher, room};
                                 LinearLayout moduleLL = new LinearLayout(context);
                                 moduleLL.setOrientation(LinearLayout.VERTICAL);
@@ -148,7 +152,6 @@ public class DayFragment extends Fragment {
     }
 
     public String Weekday() {
-        Date date; //initialices date
         String weekDay = null;
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK); //gets a integer between to be compared with the weekday
 

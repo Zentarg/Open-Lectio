@@ -33,7 +33,7 @@ public class fileManagement {
 
     public static void createFile(Context context, String filename, String data) {
         try {
-            FileOutputStream fOut = context.openFileOutput(filename, context.MODE_WORLD_READABLE);
+            FileOutputStream fOut = context.openFileOutput(filename, context.MODE_PRIVATE);
             fOut.write(data.getBytes());
             fOut.close();
         } catch(Exception e) {
