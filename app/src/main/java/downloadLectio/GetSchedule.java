@@ -36,7 +36,7 @@ public class GetSchedule extends AsyncTask<String, Void, Void> {
 		year = c.get(Calendar.YEAR) + "";
 		String week;
 
-		for (int i = 0; i<4;i++) {
+		for (int i = 0; i<3;i++) {
 			c.add(Calendar.WEEK_OF_YEAR, i-1);
 			int intweek = c.get(Calendar.WEEK_OF_YEAR);
 			int length = String.valueOf(intweek).length(); //gets the amount of digits on the number
@@ -47,9 +47,11 @@ public class GetSchedule extends AsyncTask<String, Void, Void> {
 			}
 			c.add(Calendar.WEEK_OF_YEAR, 1-i);
 
+			System.out.println(week);
 			checkSchedule(week);
 		}
 		Intent intent = new Intent(context, ScheduleActivity.class);
+		intent.putExtra(ScheduleActivity.finalLong, c.getTimeInMillis());
 		context.startActivity(intent);
 		return null;
 	}
@@ -112,8 +114,8 @@ public class GetSchedule extends AsyncTask<String, Void, Void> {
 			//this returns a long list where all the infomations for each module are seperated by a "£"
 			compact = compact+"£"+link.attr("title");
 		}
+		System.out.println(compact);
 		String save = compact.replace("\n", "§-§").replace("null£","").replace("££","£");//replaces all the newlines in the document with blankspaces so the parser parses it faster.
-		System.out.println(save);
 		fileManagement.createFile(context, gymID+nameID+week, timeStamp+save);
 		//note that the "§-§" also gets used as a stop method for the regex in the parser
 	}

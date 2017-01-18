@@ -13,34 +13,34 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import downloadLectio.GetSchedule;
 import downloadLectio.parseLesson;
 import one.dichmann.lectioapp.R;
 
-public class DayFragment extends Fragment {
+public class WeekFragment extends Fragment {
 
-    public Context context;
+    public Activity context;
 
     public String gymID, nameID;
     public String file, lessons;
     public String timeStamp, parse, todayDate;
     public String week, year;
-    public int intweek;
-    public boolean downloaded, replace;
 
     private LinearLayout.LayoutParams moduleLLParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+    private LinearLayout.LayoutParams dayLLParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
 
+    private LinearLayout day;
+    private LinearLayout weekLL;
 
     public Calendar c = Calendar.getInstance();
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Context activity) {
         super.onAttach(activity);
-        context = getActivity().getApplicationContext();
+        context = getActivity();
+        day = new LinearLayout(context);
     }
 
 
@@ -48,10 +48,11 @@ public class DayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         moduleLLParams.setMargins(15,20,15,20);
 
-        View v = inflater.inflate(R.layout.day_frag, container, false);
+        View v = inflater.inflate(R.layout.week_frag, container, false);
 
-        TextView day = (TextView) v.findViewById(R.id.schedule_DayAndDate_Day);
-        TextView date = (TextView) v.findViewById(R.id.schedule_DayAndDate_Date);
+        TextView weekNumber = (TextView) v.findViewById(R.id.schedule_weekNumber);
+
+        weekLL = new LinearLayout(context);
 
         c.setTimeInMillis(getArguments().getLong("Date"));
         gymID = getArguments().getString("gymID");
@@ -64,11 +65,6 @@ public class DayFragment extends Fragment {
 
         todayDate = dateint[1].replace("0", "") + dateint[2] + "/" + dateint[4].replace("0", "") + dateint[5] + "-" + format.split("-")[1];
 
-        day.setText(Weekday());
-        date.setText(todayDate);
-        day.setTextColor(getResources().getColor(R.color.schedule_TextColor));
-        date.setTextColor(getResources().getColor(R.color.schedule_TextColor));
-
         int intweek = c.get(Calendar.WEEK_OF_YEAR);
         int length = String.valueOf(intweek).length(); //gets the amount of digits on the number
         if (length == 1) { //checks if the int is only one digit
@@ -76,6 +72,9 @@ public class DayFragment extends Fragment {
         } else {
             week = "" + intweek;//function returns String
         }
+
+        weekNumber.setText("uge "+intweek);
+        weekNumber.setTextColor(getResources().getColor(R.color.schedule_TextColor));
 
         if  (new permissions.fileManagement().fileExists(context, gymID + nameID + week)) { //checks if a file with the schedule already exists
             timeStamp = schedule.Weekday.Today(); // creates a new timestamp whcih should be equal to the time of execution
@@ -93,11 +92,18 @@ public class DayFragment extends Fragment {
                 }
             }
 
+            String thisDay = "first";
+
+            day.setOrientation(LinearLayout.VERTICAL);
+            day.setLayoutParams(dayLLParams);
+            day.setGravity(Gravity.CENTER);
+
             if (lessons != null) {
                 String[] lesson = lessons.split("£");
                 for (int i = 0; i < lesson.length; i++) {
                     String time = parseLesson.getDate(lesson[i]);
-                    if (todayDate.equals(time)) {
+                    if (thisDay.equals(time) || thisDay.equals("first")) {
+                        thisDay=time;
                         String team = parseLesson.getTeam(lesson[i]);
                         String teacher = parseLesson.getTeacher(lesson[i]);
                         String room = parseLesson.getRoom(lesson[i]);
@@ -121,26 +127,70 @@ public class DayFragment extends Fragment {
                                 for (int u = 0; u < 3; u++) {
                                     TextView moduleVertical = new TextView(context);
                                     moduleVertical.setText(module[u]);
-                                    moduleVertical.setTextSize(25);
+                                    moduleVertical.setTextSize(15);
                                     moduleVertical.setPadding(10, 10, 10, 10);
                                     moduleVertical.setGravity(Gravity.CENTER);
                                     moduleVertical.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                                     moduleVertical.setTextColor(getResources().getColor(R.color.schedule_TextColor));
                                     moduleLL.addView(moduleVertical);
                                 }
-                                ((LinearLayout) v.findViewById(R.id.schedule_Modules)).addView(moduleLL);
+                                day.addView(moduleLL);
+                            }
+                        }
+                    } else {
+                        thisDay=time;
+                        weekLL.addView(day);
+
+                        day = new LinearLayout(context);
+                        day.setOrientation(LinearLayout.VERTICAL);
+                        day.setLayoutParams(dayLLParams);
+                        day.setGravity(Gravity.CENTER);
+
+                        String team = parseLesson.getTeam(lesson[i]);
+                        String teacher = parseLesson.getTeacher(lesson[i]);
+                        String room = parseLesson.getRoom(lesson[i]);
+                        if (team != null) {
+                            Pattern teamRegex = Pattern.compile("Alle");
+                            Matcher teamMatcher = teamRegex.matcher(team);
+                            if (room !=null) {
+                                Pattern roomRegex = Pattern.compile("\\,(.*?)(\\,|$)");
+                                Matcher roomMatcher = roomRegex.matcher(room);
+                                if (roomMatcher.find()) {
+                                    room = roomMatcher.group(1);
+                                }
+                            }
+                            if (!teamMatcher.find()) {
+                                String[] module = new String[]{team, teacher, room};
+                                LinearLayout moduleLL = new LinearLayout(context);
+                                moduleLL.setOrientation(LinearLayout.VERTICAL);
+                                moduleLL.setLayoutParams(moduleLLParams);
+                                moduleLL.setGravity(Gravity.CENTER);
+                                moduleLL.setBackgroundColor(getResources().getColor(R.color.schedule_Regular));
+                                for (int u = 0; u < 3; u++) {
+                                    TextView moduleVertical = new TextView(context);
+                                    moduleVertical.setText(module[u]);
+                                    moduleVertical.setTextSize(15);
+                                    moduleVertical.setPadding(10, 10, 10, 10);
+                                    moduleVertical.setGravity(Gravity.CENTER);
+                                    moduleVertical.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                                    moduleVertical.setTextColor(getResources().getColor(R.color.schedule_TextColor));
+                                    moduleLL.addView(moduleVertical);
+                                }
+                                day.addView(moduleLL);
                             }
                         }
                     }
                 }
             }
         }
+        weekLL.addView(day);
+        ((LinearLayout) v.findViewById(R.id.schedule_week)).addView(weekLL);
         return v;
     }
 
-    public static DayFragment newInstance(Bundle b) {
+    public static WeekFragment newInstance(Bundle b) {
 
-        DayFragment f = new DayFragment();
+        WeekFragment f = new WeekFragment();
 
         f.setArguments(b);
 

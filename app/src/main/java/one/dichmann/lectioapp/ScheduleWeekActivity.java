@@ -3,49 +3,26 @@ package one.dichmann.lectioapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.GestureDetector;
-import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import android.view.View.OnTouchListener;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import downloadLectio.AsyncResponse;
-import downloadLectio.GetGyms;
-import downloadLectio.GetSchedule;
-import one.dichmann.lectioapp.Fragments.DayFragment;
-import permissions.fileManagement;
-import schedule.OnSwipeTouchListener;
-import schedule.Weekday;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
-import static android.R.attr.orientation;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class ScheduleActivity extends FragmentActivity {
+import one.dichmann.lectioapp.Fragments.DayFragment;
+import one.dichmann.lectioapp.Fragments.WeekFragment;
+import permissions.fileManagement;
+import schedule.Schedule;
+import schedule.Weekday;
 
-    public static String finalLong= "one.dichmann.LectioApp.Long";
+public class ScheduleWeekActivity extends FragmentActivity {
+
     private Context context = this;
     private Calendar c = Calendar.getInstance();
     private int lastpos, lastDownload;
@@ -54,16 +31,9 @@ public class ScheduleActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Intent intent = new Intent(ScheduleActivity.this, ScheduleWeekActivity.class);
-            intent.putExtra(finalLong, c.getTimeInMillis());
-            startActivity(intent);
-        }
-
         c.setTimeInMillis(getIntent().getLongExtra(ScheduleActivity.finalLong, 1L));
 
-
-        if (new permissions.fileManagement().fileExists(context, "login")){
+        if (new fileManagement().fileExists(context, "login")){
             String file = fileManagement.getFile(context, "login");
             if (file!=null){
                 String parse = ("(.*?)(-)(.*)");
@@ -79,8 +49,8 @@ public class ScheduleActivity extends FragmentActivity {
         setContentView(R.layout.activity_schedule);
         ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
         pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
-        pager.setCurrentItem(33);
-        lastpos=33;
+        pager.setCurrentItem(5);
+        lastpos=5;
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
@@ -94,21 +64,21 @@ public class ScheduleActivity extends FragmentActivity {
                 switch(pos) {
 
                     default: {
-                        c.add(Calendar.DATE, pos-lastpos);
                         System.out.println(c.get(Calendar.DAY_OF_YEAR));
+                        c.add(Calendar.WEEK_OF_YEAR, pos-lastpos);
                         Bundle b = new Bundle();
                         b.putLong("Date", c.getTimeInMillis());
                         b.putString("gymID", gymID);
                         b.putString("nameID", nameID);
                         lastpos=pos;
-                        return DayFragment.newInstance(b);
+                        return WeekFragment.newInstance(b);
                     }
                 }
             }
 
         @Override
         public int getCount() {
-            return 100;
+            return 15;
         }
     }
 
@@ -116,10 +86,10 @@ public class ScheduleActivity extends FragmentActivity {
         super.onConfigurationChanged(newConfig);
 
         // Checks the orientation of the screen
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Intent intent = new Intent(ScheduleActivity.this, ScheduleWeekActivity.class);
-            c.add(Calendar.DAY_OF_YEAR, -1);
-            intent.putExtra(finalLong, c.getTimeInMillis());
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Intent intent = new Intent(ScheduleWeekActivity.this, ScheduleActivity.class);
+            c.add(Calendar.WEEK_OF_YEAR, -1);
+            intent.putExtra(ScheduleActivity.finalLong, c.getTimeInMillis());
             startActivity(intent);
         }
     }
@@ -177,6 +147,7 @@ public class ScheduleActivity extends AppCompatActivity implements AsyncResponse
                 (LinearLayout) findViewById(R.id.horizontal_Friday),
         };
 
+        c.setTime(date);
 
         mainLinearLayout = (ScrollView) findViewById(R.id.schedule_Scrollview);
 

@@ -163,6 +163,7 @@ public class LoginActivity extends Activity implements AsyncResponse {
                     Intent intent = new Intent(this, LoginChooseActivity.class);
                     intent.putExtra(finalGymID, gymID);
                     intent.putExtra(finalGymName, gymName);
+                    intent.putExtra(LoadingActivity.finalLong, c.getTimeInMillis());
                     startActivity(intent);
                     overridePendingTransition(R.anim.next_slidein, R.anim.next_slideout);
                 }
