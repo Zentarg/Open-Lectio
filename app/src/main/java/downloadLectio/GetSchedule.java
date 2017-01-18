@@ -47,7 +47,6 @@ public class GetSchedule extends AsyncTask<String, Void, Void> {
 			}
 			c.add(Calendar.WEEK_OF_YEAR, 1-i);
 
-			System.out.println(week);
 			checkSchedule(week);
 		}
 		Intent intent = new Intent(context, ScheduleActivity.class);

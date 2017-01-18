@@ -2,12 +2,14 @@ package one.dichmann.lectioapp.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,7 +19,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import downloadLectio.parseLesson;
+import one.dichmann.lectioapp.LoadingActivity;
+import one.dichmann.lectioapp.LoginActivity;
 import one.dichmann.lectioapp.R;
+import one.dichmann.lectioapp.ScheduleActivity;
 
 public class WeekFragment extends Fragment {
 
@@ -185,8 +190,27 @@ public class WeekFragment extends Fragment {
                 }
             }
             weekLL.addView(day);
+            ((LinearLayout) v.findViewById(R.id.schedule_week)).addView(weekLL);
+        } else {
+            Button myButton = new Button(context);
+            myButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(context, LoadingActivity.class);
+                    intent.putExtra(LoadingActivity.finalIntent, "Extra");
+                    intent.putExtra(ScheduleActivity.finalLong, c.getTimeInMillis());
+                    intent.putExtra(LoginActivity.finalNameID, nameID);
+                    intent.putExtra(LoginActivity.finalGymID, gymID);
+                    context.startActivity(intent);
+                }
+            });
+            myButton.setText("Download Skema");
+
+            LinearLayout ll = (LinearLayout) v.findViewById(R.id.schedule_week);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+            lp.gravity = Gravity.CENTER;
+            ll.addView(myButton, lp);
         }
-        ((LinearLayout) v.findViewById(R.id.schedule_week)).addView(weekLL);
         return v;
     }
 

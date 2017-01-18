@@ -1,6 +1,7 @@
 package one.dichmann.lectioapp;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -29,6 +30,17 @@ public class LoadingActivity extends AppCompatActivity {
 
         switch (intention) {
             case "Schedule": {
+                String gymID = intent.getStringExtra(LoginActivity.finalGymID);
+                String nameID = intent.getStringExtra(LoginActivity.finalNameID);
+
+                GetSchedule asyncTaskSchedule = new GetSchedule();
+                asyncTaskSchedule.gymID = gymID;
+                asyncTaskSchedule.nameID = nameID;
+                asyncTaskSchedule.c = c;
+                asyncTaskSchedule.context = this;
+                asyncTaskSchedule.execute();
+            }
+            case "Extra": {
                 String gymID = intent.getStringExtra(LoginActivity.finalGymID);
                 String nameID = intent.getStringExtra(LoginActivity.finalNameID);
 
