@@ -54,7 +54,10 @@ public class ScheduleActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+
+
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Intent intent = new Intent(ScheduleActivity.this, ScheduleWeekActivity.class);
             intent.putExtra(finalLong, c.getTimeInMillis());
             startActivity(intent);
@@ -95,7 +98,6 @@ public class ScheduleActivity extends FragmentActivity {
 
                     default: {
                         c.add(Calendar.DATE, pos-lastpos);
-                        System.out.println(c.get(Calendar.DAY_OF_YEAR));
                         Bundle b = new Bundle();
                         b.putLong("Date", c.getTimeInMillis());
                         b.putString("gymID", gymID);

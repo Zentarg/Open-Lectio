@@ -64,7 +64,6 @@ public class ScheduleWeekActivity extends FragmentActivity {
                 switch(pos) {
 
                     default: {
-                        System.out.println(c.get(Calendar.DAY_OF_YEAR));
                         c.add(Calendar.WEEK_OF_YEAR, pos-lastpos);
                         Bundle b = new Bundle();
                         b.putLong("Date", c.getTimeInMillis());

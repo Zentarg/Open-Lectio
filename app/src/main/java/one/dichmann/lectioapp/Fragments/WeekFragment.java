@@ -28,11 +28,8 @@ public class WeekFragment extends Fragment {
     public String timeStamp, parse, todayDate;
     public String week, year;
 
-    private LinearLayout.LayoutParams moduleLLParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-    private LinearLayout.LayoutParams dayLLParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
-
-    private LinearLayout day;
-    private LinearLayout weekLL;
+    private LinearLayout.LayoutParams moduleLLParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
+    private LinearLayout.LayoutParams dayLLParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
 
     public Calendar c = Calendar.getInstance();
 
@@ -40,7 +37,6 @@ public class WeekFragment extends Fragment {
     public void onAttach(Context activity) {
         super.onAttach(activity);
         context = getActivity();
-        day = new LinearLayout(context);
     }
 
 
@@ -52,7 +48,9 @@ public class WeekFragment extends Fragment {
 
         TextView weekNumber = (TextView) v.findViewById(R.id.schedule_weekNumber);
 
-        weekLL = new LinearLayout(context);
+        LinearLayout weekLL = new LinearLayout(context);
+
+        weekLL.setLayoutParams(dayLLParams);
 
         c.setTimeInMillis(getArguments().getLong("Date"));
         gymID = getArguments().getString("gymID");
@@ -73,7 +71,8 @@ public class WeekFragment extends Fragment {
             week = "" + intweek;//function returns String
         }
 
-        weekNumber.setText("uge "+intweek);
+        String weekNumberText = "uge " + intweek;
+        weekNumber.setText(weekNumberText);
         weekNumber.setTextColor(getResources().getColor(R.color.schedule_TextColor));
 
         if  (new permissions.fileManagement().fileExists(context, gymID + nameID + week)) { //checks if a file with the schedule already exists
@@ -94,6 +93,7 @@ public class WeekFragment extends Fragment {
 
             String thisDay = "first";
 
+            LinearLayout day = new LinearLayout(context);
             day.setOrientation(LinearLayout.VERTICAL);
             day.setLayoutParams(dayLLParams);
             day.setGravity(Gravity.CENTER);
@@ -101,89 +101,91 @@ public class WeekFragment extends Fragment {
             if (lessons != null) {
                 String[] lesson = lessons.split("£");
                 for (int i = 0; i < lesson.length; i++) {
-                    String time = parseLesson.getDate(lesson[i]);
-                    if (thisDay.equals(time) || thisDay.equals("first")) {
-                        thisDay=time;
-                        String team = parseLesson.getTeam(lesson[i]);
-                        String teacher = parseLesson.getTeacher(lesson[i]);
-                        String room = parseLesson.getRoom(lesson[i]);
-                        if (team != null) {
-                            Pattern teamRegex = Pattern.compile("Alle");
-                            Matcher teamMatcher = teamRegex.matcher(team);
-                            if (room !=null) {
-                                Pattern roomRegex = Pattern.compile("\\,(.*?)(\\,|$)");
-                                Matcher roomMatcher = roomRegex.matcher(room);
-                                if (roomMatcher.find()) {
-                                    room = roomMatcher.group(1);
+                    if (thisDay != null) {
+                        String time = parseLesson.getDate(lesson[i]);
+                        if (thisDay.equals(time) || thisDay.equals("first")) {
+                            thisDay = time;
+                            String team = parseLesson.getTeam(lesson[i]);
+                            String teacher = parseLesson.getTeacher(lesson[i]);
+                            String room = parseLesson.getRoom(lesson[i]);
+                            if (team != null) {
+                                Pattern teamRegex = Pattern.compile("Alle");
+                                Matcher teamMatcher = teamRegex.matcher(team);
+                                if (room != null) {
+                                    Pattern roomRegex = Pattern.compile("\\,(.*?)(\\,|$)");
+                                    Matcher roomMatcher = roomRegex.matcher(room);
+                                    if (roomMatcher.find()) {
+                                        room = roomMatcher.group(1);
+                                    }
+                                }
+                                if (!teamMatcher.find()) {
+                                    String[] module = new String[]{team, teacher, room};
+                                    LinearLayout moduleLL = new LinearLayout(context);
+                                    moduleLL.setOrientation(LinearLayout.VERTICAL);
+                                    moduleLL.setLayoutParams(moduleLLParams);
+                                    moduleLL.setGravity(Gravity.CENTER);
+                                    moduleLL.setBackgroundColor(getResources().getColor(R.color.schedule_Regular));
+                                    for (int u = 0; u < 3; u++) {
+                                        TextView moduleVertical = new TextView(context);
+                                        moduleVertical.setText(module[u]);
+                                        moduleVertical.setTextSize(15);
+                                        moduleVertical.setPadding(10, 10, 10, 10);
+                                        moduleVertical.setGravity(Gravity.CENTER);
+                                        moduleVertical.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                                        moduleVertical.setTextColor(getResources().getColor(R.color.schedule_TextColor));
+                                        moduleLL.addView(moduleVertical);
+                                    }
+                                    day.addView(moduleLL);
                                 }
                             }
-                            if (!teamMatcher.find()) {
-                                String[] module = new String[]{team, teacher, room};
-                                LinearLayout moduleLL = new LinearLayout(context);
-                                moduleLL.setOrientation(LinearLayout.VERTICAL);
-                                moduleLL.setLayoutParams(moduleLLParams);
-                                moduleLL.setGravity(Gravity.CENTER);
-                                moduleLL.setBackgroundColor(getResources().getColor(R.color.schedule_Regular));
-                                for (int u = 0; u < 3; u++) {
-                                    TextView moduleVertical = new TextView(context);
-                                    moduleVertical.setText(module[u]);
-                                    moduleVertical.setTextSize(15);
-                                    moduleVertical.setPadding(10, 10, 10, 10);
-                                    moduleVertical.setGravity(Gravity.CENTER);
-                                    moduleVertical.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                                    moduleVertical.setTextColor(getResources().getColor(R.color.schedule_TextColor));
-                                    moduleLL.addView(moduleVertical);
+                        } else if (time != null){
+                            String team = parseLesson.getTeam(lesson[i]);
+                            String teacher = parseLesson.getTeacher(lesson[i]);
+                            String room = parseLesson.getRoom(lesson[i]);
+                            if (team != null) {
+                                Pattern teamRegex = Pattern.compile("Alle");
+                                Matcher teamMatcher = teamRegex.matcher(team);
+                                if (room != null) {
+                                    Pattern roomRegex = Pattern.compile("\\,(.*?)(\\,|$)");
+                                    Matcher roomMatcher = roomRegex.matcher(room);
+                                    if (roomMatcher.find()) {
+                                        room = roomMatcher.group(1);
+                                    }
                                 }
-                                day.addView(moduleLL);
-                            }
-                        }
-                    } else {
-                        thisDay=time;
-                        weekLL.addView(day);
+                                if (!teamMatcher.find()) {
+                                    thisDay = time;
+                                    weekLL.addView(day);
 
-                        day = new LinearLayout(context);
-                        day.setOrientation(LinearLayout.VERTICAL);
-                        day.setLayoutParams(dayLLParams);
-                        day.setGravity(Gravity.CENTER);
+                                    day = new LinearLayout(context);
+                                    day.setOrientation(LinearLayout.VERTICAL);
+                                    day.setLayoutParams(dayLLParams);
+                                    day.setGravity(Gravity.CENTER);
 
-                        String team = parseLesson.getTeam(lesson[i]);
-                        String teacher = parseLesson.getTeacher(lesson[i]);
-                        String room = parseLesson.getRoom(lesson[i]);
-                        if (team != null) {
-                            Pattern teamRegex = Pattern.compile("Alle");
-                            Matcher teamMatcher = teamRegex.matcher(team);
-                            if (room !=null) {
-                                Pattern roomRegex = Pattern.compile("\\,(.*?)(\\,|$)");
-                                Matcher roomMatcher = roomRegex.matcher(room);
-                                if (roomMatcher.find()) {
-                                    room = roomMatcher.group(1);
+                                    String[] module = new String[]{team, teacher, room};
+                                    LinearLayout moduleLL = new LinearLayout(context);
+                                    moduleLL.setOrientation(LinearLayout.VERTICAL);
+                                    moduleLL.setLayoutParams(moduleLLParams);
+                                    moduleLL.setGravity(Gravity.CENTER);
+                                    moduleLL.setBackgroundColor(getResources().getColor(R.color.schedule_Regular));
+                                    for (int u = 0; u < 3; u++) {
+                                        TextView moduleVertical = new TextView(context);
+                                        moduleVertical.setText(module[u]);
+                                        moduleVertical.setTextSize(15);
+                                        moduleVertical.setPadding(10, 10, 10, 10);
+                                        moduleVertical.setGravity(Gravity.CENTER);
+                                        moduleVertical.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                                        moduleVertical.setTextColor(getResources().getColor(R.color.schedule_TextColor));
+                                        moduleLL.addView(moduleVertical);
+                                    }
+                                    day.addView(moduleLL);
                                 }
-                            }
-                            if (!teamMatcher.find()) {
-                                String[] module = new String[]{team, teacher, room};
-                                LinearLayout moduleLL = new LinearLayout(context);
-                                moduleLL.setOrientation(LinearLayout.VERTICAL);
-                                moduleLL.setLayoutParams(moduleLLParams);
-                                moduleLL.setGravity(Gravity.CENTER);
-                                moduleLL.setBackgroundColor(getResources().getColor(R.color.schedule_Regular));
-                                for (int u = 0; u < 3; u++) {
-                                    TextView moduleVertical = new TextView(context);
-                                    moduleVertical.setText(module[u]);
-                                    moduleVertical.setTextSize(15);
-                                    moduleVertical.setPadding(10, 10, 10, 10);
-                                    moduleVertical.setGravity(Gravity.CENTER);
-                                    moduleVertical.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                                    moduleVertical.setTextColor(getResources().getColor(R.color.schedule_TextColor));
-                                    moduleLL.addView(moduleVertical);
-                                }
-                                day.addView(moduleLL);
                             }
                         }
                     }
                 }
             }
+            weekLL.addView(day);
         }
-        weekLL.addView(day);
         ((LinearLayout) v.findViewById(R.id.schedule_week)).addView(weekLL);
         return v;
     }
