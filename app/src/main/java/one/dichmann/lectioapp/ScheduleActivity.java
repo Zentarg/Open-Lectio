@@ -45,7 +45,6 @@ import static android.R.attr.orientation;
 
 public class ScheduleActivity extends FragmentActivity {
 
-    public static String finalLong= "one.dichmann.LectioApp.Long";
     private Context context = this;
     private Calendar c = Calendar.getInstance();
     private int lastpos, lastDownload;
@@ -55,16 +54,13 @@ public class ScheduleActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Intent intent = new Intent(ScheduleActivity.this, ScheduleWeekActivity.class);
-            intent.putExtra(finalLong, c.getTimeInMillis());
+            intent.putExtra(LoadingActivity.finalLong, c.getTimeInMillis());
             startActivity(intent);
         }
 
-        c.setTimeInMillis(getIntent().getLongExtra(ScheduleActivity.finalLong, 1L));
-
+        c.setTimeInMillis(getIntent().getLongExtra(LoadingActivity.finalLong, 1L));
 
         if (new permissions.fileManagement().fileExists(context, "login")){
             String file = fileManagement.getFile(context, "login");
@@ -121,7 +117,7 @@ public class ScheduleActivity extends FragmentActivity {
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Intent intent = new Intent(ScheduleActivity.this, ScheduleWeekActivity.class);
             c.add(Calendar.DAY_OF_YEAR, -1);
-            intent.putExtra(finalLong, c.getTimeInMillis());
+            intent.putExtra(LoadingActivity.finalLong, c.getTimeInMillis());
             startActivity(intent);
         }
     }

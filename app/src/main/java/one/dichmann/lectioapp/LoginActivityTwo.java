@@ -157,7 +157,7 @@ public class LoginActivityTwo extends AppCompatActivity implements AsyncResponse
         }
         Intent intent = new Intent(this, LoadingActivity.class);
         intent.putExtra(LoadingActivity.finalIntent, "Schedule");
-        intent.putExtra(ScheduleActivity.finalLong, c.getTimeInMillis());
+        intent.putExtra(LoadingActivity.finalLong, c.getTimeInMillis());
         intent.putExtra(LoginActivity.finalNameID, nameID);
         intent.putExtra(LoginActivity.finalGymID, gymID);
         startActivity(intent);

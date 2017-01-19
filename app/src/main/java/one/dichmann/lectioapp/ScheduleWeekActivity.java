@@ -31,7 +31,7 @@ public class ScheduleWeekActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        c.setTimeInMillis(getIntent().getLongExtra(ScheduleActivity.finalLong, 1L));
+        c.setTimeInMillis(getIntent().getLongExtra(LoadingActivity.finalLong, 1L));
 
         if (new fileManagement().fileExists(context, "login")){
             String file = fileManagement.getFile(context, "login");
@@ -88,7 +88,7 @@ public class ScheduleWeekActivity extends FragmentActivity {
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             Intent intent = new Intent(ScheduleWeekActivity.this, ScheduleActivity.class);
             c.add(Calendar.WEEK_OF_YEAR, -1);
-            intent.putExtra(ScheduleActivity.finalLong, c.getTimeInMillis());
+            intent.putExtra(LoadingActivity.finalLong, c.getTimeInMillis());
             startActivity(intent);
         }
     }

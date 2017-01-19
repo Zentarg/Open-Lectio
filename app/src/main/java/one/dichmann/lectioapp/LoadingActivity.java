@@ -14,16 +14,22 @@ public class LoadingActivity extends AppCompatActivity {
 
     public static String finalIntent = "one.dichmann.LectioApp.Intent";
     public static String finalLong = "one.dichmann.LetioApp.Long";
-    private Calendar c = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
+        Calendar c = Calendar.getInstance();
+
+
         Intent intent = getIntent();
+        long timeInMillis = intent.getLongExtra(finalLong, 1L);
+        System.out.print(timeInMillis);
+        System.out.println("lonng");
         String intention = intent.getStringExtra(finalIntent);
-        c.setTimeInMillis(intent.getLongExtra(finalLong, 1L));
+        c.setTimeInMillis(timeInMillis);
+        System.out.print(c.getTimeInMillis());
         if ((int) c.get(Calendar.YEAR)==1970) {
             c.setTime(new Date());
         }

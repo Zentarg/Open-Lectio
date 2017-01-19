@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import one.dichmann.lectioapp.LoadingActivity;
 import one.dichmann.lectioapp.ScheduleActivity;
 import permissions.fileManagement;
 import schedule.Weekday;
@@ -50,7 +51,7 @@ public class GetSchedule extends AsyncTask<String, Void, Void> {
 			checkSchedule(week);
 		}
 		Intent intent = new Intent(context, ScheduleActivity.class);
-		intent.putExtra(ScheduleActivity.finalLong, c.getTimeInMillis());
+		intent.putExtra(LoadingActivity.finalLong, c.getTimeInMillis());
 		context.startActivity(intent);
 		return null;
 	}
@@ -83,14 +84,11 @@ public class GetSchedule extends AsyncTask<String, Void, Void> {
 				if (hour2 + 1 < hour) {//compares the 2 hour numbers. the schedule can at max be 2 hours old.
 					newSchedule(week);
 				} else {
-					Intent intent = new Intent(context, ScheduleActivity.class);
-					context.startActivity(intent);
+					newSchedule(week);
 				}
 			} else {
 				newSchedule(week);
 			}
-		} else {
-			newSchedule(week);
 		}
 	}
 
@@ -113,9 +111,10 @@ public class GetSchedule extends AsyncTask<String, Void, Void> {
 			//this returns a long list where all the infomations for each module are seperated by a "£"
 			compact = compact+"£"+link.attr("title");
 		}
-		System.out.println(compact);
-		String save = compact.replace("\n", "§-§").replace("null£","").replace("££","£");//replaces all the newlines in the document with blankspaces so the parser parses it faster.
-		fileManagement.createFile(context, gymID+nameID+week, timeStamp+save);
+		if (compact!=null) {
+			String save = compact.replace("\n", "§-§").replace("null£", "").replace("££", "£");//replaces all the newlines in the document with blankspaces so the parser parses it faster.
+			fileManagement.createFile(context, gymID + nameID + week, timeStamp + save);
+		}
 		//note that the "§-§" also gets used as a stop method for the regex in the parser
 	}
 }

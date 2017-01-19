@@ -25,7 +25,6 @@ import one.dichmann.lectioapp.R;
 import one.dichmann.lectioapp.ScheduleActivity;
 
 public class WeekFragment extends Fragment {
-
     public Activity context;
 
     public String gymID, nameID;
@@ -36,7 +35,7 @@ public class WeekFragment extends Fragment {
     private LinearLayout.LayoutParams moduleLLParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
     private LinearLayout.LayoutParams dayLLParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
 
-    public Calendar c = Calendar.getInstance();
+    private Calendar c = Calendar.getInstance();
 
     @Override
     public void onAttach(Context activity) {
@@ -196,9 +195,9 @@ public class WeekFragment extends Fragment {
             myButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
-                    Intent intent = new Intent(context, LoadingActivity.class);
+                    Intent intent = new Intent(getActivity(), LoadingActivity.class);
                     intent.putExtra(LoadingActivity.finalIntent, "Extra");
-                    intent.putExtra(ScheduleActivity.finalLong, c.getTimeInMillis());
+                    intent.putExtra(LoadingActivity.finalLong, c.getTimeInMillis());
                     intent.putExtra(LoginActivity.finalNameID, nameID);
                     intent.putExtra(LoginActivity.finalGymID, gymID);
                     context.startActivity(intent);
