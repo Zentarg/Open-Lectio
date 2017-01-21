@@ -1,7 +1,8 @@
 package downloadLectio;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.*;
 
 public class parseLesson {
@@ -126,5 +127,66 @@ public class parseLesson {
 		return null;
 	}
 
+<<<<<<< HEAD
+=======
+	public static long runtime(String lessonData) {
+		// Gets the runtime of a module
+
+		Date lessonStart = null;
+		Date lessonEnd   = null;
+
+		String interval = getTime(lessonData);
+		interval = interval.substring(interval.length() - 15); //remove 15 because that's how long the hh:mm part is
+		String[] splitInterval = interval.split(" til ");
+
+		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+		try {
+			lessonStart = timeFormat.parse(splitInterval[0]);
+			lessonEnd   = timeFormat.parse(splitInterval[1]);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return (lessonEnd.getTime() / 60000) - (lessonStart.getTime() / 60000);
+	}
+
+	public static Date lessonStart(String lessonData) {
+		// Gets the starting time of the module in minutes
+
+		Date lessonStart = null;
+
+		String interval = getTime(lessonData);
+		interval = interval.substring(interval.length() - 15); //remove 15 because that's how long the hh:mm part is
+		String[] splitInterval = interval.split(" til ");
+
+		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+		try {
+			lessonStart = timeFormat.parse(splitInterval[0]);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return lessonStart;
+	}
+
+	public static Date lessonEnd(String lessonData) {
+		// Gets the starting time of the module in minutes
+
+		Date lessonEnd = null;
+
+		String interval = getTime(lessonData);
+		interval = interval.substring(interval.length() - 15); //remove 15 because that's how long the hh:mm part is
+		String[] splitInterval = interval.split(" til ");
+
+		SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+		try {
+			lessonEnd = timeFormat.parse(splitInterval[0]);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		return lessonEnd;
+	}
+>>>>>>> origin/Stable
 }
 
