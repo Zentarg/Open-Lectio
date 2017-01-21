@@ -170,7 +170,7 @@ public class LoginActivity extends Activity implements AsyncResponse {
             }
         } else {
 
-            long timeInMillis = c.getTimeInMillis();
+            Long timeInMillis = c.getTimeInMillis();
 
             Intent intent = new Intent(this, LoadingActivity.class);
             intent.putExtra(LoadingActivity.finalIntent, "Schedule");

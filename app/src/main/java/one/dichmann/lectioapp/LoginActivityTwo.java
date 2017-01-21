@@ -35,7 +35,7 @@ public class LoginActivityTwo extends AppCompatActivity implements AsyncResponse
     private TextView gymText, textView1, textView2, textView3, textView4;
     private EditText editTextNames;
     private ImageView imageView1, imageView2, imageView3, imageView4;
-    private String valueNames, gymID, nameID, list, gymName;
+    private String valueNames, gymID, nameID, list, gymName, type;
     private String[] nameIDs;
     private TextView[] textViewsName;
     private ImageView[] imageViewsName;
@@ -49,15 +49,9 @@ public class LoginActivityTwo extends AppCompatActivity implements AsyncResponse
         Intent intent = getIntent();
         gymID = intent.getStringExtra(LoginActivity.finalGymID);
         gymName = intent.getStringExtra(LoginActivity.finalGymName);
-
-        GetNames asyncTaskNames = new GetNames();
-        asyncTaskNames.GymID = gymID;
-        asyncTaskNames.delegate = this;
-        asyncTaskNames.execute();
+        type = intent.getStringExtra(LoginChooseActivity.type);
 
         setContentView(R.layout.activity_login_two);
-
-        c.setTime(new Date());
 
         //Second part of the login defined.
         gymText = (TextView) findViewById(R.id.loginTwo_gymText);
@@ -71,6 +65,26 @@ public class LoginActivityTwo extends AppCompatActivity implements AsyncResponse
         imageView3 = (ImageView) findViewById(R.id.loginTwo_UnderscoreImage3);
         imageView4 = (ImageView) findViewById(R.id.loginTwo_UnderscoreImage4);
         //Sets the text of the gymText TextView to the selectedGym string.
+
+        if (type.equals("Student")) {
+            GetNames asyncTaskNames = new GetNames();
+            asyncTaskNames.GymID = gymID;
+            asyncTaskNames.delegate = this;
+            asyncTaskNames.type = "Student";
+            asyncTaskNames.execute();
+            editTextNames.setHint("Elevens Navn");
+        } else {
+            GetNames asyncTaskNames = new GetNames();
+            asyncTaskNames.GymID = gymID;
+            asyncTaskNames.delegate = this;
+            asyncTaskNames.type = "Teacher";
+            asyncTaskNames.execute();
+            editTextNames.setHint("Lærens Navn");
+        }
+
+
+        c.setTime(new Date());
+
         gymText.setText(gymName);
         list = "wait";
 

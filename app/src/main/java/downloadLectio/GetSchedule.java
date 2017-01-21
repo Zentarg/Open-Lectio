@@ -34,11 +34,11 @@ public class GetSchedule extends AsyncTask<String, Void, Void> {
 	protected Void doInBackground(String... params) {
 
 		timeStamp = Weekday.Today(); // creates a new timestamp whcih should be equal to the time of execution
-		year = c.get(Calendar.YEAR) + "";
 		String week;
 
-		for (int i = 0; i<3;i++) {
-			c.add(Calendar.WEEK_OF_YEAR, i-1);
+		for (int i = 0; i < 8; i++) {
+			c.add(Calendar.WEEK_OF_YEAR, i - 2);
+			year = c.get(Calendar.YEAR) + "";
 			int intweek = c.get(Calendar.WEEK_OF_YEAR);
 			int length = String.valueOf(intweek).length(); //gets the amount of digits on the number
 			if (length == 1) { //checks if the int is only one digit
@@ -46,7 +46,7 @@ public class GetSchedule extends AsyncTask<String, Void, Void> {
 			} else {
 				week = "" + intweek;//function returns String
 			}
-			c.add(Calendar.WEEK_OF_YEAR, 1-i);
+			c.add(Calendar.WEEK_OF_YEAR, 2 - i);
 
 			checkSchedule(week);
 		}
@@ -66,6 +66,7 @@ public class GetSchedule extends AsyncTask<String, Void, Void> {
 				if (m.find()) {
 					gymID = m.group(1);
 					nameID = m.group(3);
+					System.out.println(nameID);
 				}
 			}
 		}
@@ -83,19 +84,21 @@ public class GetSchedule extends AsyncTask<String, Void, Void> {
 
 				if (hour2 + 1 < hour) {//compares the 2 hour numbers. the schedule can at max be 2 hours old.
 					newSchedule(week);
-				} else {
-					newSchedule(week);
 				}
 			} else {
 				newSchedule(week);
 			}
+		} else {
+			newSchedule(week);
 		}
 	}
 
 
+
 	private void newSchedule(String week){
 		String compact = null;
-		String url = "https://www.lectio.dk/lectio/"+gymID+"/SkemaNy.aspx?type=elev&elevid="+nameID+"&=week&week="+week+year; //creates the URL we need to connect to in order to download the schedule.
+		String url = "https://www.lectio.dk/lectio/"+gymID+"/SkemaNy.aspx?"+nameID+"&=week&week="+week+year; //creates the URL we need to connect to in order to download the schedule.
+		System.out.println(url);
 		Document doc = null;
 		try { //initiates a download of the Webpage
 			doc = Jsoup.connect(url).userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.152 Safari/537.36").timeout(0).get(); //connects in whichever useragent is preferred by the device

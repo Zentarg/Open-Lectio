@@ -10,6 +10,7 @@ public class LoginChooseActivity extends AppCompatActivity {
 
     public static String finalGymID = "one.dichmann.LectioApp.gymID";
     public static String finalGymName = "one.dichmann.LectioApp.gymName";
+    public static String type = "one.dichmann.LectioApp.type";
 
     private String GymID;
     private String GymName;
@@ -34,8 +35,18 @@ public class LoginChooseActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivityTwo.class);
         intent.putExtra(finalGymID, GymID);
         intent.putExtra(finalGymName, GymName);
+        intent.putExtra(type, "Student");
         startActivity(intent);
 
+    }
+
+    public void FindTeacher(View view) {
+
+        Intent intent = new Intent(this, LoginActivityTwo.class);
+        intent.putExtra(finalGymID, GymID);
+        intent.putExtra(finalGymName, GymName);
+        intent.putExtra(type, "Teacher");
+        startActivity(intent);
     }
 
     public void UseLogin(View view) {

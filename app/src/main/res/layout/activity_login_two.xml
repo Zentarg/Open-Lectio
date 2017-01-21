@@ -35,7 +35,6 @@
             android:id="@+id/loginTwo_Search_Search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/loginTwo_Search_Hint"
             android:gravity="center"
             android:inputType="textPersonName"
             android:layout_marginTop="49dp"

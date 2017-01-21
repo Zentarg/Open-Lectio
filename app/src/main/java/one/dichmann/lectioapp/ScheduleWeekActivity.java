@@ -25,14 +25,17 @@ public class ScheduleWeekActivity extends FragmentActivity {
 
     private Context context = this;
     private Calendar c = Calendar.getInstance();
-    private int lastpos, lastDownload;
+    private Integer lastpos = null;
     private String gymID, nameID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         c.setTimeInMillis(getIntent().getLongExtra(LoadingActivity.finalLong, 1L));
-
+        Calendar cT = Calendar.getInstance();
+        cT.setTime(new Date());
+        int weekT = cT.get(Calendar.WEEK_OF_YEAR);
+        int weekS = c.get(Calendar.WEEK_OF_YEAR);
         if (new fileManagement().fileExists(context, "login")){
             String file = fileManagement.getFile(context, "login");
             if (file!=null){
@@ -49,8 +52,10 @@ public class ScheduleWeekActivity extends FragmentActivity {
         setContentView(R.layout.activity_schedule);
         ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
         pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
-        pager.setCurrentItem(5);
-        lastpos=5;
+
+        lastpos = weekS-weekT+2;
+        System.out.println(lastpos);
+        pager.setCurrentItem(lastpos);
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
@@ -77,7 +82,7 @@ public class ScheduleWeekActivity extends FragmentActivity {
 
         @Override
         public int getCount() {
-            return 15;
+            return 8;
         }
     }
 

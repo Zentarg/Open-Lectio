@@ -24,39 +24,34 @@ public class LoadingActivity extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        long timeInMillis = intent.getLongExtra(finalLong, 1L);
-        System.out.print(timeInMillis);
-        System.out.println("lonng");
+        Long timeInMillis = intent.getLongExtra(finalLong, 1L);
         String intention = intent.getStringExtra(finalIntent);
         c.setTimeInMillis(timeInMillis);
-        System.out.print(c.getTimeInMillis());
         if ((int) c.get(Calendar.YEAR)==1970) {
             c.setTime(new Date());
         }
 
-        switch (intention) {
-            case "Schedule": {
-                String gymID = intent.getStringExtra(LoginActivity.finalGymID);
-                String nameID = intent.getStringExtra(LoginActivity.finalNameID);
+        if ("Schedule".equals(intention)) {
+            String gymID = intent.getStringExtra(LoginActivity.finalGymID);
+            String nameID = intent.getStringExtra(LoginActivity.finalNameID);
 
-                GetSchedule asyncTaskSchedule = new GetSchedule();
-                asyncTaskSchedule.gymID = gymID;
-                asyncTaskSchedule.nameID = nameID;
-                asyncTaskSchedule.c = c;
-                asyncTaskSchedule.context = this;
-                asyncTaskSchedule.execute();
-            }
-            case "Extra": {
-                String gymID = intent.getStringExtra(LoginActivity.finalGymID);
-                String nameID = intent.getStringExtra(LoginActivity.finalNameID);
+            GetSchedule asyncTaskSchedule = new GetSchedule();
+            asyncTaskSchedule.gymID = gymID;
+            asyncTaskSchedule.nameID = nameID;
+            asyncTaskSchedule.c = c;
+            asyncTaskSchedule.context = this;
+            asyncTaskSchedule.execute();
+        }
+        else if ("Extra".equals(intention)) {
+            String gymID = intent.getStringExtra(LoginActivity.finalGymID);
+            String nameID = intent.getStringExtra(LoginActivity.finalNameID);
 
-                GetSchedule asyncTaskSchedule = new GetSchedule();
-                asyncTaskSchedule.gymID = gymID;
-                asyncTaskSchedule.nameID = nameID;
-                asyncTaskSchedule.c = c;
-                asyncTaskSchedule.context = this;
-                asyncTaskSchedule.execute();
-            }
+            GetSchedule asyncTaskSchedule = new GetSchedule();
+            asyncTaskSchedule.gymID = gymID;
+            asyncTaskSchedule.nameID = nameID;
+            asyncTaskSchedule.c = c;
+            asyncTaskSchedule.context = this;
+            asyncTaskSchedule.execute();
         }
     }
 }
